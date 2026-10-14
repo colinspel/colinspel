@@ -6,6 +6,8 @@ An analytical review combining public financial statements, wage data for every 
 
 📄 **Full paper:** [AS_Roma_Analytical_Review.pdf](AS_Roma_Analytical_Review.pdf)
 
+📱 **Roma Scout app:** [live app](https://colinspel.github.io/roma-scout/) · [code and details](scout/) — a matchday scouting tool with opponent dossiers, live table and game plans
+
 ## Key findings
 
 1. **Wages set the expectation, and Roma underdelivered.** A log-wage model explains about two-thirds of the variation in Serie A points. Roma had a top-four wage bill but finished a combined 15 points below its wage-implied total from 2022/23 to 2024/25.
