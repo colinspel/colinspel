@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Asterisk Tables</title>
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f6f5f2;--surface:#fcfcfb;--line:#e4e2dc;--grid:#ecebe6;
+  --text:#0b0b0b;--text2:#52514e;--muted:#8a8984;
+  --accent:#6cabdd;--accent-ink:#1c5d92;
+  --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;
+  --city-bg:#e6f1fb;--gain-bg:#e8f6ee;--gain-ink:#0f6b3e;--loss-ink:#a8322f;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#121211;--surface:#1a1a19;--line:#2f2e2b;--grid:#262523;
+    --text:#f0efec;--text2:#c3c2b7;--muted:#8d8c86;
+    --accent:#6cabdd;--accent-ink:#9cc9ee;
+    --s1:#3987e5;--s2:#d95926;--s3:#199e70;
+    --city-bg:#16293b;--gain-bg:#14301f;--gain-ink:#7fd6a4;--loss-ink:#f08a88;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#121211;--surface:#1a1a19;--line:#2f2e2b;--grid:#262523;
+  --text:#f0efec;--text2:#c3c2b7;--muted:#8d8c86;
+  --accent:#6cabdd;--accent-ink:#9cc9ee;
+  --s1:#3987e5;--s2:#d95926;--s3:#199e70;
+  --city-bg:#16293b;--gain-bg:#14301f;--gain-ink:#7fd6a4;--loss-ink:#f08a88;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
+.wrap{max-width:860px;margin:0 auto;padding:20px 16px 60px}
+header h1{font-size:28px;line-height:1.15;margin:4px 0 6px;letter-spacing:-.01em}
+.kicker{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink)}
+.lede{color:var(--text2);margin:0 0 6px}
+.note{font-size:13px;color:var(--muted)}
+.tabs{display:flex;gap:6px;margin:18px 0 14px;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5}
+.tabs button{flex:1;border:1px solid var(--line);background:var(--surface);color:var(--text2);padding:10px 8px;border-radius:10px;font:600 14px/1.2 inherit;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+section{display:none}section.on{display:block}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin:0 0 14px}
+.card h2{font-size:18px;margin:0 0 4px}.card h3{font-size:15px;margin:0 0 8px}
+.seg{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.seg button{border:1px solid var(--line);background:transparent;color:var(--text2);padding:7px 11px;border-radius:999px;font:500 13px inherit;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent-ink);border-color:var(--accent-ink);color:var(--surface)}
+label.sl{display:block;font-size:13px;color:var(--text2);margin-top:6px}
+input[type=range]{width:100%;accent-color:var(--accent-ink);margin:6px 0 0}
+.big{font-size:22px;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.stat{border:1px solid var(--line);border-radius:10px;padding:10px}
+.stat .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.stat .k{font-size:12px;color:var(--text2)}
+@media (max-width:520px){.stats{grid-template-columns:repeat(2,1fr)}}
+table{width:100%;font-size:13px;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:14px}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);text-align:left;font-weight:600;padding:6px 4px;border-bottom:1px solid var(--line)}
+td{padding:6px 4px;border-bottom:1px solid var(--grid)}
+td.n,th.n{text-align:right}
+tr.city td{background:var(--city-bg);font-weight:600}
+tr.gain td{background:var(--gain-bg)}
+.cut td{border-bottom:2px solid var(--text2)}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:1px 7px;border-radius:999px;margin-left:6px;vertical-align:1px}
+.b-up{background:var(--gain-bg);color:var(--gain-ink)}
+.b-down{color:var(--loss-ink);border:1px solid currentColor}
+.b-ast{color:var(--text2);border:1px solid var(--line)}
+.summary li{margin:4px 0}
+details{margin-top:8px}summary{cursor:pointer;color:var(--accent-ink);font-size:13px;font-weight:600}
+.season-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.chartbox{position:relative}
+svg text{fill:var(--text2);font-size:11px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--text2);margin:8px 0 2px}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.tip{position:absolute;pointer-events:none;background:var(--text);color:var(--bg);font-size:12px;padding:6px 8px;border-radius:8px;white-space:nowrap;display:none;z-index:3}
+.method li{margin:5px 0}
+.foot{font-size:12px;color:var(--muted);margin-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="kicker">Manchester City · 115 charges</div>
+  <h1>The Asterisk Tables</h1>
+  <p class="lede">What the 2009–2018 Premier League looks like if City's results are punished, and how big a points deduction it would take to sink their 2026‑27 season.</p>
+  <p class="note">Context: City were reported on 25 Sep 2026 to have been found guilty on 114 of the 115 charges. No sanction has been announced and City are expected to appeal. Every scenario below is hypothetical.</p>
+</header>
+
+<div class="tabs" role="tablist">
+  <button role="tab" aria-selected="true" data-tab="hist">2009–18 rewritten</button>
+  <button role="tab" aria-selected="false" data-tab="sim">2026‑27 simulator</button>
+  <button role="tab" aria-selected="false" data-tab="how">Method</button>
+</div>
+
+<!-- ============ HISTORICAL ============ -->
+<section id="hist" class="on">
+  <div class="card">
+    <h2>Pick a sanction</h2>
+    <div class="seg" id="scen">
+      <button data-s="actual" aria-pressed="false">Actual tables</button>
+      <button data-s="ded" aria-pressed="true">Points deduction</button>
+      <button data-s="exp" aria-pressed="false">Expunged (City removed)</button>
+    </div>
+    <div id="dedwrap">
+      <label class="sl" for="hded">Deduction applied to each season: <b id="hdedv">20</b> pts</label>
+      <input id="hded" type="range" min="0" max="60" step="1" value="20">
+    </div>
+    <h3 style="margin-top:14px">What changes</h3>
+    <ul class="summary" id="hsum"></ul>
+  </div>
+  <div id="seasons"></div>
+</section>
+
+<!-- ============ SIMULATOR ============ -->
+<section id="sim">
+  <div class="card">
+    <h2>2026‑27: deduction simulator</h2>
+    <p class="note" style="margin:0">Table after 6 games (City 18 pts, top). 10,000 simulated finishes of the remaining 32 games. Data as of 14 Oct 2026.</p>
+    <label class="sl" for="sded">Points deducted from City this season: <b id="sdedv">0</b> pts</label>
+    <input id="sded" type="range" min="0" max="80" step="1" value="0">
+    <div class="stats">
+      <div class="stat"><div class="v" id="pT">–</div><div class="k">Win the league</div></div>
+      <div class="stat"><div class="v" id="p4">–</div><div class="k">Finish top four</div></div>
+      <div class="stat"><div class="v" id="pR">–</div><div class="k">Relegated</div></div>
+      <div class="stat"><div class="v" id="pE">–</div><div class="k">Avg. finish</div></div>
+    </div>
+    <p class="note" id="tipping" style="margin-top:10px"></p>
+  </div>
+
+  <div class="card">
+    <h3>City's odds as the deduction grows</h3>
+    <div class="legend">
+      <span><i style="background:var(--s1)"></i>Title</span>
+      <span><i style="background:var(--s2)"></i>Top four</span>
+      <span><i style="background:var(--s3)"></i>Relegation</span>
+    </div>
+    <div class="chartbox" id="cbox"><svg id="chart" width="100%" height="260" role="img" aria-label="City's title, top-four and relegation probability against points deducted"></svg><div class="tip" id="tip"></div></div>
+    <p class="note">Benchmark: after the verdict, Betfair priced City's relegation at 9/2 (about 18%). That price only makes sense if the market expects a big deduction. Find the deduction where the green line crosses 18%.</p>
+  </div>
+
+  <div class="card">
+    <h3>Projected final table with this deduction</h3>
+    <table><thead><tr><th>#</th><th>Team</th><th class="n">Now</th><th class="n">Proj. pts</th><th class="n">Title</th><th class="n">Top 4</th><th class="n">Rel.</th></tr></thead><tbody id="ptab"></tbody></table>
+  </div>
+</section>
+
+<!-- ============ METHOD ============ -->
+<section id="how">
+  <div class="card method">
+    <h2>How this works</h2>
+    <h3>2009–18 tables</h3>
+    <ul>
+      <li>Final Premier League points for 2009‑10 to 2017‑18, the nine seasons the charges cover.</li>
+      <li><b>Points deduction</b> subtracts the same number from City every season and re-sorts. Teams level on points keep their original order. That roughly reflects goal difference, which City usually led, but it's an approximation.</li>
+      <li><b>Expunged</b> removes City from the table and moves everyone below up a place. Other teams keep the points they won against City; a true expunging would also strip those results.</li>
+      <li>"Top four" stands in for Champions League places, which were four in every season covered.</li>
+    </ul>
+    <h3>2026‑27 simulator</h3>
+    <ul>
+      <li>Each team gets one strength rating. It blends current points per game (shrunk toward the league average, so six games don't overstate form) with the bookmaker win/draw/loss odds for this weekend's matchweek‑7 fixtures.</li>
+      <li>Match outcomes use a Davidson (Bradley‑Terry with draws) model with a home-advantage term. All parameters are fitted to those odds.</li>
+      <li>Matchweek 7 uses the real fixtures. The remaining 31 games are drawn against random opponents, home or away at 50/50, because the full fixture list wasn't available. Each team is simulated independently, so results are a good estimate rather than an exact schedule replay.</li>
+      <li>The deduction is applied to City's final total; their form is assumed unaffected.</li>
+    </ul>
+    <h3>Sources</h3>
+    <ul>
+      <li>Verdict reporting: The Athletic / The Times via Reuters; Sports Mole; Northeast Times (betting odds).</li>
+      <li>Current table and matchweek‑7 odds: Sportradar feed, 14 Oct 2026.</li>
+      <li>Historical tables: official Premier League final standings.</li>
+    </ul>
+  </div>
+</section>
+
+<p class="foot">Built by Colin Spelman · Hypothetical scenarios, not predictions of the commission's ruling.</p>
+</div>
+
+<script>
+/* ---------- tabs ---------- */
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===b.dataset.tab));
+  if(b.dataset.tab==='sim') drawChart();
+});
+
+/* ---------- historical data ---------- */
+const H=[
+["2009-10","Chelsea:86,Man United:85,Arsenal:75,Tottenham:70,Man City:67,Aston Villa:64,Liverpool:63,Everton:61,Birmingham:50,Blackburn:50,Stoke:47,Fulham:46,Sunderland:44,Bolton:39,Wolves:38,Wigan:36,West Ham:35,Burnley:30,Hull:30,Portsmouth:19"],
+["2010-11","Man United:80,Chelsea:71,Man City:71,Arsenal:68,Tottenham:62,Liverpool:58,Everton:54,Fulham:49,Aston Villa:48,Sunderland:47,West Brom:47,Newcastle:46,Stoke:46,Bolton:46,Blackburn:43,Wigan:42,Wolves:40,Birmingham:39,Blackpool:39,West Ham:33"],
+["2011-12","Man City:89,Man United:89,Arsenal:70,Tottenham:69,Newcastle:65,Chelsea:64,Everton:56,Liverpool:52,Fulham:52,West Brom:47,Swansea:47,Norwich:47,Sunderland:45,Stoke:45,Wigan:43,Aston Villa:38,QPR:37,Bolton:36,Blackburn:31,Wolves:25"],
+["2012-13","Man United:89,Man City:78,Chelsea:75,Arsenal:73,Tottenham:72,Everton:63,Liverpool:61,West Brom:49,Swansea:46,West Ham:46,Norwich:44,Fulham:43,Stoke:42,Southampton:41,Aston Villa:41,Newcastle:41,Sunderland:39,Wigan:36,Reading:28,QPR:25"],
+["2013-14","Man City:86,Liverpool:84,Chelsea:82,Arsenal:79,Everton:72,Tottenham:69,Man United:64,Southampton:56,Stoke:50,Newcastle:49,Crystal Palace:45,Swansea:42,West Ham:40,Sunderland:38,Aston Villa:38,Hull:37,West Brom:36,Norwich:33,Fulham:32,Cardiff:30"],
+["2014-15","Chelsea:87,Man City:79,Arsenal:75,Man United:70,Tottenham:64,Liverpool:62,Southampton:60,Swansea:56,Stoke:54,Crystal Palace:48,Everton:47,West Ham:47,West Brom:44,Leicester:41,Newcastle:39,Sunderland:38,Aston Villa:38,Hull:35,Burnley:33,QPR:30"],
+["2015-16","Leicester:81,Arsenal:71,Tottenham:70,Man City:66,Man United:66,Southampton:63,West Ham:62,Liverpool:60,Stoke:51,Chelsea:50,Everton:47,Swansea:47,Watford:45,West Brom:43,Crystal Palace:42,Bournemouth:42,Sunderland:39,Newcastle:37,Norwich:34,Aston Villa:17"],
+["2016-17","Chelsea:93,Tottenham:86,Man City:78,Liverpool:76,Arsenal:75,Man United:69,Everton:61,Southampton:46,Bournemouth:46,West Brom:45,West Ham:45,Leicester:44,Stoke:44,Crystal Palace:41,Swansea:41,Burnley:40,Watford:40,Hull:34,Middlesbrough:28,Sunderland:24"],
+["2017-18","Man City:100,Man United:81,Tottenham:77,Liverpool:75,Chelsea:70,Arsenal:63,Burnley:54,Everton:49,Leicester:47,Newcastle:44,Crystal Palace:44,Bournemouth:44,West Ham:42,Watford:41,Brighton:40,Huddersfield:37,Southampton:36,Swansea:33,Stoke:33,West Brom:31"]
+].map(([s,str])=>({s,rows:str.split(',').map((x,i)=>{const[t,p]=x.split(':');return{t,p:+p,orig:i+1}})}));
+const CITY='Man City';
+let scen='ded',hded=20;
+
+function rewrite(season){
+  let rows=season.rows.map(r=>({...r}));
+  if(scen==='exp') rows=rows.filter(r=>r.t!==CITY);
+  if(scen==='ded') rows.forEach(r=>{if(r.t===CITY)r.p-=hded});
+  rows.sort((a,b)=>b.p-a.p||a.orig-b.orig);
+  rows.forEach((r,i)=>r.pos=i+1);
+  return rows;
+}
+function renderHist(){
+  document.getElementById('dedwrap').style.display=scen==='ded'?'block':'none';
+  const out=[],sum=[];
+  H.forEach(season=>{
+    const rows=rewrite(season);
+    const champ0=season.rows[0].t,champ=rows[0].t;
+    const top0=new Set(season.rows.slice(0,4).map(r=>r.t));
+    const newCL=rows.slice(0,4).filter(r=>!top0.has(r.t)).map(r=>r.t);
+    const city=rows.find(r=>r.t===CITY);
+    if(champ!==champ0) sum.push(`<li><b>${season.s}</b>: title moves from City to <b>${champ}</b>.</li>`);
+    if(newCL.length) sum.push(`<li><b>${season.s}</b>: ${newCL.join(', ')} ${newCL.length>1?'climb':'climbs'} into the top four.</li>`);
+    const cityLine=scen==='exp'?'City removed':`City ${ordinal(city.pos)} on ${city.p} pts`+(city.pos!==city.orig?` (was ${ordinal(city.orig)})`:'');
+    const trs=rows.map(r=>{
+      let cls=[];if(r.t===CITY)cls.push('city');
+      if(r.pos<=4&&r.orig>4&&scen!=='actual')cls.push('gain');
+      if(r.pos===4)cls.push('cut');
+      let badge='';
+      if(scen!=='actual'){
+        if(r.pos===1&&r.t!==champ0)badge='<span class="badge b-up">New champion</span>';
+        else if(r.t===CITY&&r.orig===1&&r.pos!==1)badge='<span class="badge b-down">Stripped</span>';
+        else if(r.pos<=4&&r.orig>4)badge='<span class="badge b-up">Top 4</span>';
+      }
+      const mv=r.orig-r.pos;
+      return `<tr class="${cls.join(' ')}"><td>${r.pos}</td><td>${r.t}${badge}</td><td class="n">${r.p}</td><td class="n" style="color:var(--muted)">${scen==='actual'||mv===0?'':(mv>0?'▲'+mv:'▼'+(-mv))}</td></tr>`;
+    });
+    out.push(`<div class="card"><div class="season-head"><h2>${season.s}</h2><span class="note">${cityLine}</span></div>
+      <table><thead><tr><th>#</th><th>Team</th><th class="n">Pts</th><th class="n">±</th></tr></thead><tbody>${trs.slice(0,7).join('')}</tbody></table>
+      <details><summary>Full table</summary><table><tbody>${trs.slice(7).join('')}</tbody></table></details></div>`);
+  });
+  document.getElementById('seasons').innerHTML=out.join('');
+  document.getElementById('hsum').innerHTML=scen==='actual'?'<li>Real final tables. City won 2011‑12, 2013‑14 and 2017‑18 in this period.</li>':(sum.length?sum.join(''):'<li>Nothing changes at the top at this deduction.</li>')+(scen==='ded'?`<li class="note">Smallest deductions that cost each title: 2011‑12: 1 pt · 2013‑14: 3 pts · 2017‑18: 20 pts.</li>`:'');
+}
+function ordinal(n){const s=['th','st','nd','rd'],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0])}
+document.querySelectorAll('#scen button').forEach(b=>b.onclick=()=>{scen=b.dataset.s;document.querySelectorAll('#scen button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderHist()});
+document.getElementById('hded').oninput=e=>{hded=+e.target.value;document.getElementById('hdedv').textContent=hded;renderHist()};
+renderHist();
+
+/* ---------- simulator ---------- */
+const R={"teams":[{"code":"MCI","name":"Man City","pts":18,"r":1.291},{"code":"ARS","name":"Arsenal","pts":15,"r":0.9764},{"code":"BRI","name":"Brighton","pts":13,"r":0.5631},{"code":"BRE","name":"Brentford","pts":10,"r":0.0264},{"code":"EVE","name":"Everton","pts":10,"r":-0.1191},{"code":"CFC","name":"Chelsea","pts":10,"r":0.5157},{"code":"LEE","name":"Leeds","pts":9,"r":-0.1458},{"code":"HUL","name":"Hull City","pts":9,"r":-0.3053},{"code":"LFC","name":"Liverpool","pts":9,"r":0.2685},{"code":"IPS","name":"Ipswich","pts":9,"r":-0.1825},{"code":"NEW","name":"Newcastle","pts":8,"r":-0.1924},{"code":"CRY","name":"Crystal Palace","pts":7,"r":-0.1665},{"code":"MUN","name":"Man United","pts":6,"r":0.0339},{"code":"COV","name":"Coventry","pts":6,"r":-0.6306},{"code":"NFO","name":"Nott'm Forest","pts":5,"r":-0.5798},{"code":"AVL","name":"Aston Villa","pts":5,"r":-0.1228},{"code":"SUN","name":"Sunderland","pts":4,"r":-0.4376},{"code":"BOU","name":"Bournemouth","pts":3,"r":-0.4878},{"code":"TOT","name":"Tottenham","pts":3,"r":-0.0915},{"code":"FUL","name":"Fulham","pts":2,"r":-0.2133}],"h":0.5184,"nu":0.6563};
+const MW7=[["EVE","CFC"],["BRE","LFC"],["FUL","HUL"],["MCI","IPS"],["NEW","AVL"],["BOU","SUN"],["BRI","CRY"],["LEE","MUN"],["NFO","ARS"],["TOT","COV"]];
+const T=R.teams,NT=T.length,NS=10000,REM=31;
+const idx=Object.fromEntries(T.map((t,i)=>[t.code,i]));
+let seed=20261014;function rnd(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}
+function outcome(i,j,home){ // points for team i vs j
+  const a=Math.exp(T[i].r+(home?R.h:0)),b=Math.exp(T[j].r+(home?0:R.h)),d=R.nu*Math.sqrt(a*b),s=a+b+d,u=rnd()*s;
+  return u<a?3:(u<a+d?1:0);
+}
+const FP=new Float32Array(NS*NT); // final points (+tiny noise for tie-break)
+for(let s=0;s<NS;s++){
+  const pts=T.map(t=>t.pts);
+  MW7.forEach(([h,a])=>{const i=idx[h],j=idx[a];const pi=outcome(i,j,true);pts[i]+=pi;pts[j]+=pi===3?0:pi===1?1:3});
+  for(let i=0;i<NT;i++){for(let g=0;g<REM;g++){let j=Math.floor(rnd()*(NT-1));if(j>=i)j++;pts[i]+=outcome(i,j,rnd()<.5)}}
+  for(let i=0;i<NT;i++)FP[s*NT+i]=pts[i]+rnd()*0.01;
+}
+const CI=idx.MCI;
+function evalDed(d){
+  const title=new Float64Array(NT),top4=new Float64Array(NT),rel=new Float64Array(NT),pos=new Float64Array(NT),proj=new Float64Array(NT);
+  const p=new Float64Array(NT);
+  for(let s=0;s<NS;s++){
+    for(let i=0;i<NT;i++)p[i]=FP[s*NT+i]-(i===CI?d:0);
+    for(let i=0;i<NT;i++){let r=1;for(let j=0;j<NT;j++)if(p[j]>p[i])r++;
+      pos[i]+=r;proj[i]+=Math.round(p[i]);if(r===1)title[i]++;if(r<=4)top4[i]++;if(r>=18)rel[i]++;}
+  }
+  const f=a=>Array.from(a,x=>x/NS);
+  return{title:f(title),top4:f(top4),rel:f(rel),pos:f(pos),proj:f(proj)};
+}
+const CURVE=[];for(let d=0;d<=80;d++){const e=evalDed(d);CURVE.push({d,t:e.title[CI],f:e.top4[CI],r:e.rel[CI]})}
+const pct=x=>x<0.005&&x>0?'<1%':Math.round(x*100)+'%';
+let sded=0;
+function renderSim(){
+  const e=evalDed(sded);
+  document.getElementById('sdedv').textContent=sded;
+  document.getElementById('pT').textContent=pct(e.title[CI]);
+  document.getElementById('p4').textContent=pct(e.top4[CI]);
+  document.getElementById('pR').textContent=pct(e.rel[CI]);
+  document.getElementById('pE').textContent=e.pos[CI].toFixed(1);
+  const first=k=>{const c=CURVE.find(c=>k(c));return c?c.d+' pts':'more than 80 pts'};
+  document.getElementById('tipping').innerHTML=`Tipping points: title becomes a coin flip at <b>${first(c=>c.t<0.5)}</b> · top four drops below 50% at <b>${first(c=>c.f<0.5)}</b> · relegation passes the market's 18% at <b>${first(c=>c.r>=0.18)}</b> · relegation passes 50% at <b>${first(c=>c.r>=0.5)}</b>.`;
+  const order=T.map((t,i)=>i).sort((a,b)=>e.pos[a]-e.pos[b]);
+  document.getElementById('ptab').innerHTML=order.map((i,k)=>`<tr class="${i===CI?'city':''}${k===3?' cut':''}"><td>${k+1}</td><td>${T[i].name}</td><td class="n">${T[i].pts-(i===CI?sded:0)}</td><td class="n">${Math.round(e.proj[i])}</td><td class="n">${pct(e.title[i])}</td><td class="n">${pct(e.top4[i])}</td><td class="n">${pct(e.rel[i])}</td></tr>`).join('');
+  drawChart();
+}
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
+function drawChart(){
+  const svg=document.getElementById('chart'),W=svg.clientWidth||600,Hh=260,m={l:38,r:12,t:10,b:40};
+  if(!W)return;
+  const x=d=>m.l+d/80*(W-m.l-m.r),y=p=>m.t+(1-p)*(Hh-m.t-m.b);
+  let g='';
+  [0,.25,.5,.75,1].forEach(p=>{g+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(p)}" y2="${y(p)}" stroke="${css('--grid')}"/><text x="${m.l-6}" y="${y(p)+4}" text-anchor="end">${p*100}%</text>`});
+  [0,20,40,60,80].forEach(d=>{g+=`<text x="${x(d)}" y="${Hh-m.b+16}" text-anchor="middle">${d}</text>`});
+  g+=`<text x="${(m.l+W-m.r)/2}" y="${Hh-4}" text-anchor="middle" style="font-size:11px">Points deducted from City</text>`;
+  g+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(.18)}" y2="${y(.18)}" stroke="${css('--muted')}" stroke-dasharray="3 4"/><text x="${W-m.r}" y="${y(.18)-5}" text-anchor="end" style="font-size:10px">market relegation 18%</text>`;
+  [['t','--s1'],['f','--s2'],['r','--s3']].forEach(([k,c])=>{g+=`<path d="${CURVE.map((p,i)=>(i?'L':'M')+x(p.d).toFixed(1)+','+y(p[k]).toFixed(1)).join('')}" fill="none" stroke="${css(c)}" stroke-width="2" stroke-linejoin="round"/>`});
+  g+=`<line id="cur" x1="${x(sded)}" x2="${x(sded)}" y1="${m.t}" y2="${Hh-m.b}" stroke="${css('--text2')}" stroke-width="1"/>`;
+  g+=`<rect x="${m.l}" y="${m.t}" width="${W-m.l-m.r}" height="${Hh-m.t-m.b}" fill="transparent" id="hit"/>`;
+  svg.innerHTML=g;
+  const tip=document.getElementById('tip'),hit=document.getElementById('hit');
+  const move=ev=>{const b=svg.getBoundingClientRect(),cx=(ev.touches?ev.touches[0].clientX:ev.clientX)-b.left;
+    const d=Math.max(0,Math.min(80,Math.round((cx-m.l)/(W-m.l-m.r)*80))),c=CURVE[d];
+    tip.style.display='block';tip.innerHTML=`<b>−${d} pts</b><br>Title ${pct(c.t)} · Top 4 ${pct(c.f)} · Rel. ${pct(c.r)}`;
+    tip.style.left=Math.min(Math.max(x(d)-70,0),W-170)+'px';tip.style.top='4px';};
+  hit.addEventListener('mousemove',move);hit.addEventListener('touchmove',move,{passive:true});
+  hit.addEventListener('mouseleave',()=>tip.style.display='none');hit.addEventListener('touchend',()=>tip.style.display='none');
+}
+document.getElementById('sded').oninput=e=>{sded=+e.target.value;renderSim()};
+window.addEventListener('resize',drawChart);
+renderSim();
+</script>
+</body>
+</html>

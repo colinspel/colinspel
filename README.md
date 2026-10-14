@@ -18,6 +18,7 @@ I turn sports data into tools that coaches, scouts and fans can actually use, an
 | [Pressing vs Results](https://github.com/colinspel/pressing-vs-results) | Tests whether pressing intensity (PPDA, high regains) wins games once team quality is controlled for |
 | [Inverted Fullbacks](https://github.com/colinspel/inverted-fullbacks) | Measures whether fullbacks who step into midfield are more productive |
 | [Peak Window: Age Curves](https://github.com/colinspel/age-curves-by-position) | Finds when each position peaks — a buy/sell timing tool for scouting |
+| [The Asterisk Tables](city-asterisk-tables) | Man City's 115 charges: 2009–18 tables rewritten under sanctions, plus a Monte Carlo simulator pricing a 2026–27 points deduction |
 | [AS Roma Analytics Series](https://github.com/colinspel/roma-analytics) | Friedkin-era transfer efficiency, academy sales, tactical fingerprint, LWB shortlist |
 
 ### 📱 Apps & Models
@@ -37,4 +38,4 @@ I turn sports data into tools that coaches, scouts and fans can actually use, an
 ---
 
 ### 🛠️ Tools
-`R` · `SQL` · `Tableau` · `Excel` · `React` · `StatsBomb 360` · `football-data.org API`
+`R` · `Python` · `SQL` · `Tableau` · `Excel` · `React` · `StatsBomb 360` · `football-data.org API`

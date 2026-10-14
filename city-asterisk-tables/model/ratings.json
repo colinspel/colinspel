@@ -1,0 +1,146 @@
+{
+ "teams": [
+  {
+   "code": "MCI",
+   "name": "Manchester City",
+   "pts": 18,
+   "gp": 6,
+   "r": 1.291
+  },
+  {
+   "code": "ARS",
+   "name": "Arsenal",
+   "pts": 15,
+   "gp": 6,
+   "r": 0.9764
+  },
+  {
+   "code": "BRI",
+   "name": "Brighton",
+   "pts": 13,
+   "gp": 6,
+   "r": 0.5631
+  },
+  {
+   "code": "BRE",
+   "name": "Brentford",
+   "pts": 10,
+   "gp": 6,
+   "r": 0.0264
+  },
+  {
+   "code": "EVE",
+   "name": "Everton",
+   "pts": 10,
+   "gp": 6,
+   "r": -0.1191
+  },
+  {
+   "code": "CFC",
+   "name": "Chelsea",
+   "pts": 10,
+   "gp": 6,
+   "r": 0.5157
+  },
+  {
+   "code": "LEE",
+   "name": "Leeds",
+   "pts": 9,
+   "gp": 6,
+   "r": -0.1458
+  },
+  {
+   "code": "HUL",
+   "name": "Hull City",
+   "pts": 9,
+   "gp": 6,
+   "r": -0.3053
+  },
+  {
+   "code": "LFC",
+   "name": "Liverpool",
+   "pts": 9,
+   "gp": 6,
+   "r": 0.2685
+  },
+  {
+   "code": "IPS",
+   "name": "Ipswich",
+   "pts": 9,
+   "gp": 6,
+   "r": -0.1825
+  },
+  {
+   "code": "NEW",
+   "name": "Newcastle",
+   "pts": 8,
+   "gp": 6,
+   "r": -0.1924
+  },
+  {
+   "code": "CRY",
+   "name": "Crystal Palace",
+   "pts": 7,
+   "gp": 6,
+   "r": -0.1665
+  },
+  {
+   "code": "MUN",
+   "name": "Man United",
+   "pts": 6,
+   "gp": 6,
+   "r": 0.0339
+  },
+  {
+   "code": "COV",
+   "name": "Coventry",
+   "pts": 6,
+   "gp": 6,
+   "r": -0.6306
+  },
+  {
+   "code": "NFO",
+   "name": "Nott'm Forest",
+   "pts": 5,
+   "gp": 6,
+   "r": -0.5798
+  },
+  {
+   "code": "AVL",
+   "name": "Aston Villa",
+   "pts": 5,
+   "gp": 6,
+   "r": -0.1228
+  },
+  {
+   "code": "SUN",
+   "name": "Sunderland",
+   "pts": 4,
+   "gp": 6,
+   "r": -0.4376
+  },
+  {
+   "code": "BOU",
+   "name": "Bournemouth",
+   "pts": 3,
+   "gp": 6,
+   "r": -0.4878
+  },
+  {
+   "code": "TOT",
+   "name": "Tottenham",
+   "pts": 3,
+   "gp": 6,
+   "r": -0.0915
+  },
+  {
+   "code": "FUL",
+   "name": "Fulham",
+   "pts": 2,
+   "gp": 6,
+   "r": -0.2133
+  }
+ ],
+ "h": 0.5184,
+ "nu": 0.6563
+}
