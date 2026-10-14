@@ -16,21 +16,21 @@ I turn sports data into tools that coaches, scouts and fans can actually use, an
 | [Decision Value Added](https://github.com/colinspel/colinspel/tree/main/decision-value-added) | Grades passing *decisions*, not just outcomes, using StatsBomb 360 freeze frames |
 | [Pressing vs Results](https://github.com/colinspel/colinspel/tree/main/pressing-vs-results) | Tests whether pressing intensity (PPDA, high regains) wins games once team quality is controlled for |
 | [Peak Window: Age Curves](https://github.com/colinspel/colinspel/tree/main/age-curves-by-position) | Finds when each position peaks — a buy/sell timing tool for scouting |
-| [The Asterisk Tables](https://github.com/colinspel/colinspel/tree/main/city-asterisk-tables) | Man City's 115 charges: 2009–18 tables rewritten under sanctions, plus a Monte Carlo simulator pricing a 2026–27 points deduction |
+| [The Asterisk Tables](https://github.com/colinspel/colinspel/tree/main/city-asterisk-tables) | Man City's 115 charges: 2009–18 tables rewritten under sanctions, plus a Monte Carlo simulator pricing a 2026–27 points deduction · [open the simulator](https://colinspel.github.io/city-asterisk-tables/) |
 | [AS Roma Analytics Series](https://github.com/colinspel/colinspel/tree/main/roma-analytics) | Friedkin-era transfer efficiency, academy sales, tactical fingerprint, LWB shortlist, plus the [Roma Scout](https://colinspel.github.io/roma-scout/) matchday app |
 
 ### 📱 Apps & Models
 
 | Project | What it does |
 |---|---|
-| [FootyRush](https://github.com/colinspel/colinspel/tree/main/footyrush) | Soccer app for Europe's top 5 leagues — live scores, Poisson predictions, multi-league fantasy |
-| [Model Scoreboard](https://github.com/colinspel/colinspel/tree/main/model-scoreboard) | Live scoreboard pitting my soccer, NFL and MLB prediction models against each other |
+| [FootyRush](https://github.com/colinspel/colinspel/tree/main/footyrush) | Soccer app for Europe's top 5 leagues — live scores, Poisson predictions, multi-league fantasy · [open the app](https://colinspel.github.io/footyrush/) |
+| [Model Scoreboard](https://github.com/colinspel/colinspel/tree/main/model-scoreboard) | Live scoreboard pitting my soccer, NFL and MLB prediction models against each other · [open it](https://colinspel.github.io/model-scoreboard/) |
 
 ### 🚀 Ventures
 
 | Project | What it does |
 |---|---|
-| [ProjectMatch](https://github.com/colinspel/colinspel/tree/main/projectmatch) | Marketplace prototype matching college students with small businesses for short projects |
+| [ProjectMatch](https://github.com/colinspel/colinspel/tree/main/projectmatch) | Marketplace prototype matching college students with small businesses for short projects · [try the prototype](https://colinspel.github.io/projectmatch/) |
 | [CHIPIT](https://chipitgame.com) | Backyard soccer game — product design, patent development, direct-to-consumer sales |
 
 ---

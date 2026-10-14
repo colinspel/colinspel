@@ -2,6 +2,8 @@
 
 **A soccer app for Europe's top five leagues.**
 
+📱 **Open the app:** [colinspel.github.io/footyrush](https://colinspel.github.io/footyrush/) — works on phone and desktop.
+
 FootyRush covers the Premier League, La Liga, Serie A, Bundesliga and Ligue 1 in one app:
 
 - Live scores and league standings

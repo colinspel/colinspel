@@ -4,7 +4,7 @@
 
 Small businesses often need help with a defined, short project (a dashboard, a content calendar, a bookkeeping cleanup) but can't justify a hire. College students want paid, real-world work for their portfolios. ProjectMatch is a two-sided marketplace that connects the two.
 
-🖥️ **App design prototype:** [`ProjectMatchAppDesign.tsx`](ProjectMatchAppDesign.tsx), a clickable React prototype with a student view and a business view.
+🖥️ **Try the prototype:** [colinspel.github.io/projectmatch](https://colinspel.github.io/projectmatch/) — a clickable prototype with a student view and a business view. Source: [`ProjectMatchAppDesign.tsx`](ProjectMatchAppDesign.tsx).
 
 ## Student side
 

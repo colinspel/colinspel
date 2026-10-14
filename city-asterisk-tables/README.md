@@ -4,7 +4,7 @@
 
 In September 2026 Manchester City were reported to have been found guilty on 114 of the 115 Premier League financial charges, which cover 2009–10 to 2017–18. No sanction has been announced, and City are expected to appeal. This project puts numbers on the two "what ifs" everyone is arguing about.
 
-**Interactive page:** download [`index.html`](index.html) and open it in any browser.
+**Interactive page:** [colinspel.github.io/city-asterisk-tables](https://colinspel.github.io/city-asterisk-tables/) — works on phone and desktop. Source: [`index.html`](index.html).
 
 ![Deduction curve](images/5-deduction-curve.png)
 

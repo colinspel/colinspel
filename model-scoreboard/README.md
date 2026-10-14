@@ -10,7 +10,7 @@ A live scoreboard pitting three of my prediction models against each other:
 | NFL | Points-rating model | 11.0% |
 | MLB | Pythagorean model | 2.2% |
 
-🖥️ **Live page:** download [`index.html`](index.html) and open it in Safari or Chrome. It pulls live scores every 60 seconds.
+🖥️ **Live page:** [colinspel.github.io/model-scoreboard](https://colinspel.github.io/model-scoreboard/) — works on phone and desktop and pulls live scores every 60 seconds. Source: [`index.html`](index.html).
 
 ## How it's scored
 

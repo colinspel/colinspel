@@ -2,7 +2,7 @@
 
 **A matchday scouting app for AS Roma's 2026/27 season.**
 
-📱 **Live app:** [colinspel.github.io/roma-scout](https://colinspel.github.io/roma-scout/) · or download [`index.html`](index.html) and open it in Safari or Chrome. Add it to your home screen for an app-like experience.
+📱 **Live app:** [colinspel.github.io/roma-scout](https://colinspel.github.io/roma-scout/) — works on phone and desktop; add it to your home screen for an app-like experience. Source: [`index.html`](index.html).
 
 ## What it does
 
