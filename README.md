@@ -15,6 +15,7 @@ I turn sports data into tools that coaches, scouts and fans can actually use, an
 |---|---|
 | [Decision Value Added](https://github.com/colinspel/colinspel/tree/main/decision-value-added) | Grades passing *decisions*, not just outcomes, using StatsBomb 360 freeze frames |
 | [Pressing vs Results](https://github.com/colinspel/colinspel/tree/main/pressing-vs-results) | Tests whether pressing intensity (PPDA, high regains) wins games once team quality is controlled for |
+| [Inverted Fullbacks](https://github.com/colinspel/colinspel/tree/main/inverted-fullback-analysis) | Tableau dashboard: when a fullback receives inside instead of wide, the shot rate rises from 12% to 18% with no clear defensive cost (11,943 possessions, 4 tournaments) |
 | [Peak Window: Age Curves](https://github.com/colinspel/colinspel/tree/main/age-curves-by-position) | Finds when each position peaks — a buy/sell timing tool for scouting |
 | [The Asterisk Tables](https://github.com/colinspel/colinspel/tree/main/city-asterisk-tables) | Man City's 115 charges: 2009–18 tables rewritten under sanctions, plus a Monte Carlo simulator pricing a 2026–27 points deduction · [open the simulator](https://colinspel.github.io/city-asterisk-tables/) |
 | [AS Roma Analytics Series](https://github.com/colinspel/colinspel/tree/main/roma-analytics) | Friedkin-era transfer efficiency, academy sales, tactical fingerprint, LWB shortlist, plus the [Roma Scout](https://colinspel.github.io/roma-scout/) matchday app |
