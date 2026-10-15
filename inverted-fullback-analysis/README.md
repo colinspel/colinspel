@@ -4,7 +4,9 @@
 
 An interactive Tableau dashboard built on 11,943 possessions from 198 international tournament matches.
 
-📊 **Workbook:** [Inverted_Fullback_Dashboard.twb](Inverted_Fullback_Dashboard.twb) (Tableau Desktop / Public, 2026.1)
+📊 **Interactive dashboard:** [open on Tableau Public](https://public.tableau.com/shared/79K6YH394?:display_count=n&:origin=viz_share_link)
+
+📁 **Workbook:** [Inverted_Fullback_Dashboard.twb](Inverted_Fullback_Dashboard.twb) (Tableau Desktop / Public, 2026.1)
 
 ## Headline results
 
