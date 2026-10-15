@@ -24,7 +24,7 @@ I turn sports data into tools that coaches, scouts and fans can actually use, an
 
 | Project | What it does |
 |---|---|
-| [FootyRush](https://github.com/colinspel/colinspel/tree/main/footyrush) | Soccer app for Europe's top 5 leagues — live scores, Poisson predictions, multi-league fantasy · [open the app](https://colinspel.github.io/footyrush/) |
+| [FootyRush](https://github.com/colinspel/colinspel/tree/main/footyrush) | Soccer app for Europe's top 5 leagues — live scores, Poisson predictions, multi-league fantasy · [open the app](https://colinspel.github.io/footyrush/) · [MLS edition](https://colinspel.github.io/footyrush-mls/) |
 | [Model Scoreboard](https://github.com/colinspel/colinspel/tree/main/model-scoreboard) | Live scoreboard pitting my soccer, NFL and MLB prediction models against each other · [open it](https://colinspel.github.io/model-scoreboard/) |
 
 ### 🚀 Ventures

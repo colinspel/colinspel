@@ -12,6 +12,8 @@ FootyRush covers the Premier League, La Liga, Serie A, Bundesliga and Ligue 1 in
 - Player comparisons, including goalkeeper-specific metrics
 - Multi-league fantasy with a draft mode, plus a single-league filter
 
+🇺🇸 **MLS edition:** [colinspel.github.io/footyrush-mls](https://colinspel.github.io/footyrush-mls/) — the same app scoped to MLS, with a red MLS color scheme, fantasy and lineups.
+
 The "Kit Room" design shows teams as shirts, with the numbers on the back carrying the data.
 
 ## Screenshots
