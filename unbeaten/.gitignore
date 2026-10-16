@@ -1,0 +1,5 @@
+data/
+__pycache__/
+outputs/_frames/
+outputs/_clip.html
+outputs/*.mp4
