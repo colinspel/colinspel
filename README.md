@@ -14,6 +14,7 @@ I turn sports data into tools that coaches, scouts and fans can actually use, an
 | Project | What it does |
 |---|---|
 | [Unbeaten](https://github.com/colinspel/colinspel/tree/main/unbeaten) | Leverkusen's unbeaten 2023-24 season: all 78 non-penalty goals rebuilt in 3D from StatsBomb 360 data, plus five questions on how it was won · [watch the goals](https://colinspel.github.io/unbeaten/) |
+| [Messi, Season by Season](https://github.com/colinspel/colinspel/tree/main/messi-season-by-season) | Every La Liga match Messi played for Barcelona (519, 2004/05 to 2020/21) with a season slider for touch maps, shots and chances created. 412 non-penalty goals from 266 xG, beating the model in 16 of 17 seasons · [open the page](https://colinspel.github.io/messi-season-by-season/) |
 | [Decision Value Added](https://github.com/colinspel/colinspel/tree/main/decision-value-added) | Grades passing *decisions*, not just outcomes, using StatsBomb 360 freeze frames |
 | [Pressing vs Results](https://github.com/colinspel/colinspel/tree/main/pressing-vs-results) | Tests whether pressing intensity (PPDA, high regains) wins games once team quality is controlled for |
 | [Inverted Fullbacks](https://github.com/colinspel/colinspel/tree/main/inverted-fullback-analysis) | Tableau dashboard: when a fullback receives inside instead of wide, the shot rate rises from 12% to 18% with no clear defensive cost (11,943 possessions, 4 tournaments) · [open the dashboard](https://public.tableau.com/shared/79K6YH394?:display_count=n&:origin=viz_share_link) |
