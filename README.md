@@ -9,6 +9,12 @@ I turn sports data into tools that coaches, scouts and fans can actually use, an
 
 ---
 
+### 🏀 Basketball
+
+| Project | What it does |
+|---|---|
+| [The Repeat Test](https://github.com/colinspel/colinspel/tree/main/knicks-title-defense) | Season-long data story on the Knicks' 2026-27 title defense: why repeating is rare (12 of 46 champions since 1980), keeping the core under the second apron, the title's ticket premium, and a weekly Repeat Tracker |
+
 ### ⚽ Sports Analytics
 
 | Project | What it does |
