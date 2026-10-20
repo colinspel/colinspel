@@ -6,7 +6,7 @@
 
 FootyRush covers the Premier League, La Liga, Serie A, Bundesliga and Ligue 1 in one app:
 
-- Live scores and league standings
+- Results, fixtures and league standings (data refreshed in snapshots; the hosted demo is not a live feed)
 - Match predictions from a Dixon-Coles / Poisson model, with the reasoning behind each pick
 - Previews and tappable match pages with stats and ratings
 - Player comparisons, including goalkeeper-specific metrics
@@ -26,7 +26,7 @@ The "Kit Room" design shows teams as shirts, with the numbers on the back carryi
 |---|---|
 | ![Fantasy](screenshots/4-fantasy.png) | ![Record](screenshots/5-record.png) |
 
-**Built with:** React, football-data.org API
+**Built with:** React · **Data:** football-data.co.uk results and Bet365 odds, ClubElo, Understat xG, openfootball fixtures
 
 *Source code is private while the app is in development.*
 

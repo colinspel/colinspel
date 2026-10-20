@@ -14,9 +14,9 @@ An interactive Tableau dashboard built on 11,943 possessions from 198 internatio
 |---|---|---|
 | Possession ends in a shot | 12% | 18% |
 | xG per possession (adjusted) | baseline | **+43%** |
-| Opponent shots after a lost ball | baseline | -0.7 pts (no clear change) |
+| Opponent shots after a lost ball | baseline | −0.7 percentage points (no clear change) |
 
-Receiving inside makes the possession clearly more dangerous, with no clear defensive cost. The effect points the same way in every tournament.
+Possessions where the fullback receives inside are clearly more dangerous, with no clear defensive cost. This is observational, so read it as a strong association within the same team and match, not proof of cause. The effect points the same way in every tournament.
 
 The five *documented* inverters (fullbacks an analyst described rotating into midfield, e.g. Danilo at WC 2022 and Cancelo at Euro 2024) tell a different story. Comparing their own inside and wide possessions, only "ends in a shot" is clearly lower. The sample is small (52 inside possessions), so read it as a hint: for designed inverters the job is control, not chance creation.
 

@@ -28,7 +28,7 @@ By 30, a typical winger is 5.7 rating points below his peak; a central midfielde
 
 ## How I'd use it in a recruitment meeting
 
-1. **Buy midfielders, centre-backs and strikers at 28–30.** Output is near peak; the price is half.
+1. **Buy midfielders, centre-backs and strikers at 28–30.** Output is near peak while market value has fallen to about half its peak.
 2. **Sell wingers and full-backs by 26.** They peak earliest and decline fastest.
 3. **Price in exit risk after 32.** Barely half of 34-year-old midfielders are still in the big five a year later.
 

@@ -9,13 +9,7 @@ I turn sports data into tools that coaches, scouts and fans can actually use, an
 
 ---
 
-### 🏀 Basketball
-
-| Project | What it does |
-|---|---|
-| [The Repeat Test](https://github.com/colinspel/colinspel/tree/main/knicks-title-defense) | Season-long data story on the Knicks' 2026-27 title defense: why repeating is rare (12 of 46 champions since 1980), keeping the core under the second apron, the title's ticket premium, and a weekly Repeat Tracker |
-
-### ⚽ Sports Analytics
+### ⚽ Soccer Analytics
 
 | Project | What it does |
 |---|---|
@@ -28,11 +22,17 @@ I turn sports data into tools that coaches, scouts and fans can actually use, an
 | [The Asterisk Tables](https://github.com/colinspel/colinspel/tree/main/city-asterisk-tables) | Man City's 115 charges: 2009–18 tables rewritten under sanctions, plus a Monte Carlo simulator pricing a 2026–27 points deduction · [open the simulator](https://colinspel.github.io/city-asterisk-tables/) |
 | [AS Roma Analytics Series](https://github.com/colinspel/colinspel/tree/main/roma-analytics) | Friedkin-era transfer efficiency, academy sales, tactical fingerprint, LWB shortlist, the [Roma Scout](https://colinspel.github.io/roma-scout/) matchday app, and [Il Dossier](https://github.com/colinspel/colinspel/tree/main/roma-analytics/dossier), a January 2027 transfer-target board |
 
+### 🏀 Basketball
+
+| Project | What it does |
+|---|---|
+| [The Repeat Test](https://github.com/colinspel/colinspel/tree/main/knicks-title-defense) | Season-long data story on the Knicks' 2026-27 title defense: why repeating is rare (12 of 46 champions since 1980), keeping the core under the second apron, the title's ticket premium, and a weekly Repeat Tracker |
+
 ### 📱 Apps & Models
 
 | Project | What it does |
 |---|---|
-| [FootyRush](https://github.com/colinspel/colinspel/tree/main/footyrush) | Soccer app for Europe's top 5 leagues — live scores, Poisson predictions, multi-league fantasy · [open the app](https://colinspel.github.io/footyrush/) · [MLS edition](https://colinspel.github.io/footyrush-mls/) |
+| [FootyRush](https://github.com/colinspel/colinspel/tree/main/footyrush) | Soccer app for Europe's top 5 leagues — results and standings, Dixon-Coles match predictions, multi-league fantasy · [open the app](https://colinspel.github.io/footyrush/) · [MLS edition](https://colinspel.github.io/footyrush-mls/) |
 | [Model Scoreboard](https://github.com/colinspel/colinspel/tree/main/model-scoreboard) | Live scoreboard pitting my soccer, NFL and MLB prediction models against each other · [open it](https://colinspel.github.io/model-scoreboard/) |
 
 ### 🚀 Ventures

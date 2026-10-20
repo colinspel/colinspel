@@ -29,3 +29,5 @@ Data: [StatsBomb Open Data](https://github.com/statsbomb/open-data).
 - `extract_messi.py` -> `messi_*.csv`, `messi_data.json`; `build_page.py` -> `index.html`
 - `make_tableau_data.py` -> `tableau_data/`; `build_messi_twb.py` (uses `twb_lib.py`, `images/`) -> the `.twbx`
 - `linkedin/`: slider screen recording and preview image used in the LinkedIn post
+
+[← Back to all projects](../README.md)
