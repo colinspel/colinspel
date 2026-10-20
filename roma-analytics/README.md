@@ -6,6 +6,8 @@ An analytical review combining public financial statements, wage data for every 
 
 📄 **Full paper:** [AS_Roma_Analytical_Review.pdf](AS_Roma_Analytical_Review.pdf)
 
+🗂️ **Il Dossier:** [January 2027 transfer targets](dossier/): five targets including a left wing-back, each graded on fit, form, health and deal feasibility
+
 📱 **Roma Scout app:** [live app](https://colinspel.github.io/roma-scout/) · [code and details](scout/) — a matchday scouting tool with opponent dossiers, live table and game plans
 
 ## Key findings

@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Il Dossier</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=IBM+Plex+Mono:wght@500&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3ece0; --paper:#fbf7f0; --ink:#1e1a17; --muted:#6f655b; --line:#d9cdbb;
+  --maroon:#7a1426; --maroon2:#5c0f1d; --gold:#e8b03a; --gold2:#f6d58a;
+  --pursue:#2d6a4f; --monitor:#c96a16; --pass:#6b6b6b; --pitch:#2f5d3a; --pitch2:#2a5434;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-size:15px;line-height:1.5}
+a{color:var(--maroon)}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;font-size:11px}
+
+/* cover */
+.cover{background:var(--maroon);color:#fff;padding:28px 16px 22px;position:relative;overflow:hidden}
+.cover:after{content:"";position:absolute;inset:auto -40px -40px auto;width:180px;height:180px;border:18px solid var(--gold);border-radius:50%;opacity:.18}
+.cover .mono{color:var(--gold2)}
+.cover h1{font-family:"Playfair Display",Georgia,serif;font-weight:900;font-size:44px;line-height:1;margin:8px 0 6px}
+.cover h1 i{color:var(--gold)}
+.cover p{margin:0;max-width:560px;color:#f1dfe2;font-size:14px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 16px;background:var(--maroon2);position:sticky;top:0;z-index:9}
+.tabs a{flex:0 0 auto;color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.25)}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px 40px}
+
+/* board */
+.board{margin-top:22px}
+.board h2,.file h2{font-family:"Playfair Display",Georgia,serif;font-size:26px;margin:0}
+.lede{color:var(--muted);margin:6px 0 14px;font-size:14px}
+.boardGrid{display:grid;gap:16px}
+.pitchBig svg{width:100%;max-width:420px;display:block;margin:0 auto;border-radius:10px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;font-size:12px;margin-top:8px;color:var(--muted)}
+.legend b{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.rank{list-style:none;margin:0;padding:0}
+.rank li{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.rank .num{font-family:"Playfair Display",serif;font-weight:900;font-size:22px;color:var(--maroon);width:28px}
+.rank .who{flex:1}
+.rank .who small{display:block;color:var(--muted);font-size:12px}
+.tag{font-weight:700;font-size:12px;color:#fff;padding:3px 9px;border-radius:4px}
+.t-pursue{background:var(--pursue)} .t-monitor{background:var(--monitor)} .t-pass{background:var(--pass)}
+.method{margin-top:14px;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:13.5px}
+.method p{margin:4px 0}
+
+/* dossier file */
+.file{margin-top:34px;background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;scroll-margin-top:52px;box-shadow:0 2px 0 var(--line)}
+.fileTop{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:2px solid var(--ink);background:#efe6d6}
+.hero{display:flex;gap:14px;align-items:center;padding:16px;position:relative}
+.photo{width:92px;height:92px;flex:0 0 auto;border-radius:50%;background:var(--maroon) center/cover no-repeat;border:4px solid var(--gold);display:flex;align-items:center;justify-content:center;color:#fff;font-family:"Playfair Display",serif;font-weight:900;font-size:26px;cursor:pointer;position:relative;overflow:hidden}
+.photo.has span.ini{display:none}
+.photo input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.photo .add{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.55);font-family:Inter,sans-serif;font-size:9px;font-weight:600;text-align:center;padding:3px 0;letter-spacing:.04em}
+.photo.has .add{opacity:0}
+.hero h2{font-size:30px;line-height:1.05}
+.hero .sub{color:var(--muted);font-size:13px;margin-top:4px}
+.stamp{position:absolute;right:14px;top:12px;transform:rotate(-9deg);border:3px solid;border-radius:6px;padding:2px 10px;font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:15px;letter-spacing:.12em;opacity:.9}
+.s-pursue{color:var(--pursue)} .s-monitor{color:var(--monitor)} .s-pass{color:var(--pass)}
+.facts{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.facts div{padding:8px 16px;border-bottom:1px solid var(--line)}
+.facts div:nth-child(odd){border-right:1px solid var(--line)}
+.facts span{display:block;color:var(--muted);font-size:11px}
+.facts b{font-size:14px}
+.inner{padding:16px;display:grid;gap:16px}
+.twoUp{display:grid;gap:16px}
+.pitchSmall svg{width:100%;max-width:220px;display:block;border-radius:8px}
+.roleTxt h4,.meters h4,.case h4,.deal h4,.flip h4{margin:0 0 6px;font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--maroon)}
+.roleTxt p{margin:0}
+.meter{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px dotted var(--line);font-size:13.5px}
+.pips{display:flex;gap:4px}
+.pips i{width:18px;height:10px;border-radius:2px;background:#ddd2c1}
+.pips i.on{background:var(--maroon)}
+.total{display:flex;align-items:baseline;gap:8px;margin-top:8px}
+.total b{font-family:"Playfair Display",serif;font-size:34px;font-weight:900;color:var(--maroon);line-height:1}
+.big{background:var(--ink);color:#fff;border-radius:10px;padding:14px 16px;display:flex;gap:14px;align-items:center}
+.big .n{font-family:"Playfair Display",serif;font-weight:900;font-size:40px;color:var(--gold);line-height:1;flex:0 0 auto}
+.big p{margin:0;font-size:13.5px;color:#e9e3da}
+.case{display:grid;gap:12px}
+.col{border-radius:8px;padding:12px 14px}
+.pro{background:#e7efe9;border:1px solid #c7d9cd}
+.pro h4{color:var(--pursue)}
+.con{background:#f5e6e3;border:1px solid #e3c8c2}
+.con h4{color:var(--maroon)}
+.col ul{margin:0;padding-left:18px}
+.col li{margin:6px 0;font-size:14px}
+.flip{border-left:4px solid var(--gold);padding:4px 0 4px 12px}
+.flip p,.deal p{margin:0;font-size:14px}
+details{border-top:1px solid var(--line);padding:10px 16px;font-size:12.5px;color:var(--muted)}
+summary{cursor:pointer;font-weight:600;color:var(--ink)}
+details ul{padding-left:18px;margin:8px 0 0}
+details li{margin:3px 0}
+.foot{margin-top:28px;color:var(--muted);font-size:12px;text-align:center}
+@media(min-width:720px){
+  .cover h1{font-size:60px}
+  .boardGrid{grid-template-columns:1fr 1fr;align-items:start}
+  .facts{grid-template-columns:repeat(4,1fr)}
+  .facts div,.facts div:nth-child(odd){border-right:1px solid var(--line)}
+  .facts div:last-child{border-right:none}
+  .twoUp{grid-template-columns:220px 1fr 1fr;align-items:start}
+  .case{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="mono">AS Roma · January 2027 window · Data as of Oct 19, 2026</div>
+  <h1>Il <i>Dossier</i></h1>
+  <p>Five targets, one question each: does this move fix a hole in Gasperini's 3-4-2-1 at a price Roma can pay? Graded on public data and reporting, not film.</p>
+</header>
+
+<nav class="tabs">
+  <a href="#board">The Board</a>
+  <a href="#bernasconi">I · Bernasconi</a>
+  <a href="#vanbommel">II · Van Bommel</a>
+  <a href="#endrick">III · Endrick</a>
+  <a href="#doumbia">IV · Doumbia</a>
+  <a href="#gittens">V · Gittens</a>
+</nav>
+
+<main class="wrap">
+
+<section class="board" id="board">
+  <h2>The Board</h2>
+  <p class="lede">Gasperini said a deeper squad is essential for three competitions. Wesley is drawing £50m Premier League interest, the Oosterwolde deal died on the medical, and Koné and Cristante are injured. These are the holes.</p>
+  <div class="boardGrid">
+    <div>
+      <div class="pitchBig" id="boardPitch"></div>
+      <div class="legend"><span><b style="background:var(--pursue)"></b>Pursue</span><span><b style="background:var(--monitor)"></b>Monitor</span><span><b style="background:var(--pass)"></b>Pass</span></div>
+    </div>
+    <div>
+      <ol class="rank">
+        <li><span class="num">I</span><span class="who">Lorenzo Bernasconi<small>LWB · Atalanta · 5/7</small></span><span class="tag t-pursue">Pursue</span></li>
+        <li><span class="num">II</span><span class="who">Ruben van Bommel<small>Left 10 · PSV · 6/7</small></span><span class="tag t-pursue">Pursue</span></li>
+        <li><span class="num">III</span><span class="who">Endrick<small>ST · Real Madrid · 4/7</small></span><span class="tag t-monitor">Monitor</span></li>
+        <li><span class="num">IV</span><span class="who">Issa Doumbia<small>CM · Sporting · 4/7</small></span><span class="tag t-monitor">Monitor</span></li>
+        <li><span class="num">V</span><span class="who">Jamie Bynoe-Gittens<small>Left 10 · Chelsea · 2/7</small></span><span class="tag t-pass">Pass</span></li>
+      </ol>
+      <div class="method">
+        <p><b>Order is priority, not score.</b> Bernasconi ranks first because left wing-back is the one position with no natural backup if Wesley is sold.</p>
+        <p><b>Score out of 7:</b> role fit (0-2) + form and minutes (0-2) + health (0-1) + deal feasibility at sensible terms (0-2). It grades the move, not the player's ceiling.</p>
+        <p><b>Photos:</b> tap any portrait circle to add a picture from your phone. It stays on your device.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- I BERNASCONI -->
+<article class="file" id="bernasconi">
+  <div class="fileTop"><span class="mono">Dossier I · Left wing-back</span><span class="mono">Priority</span></div>
+  <div class="hero">
+    <label class="photo" data-id="bernasconi"><span class="ini">LB</span><span class="add">TAP TO ADD PHOTO</span><input type="file" accept="image/*"></label>
+    <div><h2>Lorenzo Bernasconi</h2><div class="sub">Italy · left foot · 6'3"</div></div>
+    <div class="stamp s-pursue">PURSUE</div>
+  </div>
+  <div class="facts">
+    <div><span>Club</span><b>Atalanta</b></div>
+    <div><span>Age</span><b>22 (Nov 16, 2003)</b></div>
+    <div><span>Contract</span><b>2030</b></div>
+    <div><span>Atalanta's price</span><b>~€25m (reported)</b></div>
+  </div>
+  <div class="inner">
+    <div class="twoUp">
+      <div class="pitchSmall" data-slot="LWB"></div>
+      <div class="roleTxt"><h4>The role</h4><p>Natural left-footed wing-back in the exact system Gasperini built at Atalanta. Lets Wesley go back to the right, or replaces him outright if he's sold. Roma reportedly have him top of Gasperini's left-flank wish list.</p></div>
+      <div class="meters"><h4>The grade</h4>
+        <div class="meter">Role fit<span class="pips"><i class="on"></i><i class="on"></i></span></div>
+        <div class="meter">Form &amp; minutes<span class="pips"><i class="on"></i><i></i></span></div>
+        <div class="meter">Health<span class="pips"><i class="on"></i></span></div>
+        <div class="meter">Deal feasibility<span class="pips"><i class="on"></i><i></i></span></div>
+        <div class="total"><b>5</b><span class="mono">/ 7</span></div>
+      </div>
+    </div>
+    <div class="big"><div class="n">143</div><p>Crosses in his 2025-26 breakout (33 games, 27 starts), the volume Gasperini wants from a wing-back. The catch: only 44 were accurate, a 31% hit rate.</p></div>
+    <div class="case">
+      <div class="col pro"><h4>Il caso a favore · For</h4><ul>
+        <li><b>System-native:</b> came through Atalanta's 3-4-2-1. Zero tactical learning curve, which matters for a January signing with no preseason.</li>
+        <li><b>Creator from wide:</b> 3 assists and 38 key passes last season, including a run of 8 straight games with a key pass.</li>
+        <li><b>Size on the flank:</b> 6'3" helps defend back-post crosses, an area where Roma just conceded three times from corners against Real Madrid.</li></ul></div>
+      <div class="col con"><h4>Il caso contro · Against</h4><ul>
+        <li><b>Lost his spot:</b> mostly rotation and sub minutes so far this season, plus 109 Conference League minutes.</li>
+        <li><b>Knee history:</b> medium-grade MCL sprain last April ended his season. No surgery, but it's the first thing a medical will check.</li>
+        <li><b>Defending 1v1:</b> was overrun by Olise in Atalanta's 6-1 loss to Bayern. One game, but elite wingers are the Champions League test.</li></ul></div>
+    </div>
+    <div class="flip"><h4>Changes my mind if</h4><p>Atalanta hold at €25m+ for a player they aren't starting. Then Oosterwolde (back from surgery around December, Roma reportedly agreed in principle) becomes the cheaper January play.</p></div>
+    <div class="deal"><h4>Deal path</h4><p>Loan with an obligation tied to appearances, the same structure Roma agreed for Oosterwolde (€1m loan, €15m obligation). D'Amico came from Atalanta, so the relationship exists. Fallback: Cacciamani, 19, left-footed at Torino, but Torino rejected €10m and want double.</p></div>
+  </div>
+  <details><summary>Sources</summary><ul>
+    <li><a href="https://romapress.net/bernasconi-remains-gasperinis-favorite-to-boost-left-wing/">RomaPress: Gasperini's favorite, €25m valuation</a></li>
+    <li><a href="https://fc.gradientsports.com/rankings/player/37343963/news">Rotowire/Gradient: 2025-26 output, crosses, MCL sprain</a> · <a href="https://commish.rotowire.com/soccer/player/lorenzo-bernasconi-39009">Rotowire: key-pass run, Bayern game</a></li>
+    <li><a href="https://us.soccerway.com/player/bernasconi-lorenzo/n1B8h20h/">Soccerway: contract, value</a> · <a href="https://www.uefa.com/uefaconferenceleague/clubs/players/250138174--lorenzo-bernasconi/">UEFA: Conference League minutes</a></li>
+    <li><a href="https://caughtoffside.com/2026/10/19/man-united-face-50m-hurdle-as-arsenal-and-newcastle-join-race-for-brazilian-ace">CaughtOffside: Wesley interest</a> · <a href="https://dailysports.net/news/deal-off-at-the-last-second-roma-pull-the-plug-on-defensive-signing/">Oosterwolde collapse and terms</a></li>
+    <li><a href="https://sport.quotidiano.net/en/calcio/roma/mercato-roma-osterwolde-3de7d409">Quotidiano: Cacciamani bid rejected</a></li></ul></details>
+</article>
+
+<!-- II VAN BOMMEL -->
+<article class="file" id="vanbommel">
+  <div class="fileTop"><span class="mono">Dossier II · Left 10 / inside forward</span><span class="mono">Best value</span></div>
+  <div class="hero">
+    <label class="photo" data-id="vanbommel"><span class="ini">RvB</span><span class="add">TAP TO ADD PHOTO</span><input type="file" accept="image/*"></label>
+    <div><h2>Ruben van Bommel</h2><div class="sub">Netherlands · right foot · 2 caps</div></div>
+    <div class="stamp s-pursue">PURSUE</div>
+  </div>
+  <div class="facts">
+    <div><span>Club</span><b>PSV</b></div>
+    <div><span>Age</span><b>22 (Aug 3, 2004)</b></div>
+    <div><span>Contract</span><b>2030</b></div>
+    <div><span>PSV paid / value</span><b>€15m / €18m</b></div>
+  </div>
+  <div class="inner">
+    <div class="twoUp">
+      <div class="pitchSmall" data-slot="L10"></div>
+      <div class="roleTxt"><h4>The role</h4><p>Gazzetta reports Gasperini wants a right-footed left winger. He starts wide left and attacks the half-space on his right foot while the wing-back holds the width.</p></div>
+      <div class="meters"><h4>The grade</h4>
+        <div class="meter">Role fit<span class="pips"><i class="on"></i><i class="on"></i></span></div>
+        <div class="meter">Form &amp; minutes<span class="pips"><i class="on"></i><i class="on"></i></span></div>
+        <div class="meter">Health<span class="pips"><i class="on"></i></span></div>
+        <div class="meter">Deal feasibility<span class="pips"><i class="on"></i><i></i></span></div>
+        <div class="total"><b>6</b><span class="mono">/ 7</span></div>
+      </div>
+    </div>
+    <div class="big"><div class="n">1.95</div><p>Expected assists in 532 Eredivisie minutes (about 0.33 per 90), turned into only 2 assists. His creation is running ahead of his numbers.</p></div>
+    <div class="case">
+      <div class="col pro"><h4>Il caso a favore · For</h4><ul>
+        <li><b>Starting now:</b> 7 of 8 league starts, plus Champions League minutes.</li>
+        <li><b>Repeatable output:</b> 8 goals and 5 assists for AZ in 2024-25 before the move. It held up across two clubs.</li>
+        <li><b>Shot volume:</b> 16 shots in 532 minutes, about 2.7 per 90 from a wide starting spot.</li></ul></div>
+      <div class="col con"><h4>Il caso contro · Against</h4><ul>
+        <li><b>Discipline:</b> 3 yellows and 13 fouls in 8 league games, plus a red in the 2025 U21 Euro quarter-final.</li>
+        <li><b>League inflation:</b> Eredivisie space doesn't exist against Serie A man-marking.</li>
+        <li><b>Knee:</b> injured in September 2025. One clean season since.</li></ul></div>
+    </div>
+    <div class="flip"><h4>Changes my mind if</h4><p>PSV price him above €25m. At that number the value case is gone and he drops to Monitor.</p></div>
+    <div class="deal"><h4>Deal path</h4><p>PSV are mid-Champions League with no pressure to sell, so January is a stretch. Lay groundwork now around their €15m outlay plus add-ons, and close in the summer.</p></div>
+  </div>
+  <details><summary>Sources</summary><ul>
+    <li><a href="https://www.transferfeed.com/transfers/ruben-van-bommel-psv-roma/56861573">TransferFeed / Gazzetta: Roma interest, fee, value</a> · <a href="https://www.tuttomercatoweb.com/serie-a/roma-gasperini-cerca-ala-sinistra-occhi-ruben-van-bommel-2278501">TMW: right-footed left winger brief</a></li>
+    <li><a href="https://www.fotmob.com/players/1359970/ruben-van-bommel">FotMob: minutes, xA</a> · <a href="https://www.espn.com/soccer/player/_/id/340252/ruben-van-bommel">ESPN: shots, fouls, cards</a></li>
+    <li><a href="https://www.flashscore.com/news/soccer-serie-a-bologna-open-bidding-war-for-dutch-youth-international-ruben-van-bommel/dt3zGYsK">Flashscore: AZ output, U21 red</a></li></ul></details>
+</article>
+
+<!-- III ENDRICK -->
+<article class="file" id="endrick">
+  <div class="fileTop"><span class="mono">Dossier III · Centre-forward</span><span class="mono">Highest ceiling</span></div>
+  <div class="hero">
+    <label class="photo" data-id="endrick"><span class="ini">EN</span><span class="add">TAP TO ADD PHOTO</span><input type="file" accept="image/*"></label>
+    <div><h2>Endrick</h2><div class="sub">Brazil · left foot · 5'8"</div></div>
+    <div class="stamp s-monitor">MONITOR</div>
+  </div>
+  <div class="facts">
+    <div><span>Club</span><b>Real Madrid</b></div>
+    <div><span>Age</span><b>20 (Jul 21, 2006)</b></div>
+    <div><span>Contract</span><b>2030</b></div>
+    <div><span>Madrid valuation</span><b>~€45m (reported)</b></div>
+  </div>
+  <div class="inner">
+    <div class="twoUp">
+      <div class="pitchSmall" data-slot="ST"></div>
+      <div class="roleTxt"><h4>The role</h4><p>Rotating striker sharing three competitions with Castro while Malen plays off him. A quick, linking forward, the profile Gasperini chased in Raspadori. Not a lone target man.</p></div>
+      <div class="meters"><h4>The grade</h4>
+        <div class="meter">Role fit<span class="pips"><i class="on"></i><i class="on"></i></span></div>
+        <div class="meter">Form &amp; minutes<span class="pips"><i class="on"></i><i></i></span></div>
+        <div class="meter">Health<span class="pips"><i></i></span></div>
+        <div class="meter">Deal feasibility<span class="pips"><i class="on"></i><i></i></span></div>
+        <div class="total"><b>4</b><span class="mono">/ 7</span></div>
+      </div>
+    </div>
+    <div class="big"><div class="n">0.87</div><p>Goal contributions per 90 on loan at Lyon (8 goals, 8 assists in 1,662 minutes). That's the case for him. It's also one half-season.</p></div>
+    <div class="case">
+      <div class="col pro"><h4>Il caso a favore · For</h4><ul>
+        <li><b>Produces when trusted:</b> the Lyon numbers came as a regular, not off the bench.</li>
+        <li><b>Links play:</b> 8 assists at Lyon, so he isn't just a finisher.</li>
+        <li><b>Did it to Roma:</b> headed Madrid's 3-3 equaliser off the bench at the Olimpico on Oct 14.</li></ul></div>
+      <div class="col con"><h4>Il caso contro · Against</h4><ul>
+        <li><b>No minutes:</b> 4 minutes all season before the Roma cameo. Match sharpness is unknown.</li>
+        <li><b>Body:</b> missed four games injured. A 2025 Real Sociedad loan reportedly collapsed over physical issues.</li>
+        <li><b>Blocks Castro:</b> Roma just paid €35m+ for a 9. A dry loan stalls him for a player Roma can't keep.</li></ul></div>
+    </div>
+    <div class="flip"><h4>Changes my mind if</h4><p>Madrid accept a purchase option, which D'Amico publicly said is Roma's standard for loans. That moves him straight to Pursue.</p></div>
+    <div class="deal"><h4>Deal path</h4><p>Mourinho blocked a summer loan. Milan are chasing the same six-month deal and may have an edge through his agency, Roc Nation. Walk away from a dry loan.</p></div>
+  </div>
+  <details><summary>Sources</summary><ul>
+    <li><a href="https://football-italia.net/damico-roma-need-another-step-champions-league/">Football Italia: D'Amico wants an option</a> · <a href="https://www.football-espana.net/2026/10/16/endrick-loan-real-madrid">Football España: Roma goal, Mourinho</a></li>
+    <li><a href="https://onefootball.com/en/news/roma-and-milan-to-seek-january-loan-for-real-madrids-endrick-after-ancelotti-criticism-43512803">OneFootball: minutes, injuries, Lyon</a> · <a href="https://www.vavel.com/en/data/endrick/bio/">VAVEL: minutes, foot</a></li>
+    <li><a href="https://football-italia.net/milan-and-roma-interested-real-madrid-endrick/">Football Italia: Milan, Roc Nation</a> · <a href="https://www.transferfeed.com/players/endrick/372779">TransferFeed: valuation, contract</a></li></ul></details>
+</article>
+
+<!-- IV DOUMBIA -->
+<article class="file" id="doumbia">
+  <div class="fileTop"><span class="mono">Dossier IV · Central midfield</span><span class="mono">Koné succession</span></div>
+  <div class="hero">
+    <label class="photo" data-id="doumbia"><span class="ini">ID</span><span class="add">TAP TO ADD PHOTO</span><input type="file" accept="image/*"></label>
+    <div><h2>Issa Doumbia</h2><div class="sub">Italy · right foot · 6'2"</div></div>
+    <div class="stamp s-monitor">MONITOR</div>
+  </div>
+  <div class="facts">
+    <div><span>Club</span><b>Sporting CP</b></div>
+    <div><span>Age</span><b>23 (Oct 16, 2003)</b></div>
+    <div><span>Contract</span><b>2031</b></div>
+    <div><span>Release clause</span><b>€80m from Jul '27</b></div>
+  </div>
+  <div class="inner">
+    <div class="twoUp">
+      <div class="pitchSmall" data-slot="RCM"></div>
+      <div class="roleTxt"><h4>The role</h4><p>The box-crashing right-sided midfielder in the double pivot, the Koné job. Most valuable if Chelsea return in January with a big Koné bid.</p></div>
+      <div class="meters"><h4>The grade</h4>
+        <div class="meter">Role fit<span class="pips"><i class="on"></i><i class="on"></i></span></div>
+        <div class="meter">Form &amp; minutes<span class="pips"><i class="on"></i><i></i></span></div>
+        <div class="meter">Health<span class="pips"><i class="on"></i></span></div>
+        <div class="meter">Deal feasibility<span class="pips"><i></i><i></i></span></div>
+        <div class="total"><b>4</b><span class="mono">/ 7</span></div>
+      </div>
+    </div>
+    <div class="big"><div class="n">€1m→€26m</div><p>Venezia's purchase price versus Sporting's, with the second deal four months old. Roma would be buying at the top of that curve.</p></div>
+    <div class="case">
+      <div class="col pro"><h4>Il caso a favore · For</h4><ul>
+        <li><b>Midfield goals:</b> 8 goals and 6 assists as Venezia won Serie B.</li>
+        <li><b>Rising fast:</b> first Italy start on Oct 5 and a first Champions League goal at Lens.</li>
+        <li><b>No adaptation risk:</b> 25 Serie A appearances already, Italian, knows the league.</li></ul></div>
+      <div class="col con"><h4>Il caso contro · Against</h4><ul>
+        <li><b>Thin sample:</b> 8 Primeira Liga games, no league goals yet. The Serie B numbers came a division down.</li>
+        <li><b>Crowded race:</b> Juventus and Newcastle lead, and Milan and Napoli already failed.</li>
+        <li><b>Price anchor:</b> any January talks start from the €80m clause, not his output.</li></ul></div>
+    </div>
+    <div class="flip"><h4>Changes my mind if</h4><p>Roma sell Koné for €50m+. That money and that hole make him the natural replacement, and he moves to Pursue.</p></div>
+    <div class="deal"><h4>Deal path</h4><p>No January move. Track through spring. After July 2027 the clause fixes the price and the race goes to whoever pays.</p></div>
+  </div>
+  <details><summary>Sources</summary><ul>
+    <li><a href="https://football-italia.net/newcastle-juventus-and-roma-sporting-doumbia/">Football Italia: interest, fee, clause, Italy start</a></li>
+    <li><a href="https://backoffice.sporting.pt/en/news/football/main-team/2026-06-01/issa-doumbia-signs-sporting-cp">Sporting CP: signing, profile</a> · <a href="https://en.wikipedia.org/wiki/Issa_Doumbia_(footballer)">Wikipedia: DOB, height, apps</a></li></ul></details>
+</article>
+
+<!-- V GITTENS -->
+<article class="file" id="gittens">
+  <div class="fileTop"><span class="mono">Dossier V · Left 10 / winger</span><span class="mono">Closed file</span></div>
+  <div class="hero">
+    <label class="photo" data-id="gittens"><span class="ini">JBG</span><span class="add">TAP TO ADD PHOTO</span><input type="file" accept="image/*"></label>
+    <div><h2>Jamie Bynoe-Gittens</h2><div class="sub">England · right foot · currently injured</div></div>
+    <div class="stamp s-pass">PASS</div>
+  </div>
+  <div class="facts">
+    <div><span>Club</span><b>Chelsea</b></div>
+    <div><span>Age</span><b>22 (Aug 8, 2004)</b></div>
+    <div><span>Chelsea paid</span><b>£52m (2025)</b></div>
+    <div><span>Roma's rejected bid</span><b>€3m + €40m opt.</b></div>
+  </div>
+  <div class="inner">
+    <div class="twoUp">
+      <div class="pitchSmall" data-slot="L10"></div>
+      <div class="roleTxt"><h4>The role</h4><p>Same slot as Van Bommel: right-footed dribbler from the left. The fit exists on paper. The current evidence doesn't.</p></div>
+      <div class="meters"><h4>The grade</h4>
+        <div class="meter">Role fit<span class="pips"><i class="on"></i><i class="on"></i></span></div>
+        <div class="meter">Form &amp; minutes<span class="pips"><i></i><i></i></span></div>
+        <div class="meter">Health<span class="pips"><i></i></span></div>
+        <div class="meter">Deal feasibility<span class="pips"><i></i><i></i></span></div>
+        <div class="total"><b>2</b><span class="mono">/ 7</span></div>
+      </div>
+    </div>
+    <div class="big"><div class="n">0</div><p>Premier League minutes this season. Unused sub in every league game, 55 Carabao Cup minutes, then off on crutches with England U21s.</p></div>
+    <div class="case">
+      <div class="col pro"><h4>Il caso a favore · For</h4><ul>
+        <li><b>1v1 carrier:</b> 4th-most dribbles (36) at Chelsea last season despite only 12 starts.</li>
+        <li><b>Dortmund record:</b> 17 goals in 107 games before the move.</li></ul></div>
+      <div class="col con"><h4>Il caso contro · Against</h4><ul>
+        <li><b>Two injuries in nine months:</b> hamstring ended his season Jan 31, ankle now.</li>
+        <li><b>Thin output:</b> 1 goal and 5 assists in 27 Chelsea games.</li>
+        <li><b>Wrong structure:</b> Chelsea want a guaranteed fee, and the summer talks were tied to Koné going to London.</li></ul></div>
+    </div>
+    <div class="flip"><h4>Changes my mind if</h4><p>Chelsea accept a loan with an option well under €40m and he returns from the ankle injury with minutes. Neither looks likely before January.</p></div>
+    <div class="deal"><h4>Deal path</h4><p>Close the file. Van Bommel offers the same profile with current minutes at less than half the price. Never let Gittens become a sweetener in a Koné sale.</p></div>
+  </div>
+  <details><summary>Sources</summary><ul>
+    <li><a href="https://romadaily.com/2026/08/22/chelsea-reject-roma-loan-offer-for-jamie-bynoe-gittens/">Roma Daily / Di Marzio: rejected bid</a> · <a href="https://www.siamolaroma.it/en/2026/08/23/Gittens-Roma-Chelsea-does-not-open-the-situation-to-a-loan/">Siamo la Roma: Chelsea's terms</a></li>
+    <li><a href="https://www.si.com/soccer/chelsea-star-returns-blues-crutches-international-break-injury">SI: ankle injury, Koné link</a> · <a href="https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/10/chelsea-transfer-news-malo-gusto-jamie-gittens-analysis">FootballTransfers: zero PL minutes</a></li>
+    <li><a href="https://www.beinsports.com/en-us/soccer/premier-league/articles/gittens-feeling-more-confident-now-at-chelsea-2026-08-06">beIN: 2025-26 output, dribbles</a></li></ul></details>
+</article>
+
+<p class="foot">Il Dossier · Colin Spelman · Built from public reporting and stats; no film-based grades.</p>
+</main>
+
+<script>
+const SLOTS={GK:[100,242],LCB:[52,200],CB:[100,208],RCB:[148,200],LWB:[24,140],LCM:[76,146],RCM:[124,146],RWB:[176,140],L10:[66,92],R10:[134,92],ST:[100,46]};
+function pitchSVG(highlight,labels){
+  let s='<svg viewBox="0 0 200 270" xmlns="http://www.w3.org/2000/svg">';
+  s+='<rect width="200" height="270" fill="#2f5d3a"/>';
+  for(let i=0;i<6;i++) if(i%2) s+=`<rect y="${i*45}" width="200" height="45" fill="#2a5434"/>`;
+  s+='<g fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.2"><rect x="6" y="6" width="188" height="258"/><line x1="6" y1="135" x2="194" y2="135"/><circle cx="100" cy="135" r="22"/><rect x="50" y="6" width="100" height="36"/><rect x="50" y="228" width="100" height="36"/></g>';
+  for(const k in SLOTS){
+    const [x,y]=SLOTS[k];
+    const on=highlight&&highlight[k];
+    const fill=on?on:'rgba(255,255,255,.18)';
+    s+=`<circle cx="${x}" cy="${y}" r="${on?9:6}" fill="${fill}" stroke="${on?'#fff':'rgba(255,255,255,.5)'}" stroke-width="${on?2:1}"/>`;
+    if(labels&&labels[k]){
+      labels[k].forEach((t,i)=>{
+        const ty=y+18+i*12, w=t.length*5.6+10;
+        const lx=Math.min(Math.max(x-w/2,4),196-w);
+        s+=`<rect x="${lx}" y="${ty-9}" width="${w}" height="12" rx="3" fill="rgba(20,16,14,.82)"/><text x="${lx+w/2}" y="${ty}" font-size="8.5" font-family="Inter,sans-serif" font-weight="600" fill="#fff" text-anchor="middle">${t}</text>`;
+      });
+    }
+  }
+  return s+'</svg>';
+}
+const C={p:'#2d6a4f',m:'#c96a16',x:'#6b6b6b',g:'#e8b03a'};
+document.getElementById('boardPitch').innerHTML=pitchSVG(
+  {LWB:C.p,L10:C.p,ST:C.m,RCM:C.m},
+  {LWB:['Bernasconi'],L10:['Van Bommel','Gittens ✕'],ST:['Endrick'],RCM:['Doumbia']}
+);
+document.querySelectorAll('.pitchSmall').forEach(el=>{
+  const k=el.dataset.slot; const h={}; h[k]=C.g; el.innerHTML=pitchSVG(h);
+});
+
+function apply(el,d){el.style.backgroundImage='url('+d+')';el.classList.add('has');}
+document.querySelectorAll('.photo').forEach(el=>{
+  const id='dossier-photo-'+el.dataset.id;
+  try{const s=localStorage.getItem(id); if(s) apply(el,s);}catch(e){}
+  el.querySelector('input').addEventListener('change',ev=>{
+    const f=ev.target.files[0]; if(!f) return;
+    const r=new FileReader();
+    r.onload=()=>{const img=new Image();img.onload=()=>{
+      const S=260,c=document.createElement('canvas');c.width=c.height=S;
+      const m=Math.min(img.width,img.height);
+      c.getContext('2d').drawImage(img,(img.width-m)/2,(img.height-m)/2,m,m,0,0,S,S);
+      const d=c.toDataURL('image/jpeg',.85); apply(el,d);
+      try{localStorage.setItem(id,d);}catch(e){}
+    };img.src=r.result;};
+    r.readAsDataURL(f);
+  });
+});
+</script>
+</body>
+</html>
