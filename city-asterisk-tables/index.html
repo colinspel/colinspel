@@ -116,7 +116,7 @@ svg text{fill:var(--text2);font-size:11px}
 <section id="sim">
   <div class="card">
     <h2>2026‑27: deduction simulator</h2>
-    <p class="note" style="margin:0">Table after 6 games (City 18 pts, top). 10,000 simulated finishes of the remaining 32 games. Data as of 14 Oct 2026.</p>
+    <p class="note" style="margin:0">Table after 7 games (City 21 pts, top, 3 clear of Arsenal). 10,000 simulated finishes of the remaining 31 games. Data as of 20 Oct 2026.</p>
     <label class="sl" for="sded">Points deducted from City this season: <b id="sdedv">0</b> pts</label>
     <input id="sded" type="range" min="0" max="80" step="1" value="0">
     <div class="stats">
@@ -158,15 +158,15 @@ svg text{fill:var(--text2);font-size:11px}
     </ul>
     <h3>2026‑27 simulator</h3>
     <ul>
-      <li>Each team gets one strength rating. It blends current points per game (shrunk toward the league average, so six games don't overstate form) with the bookmaker win/draw/loss odds for this weekend's matchweek‑7 fixtures.</li>
+      <li>Each team gets one strength rating. It blends current points per game (shrunk toward the league average, so seven games don't overstate form) with bookmaker win/draw/loss odds for the last two rounds (matchweeks 7 and 8), so one awkward fixture can't swing a rating.</li>
       <li>Match outcomes use a Davidson (Bradley‑Terry with draws) model with a home-advantage term. All parameters are fitted to those odds.</li>
-      <li>Matchweek 7 uses the real fixtures. The remaining 31 games are drawn against random opponents, home or away at 50/50, because the full fixture list wasn't available. Each team is simulated independently, so results are a good estimate rather than an exact schedule replay.</li>
+      <li>Matchweek 8 uses the real fixtures. The remaining 30 games are drawn against random opponents, home or away at 50/50, because the full fixture list wasn't available. Each team is simulated independently, so results are a good estimate rather than an exact schedule replay.</li>
       <li>The deduction is applied to City's final total; their form is assumed unaffected.</li>
     </ul>
     <h3>Sources</h3>
     <ul>
       <li>Verdict reporting: The Athletic / The Times via Reuters; Sports Mole; Northeast Times (betting odds).</li>
-      <li>Current table and matchweek‑7 odds: Sportradar feed, 14 Oct 2026.</li>
+      <li>Current table: Football Web Pages, 19 Oct 2026. Matchweek‑8 odds: bets.co.za round‑8 preview, 20 Oct 2026.</li>
       <li>Historical tables: official Premier League final standings.</li>
     </ul>
   </div>
@@ -244,11 +244,11 @@ document.getElementById('hded').oninput=e=>{hded=+e.target.value;document.getEle
 renderHist();
 
 /* ---------- simulator ---------- */
-const R={"teams":[{"code":"MCI","name":"Man City","pts":18,"r":1.291},{"code":"ARS","name":"Arsenal","pts":15,"r":0.9764},{"code":"BRI","name":"Brighton","pts":13,"r":0.5631},{"code":"BRE","name":"Brentford","pts":10,"r":0.0264},{"code":"EVE","name":"Everton","pts":10,"r":-0.1191},{"code":"CFC","name":"Chelsea","pts":10,"r":0.5157},{"code":"LEE","name":"Leeds","pts":9,"r":-0.1458},{"code":"HUL","name":"Hull City","pts":9,"r":-0.3053},{"code":"LFC","name":"Liverpool","pts":9,"r":0.2685},{"code":"IPS","name":"Ipswich","pts":9,"r":-0.1825},{"code":"NEW","name":"Newcastle","pts":8,"r":-0.1924},{"code":"CRY","name":"Crystal Palace","pts":7,"r":-0.1665},{"code":"MUN","name":"Man United","pts":6,"r":0.0339},{"code":"COV","name":"Coventry","pts":6,"r":-0.6306},{"code":"NFO","name":"Nott'm Forest","pts":5,"r":-0.5798},{"code":"AVL","name":"Aston Villa","pts":5,"r":-0.1228},{"code":"SUN","name":"Sunderland","pts":4,"r":-0.4376},{"code":"BOU","name":"Bournemouth","pts":3,"r":-0.4878},{"code":"TOT","name":"Tottenham","pts":3,"r":-0.0915},{"code":"FUL","name":"Fulham","pts":2,"r":-0.2133}],"h":0.5184,"nu":0.6563};
-const MW7=[["EVE","CFC"],["BRE","LFC"],["FUL","HUL"],["MCI","IPS"],["NEW","AVL"],["BOU","SUN"],["BRI","CRY"],["LEE","MUN"],["NFO","ARS"],["TOT","COV"]];
-const T=R.teams,NT=T.length,NS=10000,REM=31;
+const R={"teams":[{"code":"MCI","name":"Man City","pts":21,"r":1.2912},{"code":"ARS","name":"Arsenal","pts":18,"r":1.1061},{"code":"BRI","name":"Brighton","pts":16,"r":0.5335},{"code":"CFC","name":"Chelsea","pts":13,"r":0.5427},{"code":"LFC","name":"Liverpool","pts":12,"r":0.5069},{"code":"BRE","name":"Brentford","pts":10,"r":0.3353},{"code":"LEE","name":"Leeds","pts":10,"r":-0.1188},{"code":"EVE","name":"Everton","pts":10,"r":-0.0574},{"code":"HUL","name":"Hull City","pts":9,"r":-0.6199},{"code":"IPS","name":"Ipswich","pts":9,"r":-0.5539},{"code":"NEW","name":"Newcastle","pts":8,"r":-0.0378},{"code":"AVL","name":"Aston Villa","pts":8,"r":-0.0125},{"code":"MUN","name":"Man United","pts":7,"r":-0.0599},{"code":"CRY","name":"Crystal Palace","pts":7,"r":-0.4347},{"code":"BOU","name":"Bournemouth","pts":6,"r":-0.4378},{"code":"TOT","name":"Tottenham","pts":6,"r":-0.0247},{"code":"COV","name":"Coventry","pts":6,"r":-0.7972},{"code":"FUL","name":"Fulham","pts":5,"r":-0.2111},{"code":"NFO","name":"Nott'm Forest","pts":5,"r":-0.3541},{"code":"SUN","name":"Sunderland","pts":4,"r":-0.5959}],"h":0.3305,"nu":0.6874};
+const MW8=[["IPS","NFO"],["AVL","MCI"],["ARS","EVE"],["COV","FUL"],["CFC","TOT"],["CRY","NEW"],["HUL","BRE"],["LFC","BRI"],["MUN","BOU"],["SUN","LEE"]];
+const T=R.teams,NT=T.length,NS=10000,REM=30;
 const idx=Object.fromEntries(T.map((t,i)=>[t.code,i]));
-let seed=20261014;function rnd(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}
+let seed=20261021;function rnd(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}
 function outcome(i,j,home){ // points for team i vs j
   const a=Math.exp(T[i].r+(home?R.h:0)),b=Math.exp(T[j].r+(home?0:R.h)),d=R.nu*Math.sqrt(a*b),s=a+b+d,u=rnd()*s;
   return u<a?3:(u<a+d?1:0);
@@ -256,7 +256,7 @@ function outcome(i,j,home){ // points for team i vs j
 const FP=new Float32Array(NS*NT); // final points (+tiny noise for tie-break)
 for(let s=0;s<NS;s++){
   const pts=T.map(t=>t.pts);
-  MW7.forEach(([h,a])=>{const i=idx[h],j=idx[a];const pi=outcome(i,j,true);pts[i]+=pi;pts[j]+=pi===3?0:pi===1?1:3});
+  MW8.forEach(([h,a])=>{const i=idx[h],j=idx[a];const pi=outcome(i,j,true);pts[i]+=pi;pts[j]+=pi===3?0:pi===1?1:3});
   for(let i=0;i<NT;i++){for(let g=0;g<REM;g++){let j=Math.floor(rnd()*(NT-1));if(j>=i)j++;pts[i]+=outcome(i,j,rnd()<.5)}}
   for(let i=0;i<NT;i++)FP[s*NT+i]=pts[i]+rnd()*0.01;
 }
