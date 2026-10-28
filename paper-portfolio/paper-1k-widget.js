@@ -272,19 +272,238 @@ function base() {
   return w;
 }
 
+// ---------- small: stock-ticker card ----------
+// Full-bleed area chart with a fading glow, big price with small cents,
+// a change pill, SPY ghost line, and a scrolling-tape style holdings row.
+const S = {
+  bg0: new Color("#03060B"),
+  bg1: new Color("#0A1120"),
+  up: new Color("#00E28A"),
+  down: new Color("#FF3D5A"),
+  flat: new Color("#9AA4BC"),
+  ink: new Color("#FFFFFF"),
+  mute: new Color("#6F7A94"),
+  spy: new Color("#8A95FF"),
+  grid: new Color("#FFFFFF", 0.07),
+};
+
+function areaChart(history, w, h, color) {
+  const ctx = new DrawContext();
+  ctx.size = new Size(w, h);
+  ctx.opaque = false;
+  ctx.respectScreenScale = true;
+
+  // faint price grid
+  ctx.setStrokeColor(S.grid);
+  ctx.setLineWidth(0.5);
+  for (let i = 1; i <= 3; i++) {
+    const gy = (h / 4) * i;
+    const gl = new Path();
+    gl.move(new Point(0, gy));
+    gl.addLine(new Point(w, gy));
+    ctx.addPath(gl);
+    ctx.strokePath();
+  }
+
+  const pts = (history || []).filter((p) => p.value != null && p.spy != null);
+  if (pts.length < 2) {
+    // pre-market look: dashed flat line at $1,000 with a pulsing-style dot
+    ctx.setStrokeColor(new Color(S.flat.hex, 0.6));
+    ctx.setLineWidth(1.5);
+    for (let x = 0; x < w - 12; x += 7) {
+      const seg = new Path();
+      seg.move(new Point(x, h * 0.55));
+      seg.addLine(new Point(Math.min(x + 4, w - 12), h * 0.55));
+      ctx.addPath(seg);
+      ctx.strokePath();
+    }
+    ctx.setFillColor(new Color(S.flat.hex, 0.25));
+    ctx.fillEllipse(new Rect(w - 16, h * 0.55 - 6, 12, 12));
+    ctx.setFillColor(S.flat);
+    ctx.fillEllipse(new Rect(w - 13, h * 0.55 - 3, 6, 6));
+    return ctx.getImage();
+  }
+
+  const all = pts.flatMap((p) => [p.value, p.spy]).concat([1000]);
+  let lo = Math.min(...all), hi = Math.max(...all);
+  if (hi - lo < 4) { hi += 2; lo -= 2; }
+  const top = 6, bottom = h - 2, right = w - 8;
+  const X = (i) => (i / (pts.length - 1)) * right;
+  const Y = (v) => top + (1 - (v - lo) / (hi - lo)) * (bottom - top);
+  const line = pts.map((p, i) => new Point(X(i), Y(p.value)));
+
+  // fading glow: stacked bands under the line, densest at the line
+  const bands = 9;
+  for (let b = bands; b >= 1; b--) {
+    const depth = (b / bands) * (h - top);
+    const area = new Path();
+    area.move(line[0]);
+    line.forEach((pt) => area.addLine(pt));
+    for (let i = line.length - 1; i >= 0; i--) {
+      area.addLine(new Point(line[i].x, Math.min(bottom, line[i].y + depth)));
+    }
+    area.closeSubpath();
+    ctx.addPath(area);
+    ctx.setFillColor(new Color(color.hex, 0.07));
+    ctx.fillPath();
+  }
+
+  // $1,000 start line (dashed)
+  ctx.setStrokeColor(new Color("#FFFFFF", 0.22));
+  ctx.setLineWidth(0.8);
+  for (let x = 0; x < right; x += 6) {
+    const seg = new Path();
+    seg.move(new Point(x, Y(1000)));
+    seg.addLine(new Point(Math.min(x + 3, right), Y(1000)));
+    ctx.addPath(seg);
+    ctx.strokePath();
+  }
+
+  // SPY ghost line
+  const spy = new Path();
+  pts.forEach((p, i) => (i ? spy.addLine(new Point(X(i), Y(p.spy))) : spy.move(new Point(X(i), Y(p.spy)))));
+  ctx.addPath(spy);
+  ctx.setStrokeColor(new Color(S.spy.hex, 0.55));
+  ctx.setLineWidth(1.2);
+  ctx.strokePath();
+
+  // portfolio line
+  const pl = new Path();
+  line.forEach((pt, i) => (i ? pl.addLine(pt) : pl.move(pt)));
+  ctx.addPath(pl);
+  ctx.setStrokeColor(color);
+  ctx.setLineWidth(2.2);
+  ctx.strokePath();
+
+  // live dot with halo
+  const L = line[line.length - 1];
+  ctx.setFillColor(new Color(color.hex, 0.22));
+  ctx.fillEllipse(new Rect(L.x - 7, L.y - 7, 14, 14));
+  ctx.setFillColor(color);
+  ctx.fillEllipse(new Rect(L.x - 3, L.y - 3, 6, 6));
+  return ctx.getImage();
+}
+
+function tapeRow(w, d) {
+  const tape = w.addStack();
+  tape.layoutHorizontally();
+  tape.centerAlignContent();
+  tape.setPadding(5, 12, 10, 12);
+  const pend = d.pending || [];
+  if (pend.length) {
+    const bell = tape.addImage(SFSymbol.named("bell.badge.fill").image);
+    bell.imageSize = new Size(10, 10);
+    bell.tintColor = C.amber;
+    tape.addSpacer(4);
+    const first = pend[0];
+    const more = pend.length > 1 ? ` +${pend.length - 1}` : "";
+    const t = tape.addText(`${first.action} ${first.ticker}${more} @ CLOSE`);
+    t.font = Font.boldMonospacedSystemFont(9);
+    t.textColor = C.amber;
+    t.lineLimit = 1;
+    t.minimumScaleFactor = 0.7;
+    return;
+  }
+  const hs = (d.holdings || []).slice(0, 3);
+  if (!hs.length) {
+    const t = tape.addText("ALL CASH");
+    t.font = Font.boldMonospacedSystemFont(9);
+    t.textColor = S.mute;
+    return;
+  }
+  hs.forEach((h, i) => {
+    const ch = h.entry && h.last ? (h.last / h.entry - 1) * 100 : 0;
+    const sym = tape.addText(h.ticker);
+    sym.font = Font.boldMonospacedSystemFont(9);
+    sym.textColor = S.ink;
+    tape.addSpacer(2);
+    const arrow = ch > 0.05 ? "▲" : ch < -0.05 ? "▼" : "•";
+    const v = tape.addText(`${arrow}${Math.abs(ch).toFixed(1)}`);
+    v.font = Font.mediumMonospacedSystemFont(9);
+    v.textColor = ch > 0.05 ? S.up : ch < -0.05 ? S.down : S.flat;
+    v.lineLimit = 1;
+    v.minimumScaleFactor = 0.6;
+    if (i < hs.length - 1) tape.addSpacer();
+  });
+}
+
 function small(d) {
-  const w = base();
-  header(w, d);
-  w.addSpacer(6);
-  addText(w, money(d.value), 22, C.text, "bold");
-  w.addSpacer(3);
-  vsSpyRow(w, d, 10);
-  w.addSpacer(6);
-  const sp = w.addImage(sparkline(d.history, 130, 34));
-  sp.imageSize = new Size(130, 34);
+  const total = d.total_pct ?? 0;
+  const edge = total - (d.spy_total_pct ?? 0);
+  const col = Math.abs(total) < 0.005 ? S.flat : total > 0 ? S.up : S.down;
+
+  const w = new ListWidget();
+  const g = new LinearGradient();
+  const tint = (d.pending || []).length ? C.amber : col;
+  g.colors = [S.bg1, S.bg0, new Color(tint.hex, 0.12)];
+  g.locations = [0, 0.55, 1];
+  w.backgroundGradient = g;
+  w.setPadding(0, 0, 0, 0);
+  w.refreshAfterDate = new Date(Date.now() + 15 * 60 * 1000);
+
+  // row 1: ticker + change pill
+  const top = w.addStack();
+  top.layoutHorizontally();
+  top.centerAlignContent();
+  top.setPadding(12, 12, 0, 12);
+  const tk = top.addText("P1K");
+  tk.font = Font.heavyMonospacedSystemFont(14);
+  tk.textColor = S.ink;
+  top.addSpacer(4);
+  const live = top.addStack();
+  live.size = new Size(5, 5);
+  live.cornerRadius = 2.5;
+  live.backgroundColor = d._offline ? S.mute : d.status === "ACTIVE" ? S.up : C.amber;
+  top.addSpacer();
+  const pill = top.addStack();
+  pill.backgroundColor = col;
+  pill.cornerRadius = 5;
+  pill.setPadding(2, 5, 2, 5);
+  const arrow = Math.abs(total) < 0.005 ? "" : total > 0 ? "▲ " : "▼ ";
+  const pt = pill.addText(arrow + Math.abs(total).toFixed(2) + "%");
+  pt.font = Font.boldMonospacedSystemFont(10);
+  pt.textColor = Math.abs(total) < 0.005 ? S.bg0 : new Color("#03060B");
+  pt.lineLimit = 1;
+
+  // row 2: big price with small cents
+  const pr = w.addStack();
+  pr.layoutHorizontally();
+  pr.bottomAlignContent();
+  pr.setPadding(2, 12, 0, 12);
+  const val = Number(d.value ?? 0);
+  const [whole, cents] = val.toFixed(2).split(".");
+  const big = pr.addText("$" + Number(whole).toLocaleString("en-US"));
+  big.font = Font.boldRoundedSystemFont(26);
+  big.textColor = S.ink;
+  big.minimumScaleFactor = 0.7;
+  big.lineLimit = 1;
+  const sm = pr.addText("." + cents);
+  sm.font = Font.boldRoundedSystemFont(14);
+  sm.textColor = S.mute;
+
+  // row 3: vs SPY
+  const sub = w.addStack();
+  sub.layoutHorizontally();
+  sub.setPadding(0, 12, 0, 12);
+  const s1 = sub.addText("vs SPY ");
+  s1.font = Font.mediumMonospacedSystemFont(9);
+  s1.textColor = S.mute;
+  const s2 = sub.addText((edge > 0 ? "+" : "") + edge.toFixed(2) + "%");
+  s2.font = Font.boldMonospacedSystemFont(9);
+  s2.textColor = Math.abs(edge) < 0.005 ? S.flat : edge > 0 ? S.up : S.down;
+  sub.addSpacer();
+  const s3 = sub.addText(d._offline ? "offline" : ago(d.updated));
+  s3.font = Font.mediumMonospacedSystemFont(8);
+  s3.textColor = S.mute;
+
   w.addSpacer();
-  if ((d.pending || []).length) pendingBanner(w, d, true);
-  else addText(w, `${statusLabel(d)} · ${(d.holdings || []).map((h) => h.ticker).join(" ")}`, 9, C.dim, "regular");
+
+  // full-bleed chart
+  const chart = w.addImage(areaChart(d.history, 170, 50, col));
+  chart.imageSize = new Size(170, 50);
+
+  // ticker tape or planned-move alert
+  tapeRow(w, d);
   return w;
 }
 
