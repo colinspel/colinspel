@@ -650,13 +650,214 @@ document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>show(t.dataset.t));sh
 </script></body></html>`;
 }
 
+// ---------- Lock Screen (iOS renders these monochrome; tint comes from the wallpaper) ----------
+const LW = new Color("#FFFFFF");
+const LW2 = new Color("#FFFFFF", 0.6);
+const LW3 = new Color("#FFFFFF", 0.35);
+
+function lockSpark(history, w, h) {
+  const ctx = new DrawContext();
+  ctx.size = new Size(w, h);
+  ctx.opaque = false;
+  ctx.respectScreenScale = true;
+  const pts = (history || []).filter((p) => p.value != null && p.spy != null);
+  const dashed = (y, col) => {
+    ctx.setStrokeColor(col);
+    ctx.setLineWidth(1);
+    for (let x = 0; x < w; x += 5) {
+      const s = new Path();
+      s.move(new Point(x, y));
+      s.addLine(new Point(Math.min(x + 2.5, w), y));
+      ctx.addPath(s);
+      ctx.strokePath();
+    }
+  };
+  if (pts.length < 2) {
+    // waiting for first close: ticker-style flat line with a dot at the end
+    dashed(h / 2, LW3);
+    ctx.setFillColor(LW);
+    ctx.fillEllipse(new Rect(w - 6, h / 2 - 3, 6, 6));
+    return ctx.getImage();
+  }
+  const all = pts.flatMap((p) => [p.value, p.spy]).concat([1000]);
+  let lo = Math.min(...all), hi = Math.max(...all);
+  if (hi - lo < 4) { hi += 2; lo -= 2; }
+  const X = (i) => (i / (pts.length - 1)) * (w - 5);
+  const Y = (v) => 3 + (1 - (v - lo) / (hi - lo)) * (h - 6);
+  dashed(Y(1000), LW3);
+  // filled area under portfolio line (light), then SPY thin, then portfolio bold
+  const area = new Path();
+  area.move(new Point(0, h));
+  pts.forEach((p, i) => area.addLine(new Point(X(i), Y(p.value))));
+  area.addLine(new Point(X(pts.length - 1), h));
+  area.closeSubpath();
+  ctx.addPath(area);
+  ctx.setFillColor(new Color("#FFFFFF", 0.18));
+  ctx.fillPath();
+  const spy = new Path();
+  pts.forEach((p, i) => (i ? spy.addLine(new Point(X(i), Y(p.spy))) : spy.move(new Point(X(i), Y(p.spy)))));
+  ctx.addPath(spy);
+  ctx.setStrokeColor(LW2);
+  ctx.setLineWidth(1);
+  ctx.strokePath();
+  const pl = new Path();
+  pts.forEach((p, i) => (i ? pl.addLine(new Point(X(i), Y(p.value))) : pl.move(new Point(X(i), Y(p.value)))));
+  ctx.addPath(pl);
+  ctx.setStrokeColor(LW);
+  ctx.setLineWidth(2);
+  ctx.strokePath();
+  const last = pts[pts.length - 1];
+  ctx.setFillColor(LW);
+  ctx.fillEllipse(new Rect(X(pts.length - 1) - 3, Y(last.value) - 3, 6, 6));
+  return ctx.getImage();
+}
+
+function arrowFor(v) {
+  if (v == null || Math.abs(v) < 0.005) return "•";
+  return v > 0 ? "▲" : "▼";
+}
+
+function lockRect(d) {
+  const w = new ListWidget();
+  w.addAccessoryWidgetBackground = false;
+  w.setPadding(0, 0, 0, 0);
+  w.refreshAfterDate = new Date(Date.now() + 15 * 60 * 1000);
+  const total = d.total_pct ?? 0;
+  const edge = total - (d.spy_total_pct ?? 0);
+
+  // row 1: ticker + change
+  const r1 = w.addStack();
+  r1.layoutHorizontally();
+  r1.centerAlignContent();
+  const tk = r1.addText("P1K");
+  tk.font = Font.heavyMonospacedSystemFont(12);
+  tk.textColor = LW;
+  r1.addSpacer(5);
+  const ch = r1.addText(`${arrowFor(total)} ${Math.abs(total).toFixed(2)}%`);
+  ch.font = Font.boldMonospacedSystemFont(12);
+  ch.textColor = LW;
+  r1.addSpacer();
+  const vs = r1.addText(`vs SPY ${edge >= 0 ? "+" : ""}${edge.toFixed(1)}`);
+  vs.font = Font.mediumMonospacedSystemFont(9);
+  vs.minimumScaleFactor = 0.7;
+  vs.textColor = LW2;
+  vs.lineLimit = 1;
+
+  // row 2: price
+  const r2 = w.addStack();
+  r2.layoutHorizontally();
+  r2.bottomAlignContent();
+  const [whole, cents] = Number(d.value ?? 0).toFixed(2).split(".");
+  const big = r2.addText("$" + Number(whole).toLocaleString("en-US"));
+  big.font = Font.boldRoundedSystemFont(20);
+  big.textColor = LW;
+  big.lineLimit = 1;
+  big.minimumScaleFactor = 0.7;
+  const c = r2.addText("." + cents);
+  c.font = Font.boldRoundedSystemFont(12);
+  c.textColor = LW2;
+
+  w.addSpacer(2);
+  // row 3: planned move alert, otherwise the chart
+  if ((d.pending || []).length) {
+    const p = d.pending[0];
+    const more = d.pending.length > 1 ? ` +${d.pending.length - 1}` : "";
+    const r3 = w.addStack();
+    r3.layoutHorizontally();
+    r3.centerAlignContent();
+    const bell = r3.addImage(SFSymbol.named("bell.badge.fill").image);
+    bell.imageSize = new Size(10, 10);
+    bell.tintColor = LW;
+    r3.addSpacer(4);
+    const t = r3.addText(`${p.action} ${p.ticker}${more} @ CLOSE`);
+    t.font = Font.boldMonospacedSystemFont(10);
+    t.textColor = LW;
+    t.lineLimit = 1;
+    t.minimumScaleFactor = 0.7;
+  } else {
+    const img = w.addImage(lockSpark(d.history, 150, 18));
+    img.imageSize = new Size(150, 18);
+  }
+  w.url = URLScheme.forRunningScript();
+  return w;
+}
+
+function lockCircle(d) {
+  // gauge: ring fills by total return (full ring = ±5%), arrow + % in the middle
+  const total = d.total_pct ?? 0;
+  const size = 64;
+  const ctx = new DrawContext();
+  ctx.size = new Size(size, size);
+  ctx.opaque = false;
+  ctx.respectScreenScale = true;
+  const cx = size / 2, cy = size / 2, r = 27, lw = 5;
+  const arc = (from, to, col) => {
+    const steps = Math.max(2, Math.ceil(Math.abs(to - from) / 0.05));
+    const p = new Path();
+    for (let i = 0; i <= steps; i++) {
+      const a = from + ((to - from) * i) / steps - Math.PI / 2;
+      const pt = new Point(cx + r * Math.cos(a), cy + r * Math.sin(a));
+      if (i === 0) p.move(pt); else p.addLine(pt);
+    }
+    ctx.addPath(p);
+    ctx.setStrokeColor(col);
+    ctx.setLineWidth(lw);
+    ctx.strokePath();
+  };
+  arc(0, Math.PI * 2, new Color("#FFFFFF", 0.22));
+  const frac = Math.max(-1, Math.min(1, total / 5));
+  if (Math.abs(frac) > 0.005) arc(0, frac * Math.PI * 2, LW);
+  // tick at 12 o'clock = $1,000 start
+  ctx.setFillColor(LW);
+  ctx.fillRect(new Rect(cx - 1, cy - r - lw / 2 - 1, 2, lw + 2));
+  ctx.setTextAlignedCenter();
+  ctx.setTextColor(LW);
+  ctx.setFont(Font.boldMonospacedSystemFont(10));
+  ctx.drawTextInRect(arrowFor(total), new Rect(0, cy - 17, size, 12));
+  ctx.setFont(Font.boldRoundedSystemFont(13));
+  ctx.drawTextInRect(`${Math.abs(total).toFixed(1)}%`, new Rect(0, cy - 6, size, 16));
+  ctx.setFont(Font.mediumMonospacedSystemFont(8));
+  ctx.setTextColor(LW2);
+  ctx.drawTextInRect((d.pending || []).length ? "MOVE" : "P1K", new Rect(0, cy + 9, size, 10));
+
+  const w = new ListWidget();
+  w.addAccessoryWidgetBackground = true;
+  w.setPadding(0, 0, 0, 0);
+  const img = w.addImage(ctx.getImage());
+  img.imageSize = new Size(size, size);
+  img.centerAlignImage();
+  w.url = URLScheme.forRunningScript();
+  return w;
+}
+
+function lockInline(d) {
+  const total = d.total_pct ?? 0;
+  const edge = total - (d.spy_total_pct ?? 0);
+  const w = new ListWidget();
+  const pend = d.pending || [];
+  const txt = pend.length
+    ? `🔔 ${pend[0].action} ${pend[0].ticker}${pend.length > 1 ? " +" + (pend.length - 1) : ""} at close`
+    : `${arrowFor(total)} P1K ${money(d.value)} ${pct(total)} · SPY ${edge >= 0 ? "+" : ""}${edge.toFixed(1)}`;
+  const t = w.addText(txt);
+  t.font = Font.mediumSystemFont(12);
+  w.url = URLScheme.forRunningScript();
+  return w;
+}
+
 // ---------- main ----------
 const data = await loadData();
 if (data) await notifyNewMoves(data);
 
 if (config.runsInWidget) {
   const fam = config.widgetFamily;
-  const w = !data ? errorWidget() : fam === "small" ? small(data) : fam === "large" ? large(data) : medium(data);
+  const lockFamilies = { accessoryRectangular: lockRect, accessoryCircular: lockCircle, accessoryInline: lockInline };
+  let w;
+  if (!data) {
+    w = new ListWidget();
+    const t = w.addText(fam && fam.startsWith("accessory") ? "P1K offline" : "Couldn't load data");
+    t.font = Font.mediumSystemFont(12);
+  } else if (lockFamilies[fam]) w = lockFamilies[fam](data);
+  else w = fam === "small" ? small(data) : fam === "large" ? large(data) : medium(data);
   w.url = URLScheme.forRunningScript();
   Script.setWidget(w);
 } else if (data) {
