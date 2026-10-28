@@ -1,7 +1,7 @@
 {
   "name": "Paper $1K",
   "test_window": "2026-10-28 to 2026-11-27",
-  "updated": "2026-10-28T14:58:00-04:00",
+  "updated": "2026-10-28T15:40:00-04:00",
   "status": "PENDING_FILLS",
   "start_capital": 1000,
   "value": 1000,
@@ -18,7 +18,7 @@
       "action": "BUY",
       "ticker": "XLE",
       "dollars": 333.33,
-      "when": "Oct 28 close",
+      "when": "today's close",
       "reason": "Rank 1: +14.4% over 3 months, above 50-day avg"
     },
     {
@@ -26,7 +26,7 @@
       "action": "BUY",
       "ticker": "XLV",
       "dollars": 333.33,
-      "when": "Oct 28 close",
+      "when": "today's close",
       "reason": "Rank 2: +10.2% over 3 months, above 50-day avg"
     },
     {
@@ -34,7 +34,7 @@
       "action": "BUY",
       "ticker": "XLY",
       "dollars": 333.34,
-      "when": "Oct 28 close",
+      "when": "today's close",
       "reason": "Rank 3: +5.5% over 3 months, above 50-day avg"
     }
   ],
@@ -95,6 +95,6 @@
       "eligible": false
     }
   ],
-  "next_event": "Buys fill at today's close (4:00pm ET). Fed decision 2:00pm.",
+  "next_event": "Planned: BUY XLE, XLV, XLY ~$333 each at today's 4:00pm close (PENDING_FILLS).",
   "note": "Hypothetical. Not financial advice. Fills at official closing prices."
 }
