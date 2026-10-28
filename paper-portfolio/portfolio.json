@@ -1,0 +1,100 @@
+{
+  "name": "Paper $1K",
+  "test_window": "2026-10-28 to 2026-11-27",
+  "updated": "2026-10-28T14:58:00-04:00",
+  "status": "PENDING_FILLS",
+  "start_capital": 1000,
+  "value": 1000,
+  "spy_value": 1000,
+  "day_pct": 0,
+  "total_pct": 0,
+  "spy_total_pct": 0,
+  "cash": 1000,
+  "holdings": [],
+  "history": [],
+  "pending": [
+    {
+      "id": "2026-10-28-BUY-XLE",
+      "action": "BUY",
+      "ticker": "XLE",
+      "dollars": 333.33,
+      "when": "Oct 28 close",
+      "reason": "Rank 1: +14.4% over 3 months, above 50-day avg"
+    },
+    {
+      "id": "2026-10-28-BUY-XLV",
+      "action": "BUY",
+      "ticker": "XLV",
+      "dollars": 333.33,
+      "when": "Oct 28 close",
+      "reason": "Rank 2: +10.2% over 3 months, above 50-day avg"
+    },
+    {
+      "id": "2026-10-28-BUY-XLY",
+      "action": "BUY",
+      "ticker": "XLY",
+      "dollars": 333.34,
+      "when": "Oct 28 close",
+      "reason": "Rank 3: +5.5% over 3 months, above 50-day avg"
+    }
+  ],
+  "trades": [],
+  "signals": [
+    {
+      "ticker": "XLE",
+      "mom3m": 14.4,
+      "vs50": 5.6,
+      "eligible": true
+    },
+    {
+      "ticker": "XLV",
+      "mom3m": 10.2,
+      "vs50": 4.4,
+      "eligible": true
+    },
+    {
+      "ticker": "XLK",
+      "mom3m": 7.7,
+      "vs50": -0.03,
+      "eligible": false
+    },
+    {
+      "ticker": "XLY",
+      "mom3m": 5.5,
+      "vs50": 1.9,
+      "eligible": true
+    },
+    {
+      "ticker": "XLP",
+      "mom3m": 3.6,
+      "vs50": 3.2,
+      "eligible": true
+    },
+    {
+      "ticker": "GLD",
+      "mom3m": 0.1,
+      "vs50": null,
+      "eligible": false
+    },
+    {
+      "ticker": "XLF",
+      "mom3m": -0.8,
+      "vs50": null,
+      "eligible": false
+    },
+    {
+      "ticker": "XLU",
+      "mom3m": -7.4,
+      "vs50": null,
+      "eligible": false
+    },
+    {
+      "ticker": "XLI",
+      "mom3m": -8.1,
+      "vs50": null,
+      "eligible": false
+    }
+  ],
+  "next_event": "Buys fill at today's close (4:00pm ET). Fed decision 2:00pm.",
+  "note": "Hypothetical. Not financial advice. Fills at official closing prices."
+}
