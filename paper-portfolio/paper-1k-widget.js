@@ -44,8 +44,31 @@ async function loadData() {
   }
 }
 
+// Which portfolio a widget shows: set the widget's Parameter to "core" for the
+// passive Core $1K; leave it empty for the momentum Paper $1K.
+const VIEW = ((typeof args !== "undefined" && args.widgetParameter) || "").trim().toLowerCase();
+
+function viewOf(data, which) {
+  if (which === "core" && data && data.core) {
+    const c = Object.assign({}, data.core);
+    c._offline = data._offline;
+    c._kind = "core";
+    c.tag = c.tag || "CORE";
+    return c;
+  }
+  const a = Object.assign({}, data);
+  a._kind = "momentum";
+  a._core = data.core || null;
+  a.tag = a.tag || "P1K";
+  return a;
+}
+
 async function notifyNewMoves(d) {
-  const pending = (d && d.pending) || [];
+  const label = (x, src) => Object.assign({}, x, { _src: src });
+  const pending = [
+    ...((d && d.pending) || []).map((x) => label(x, "")),
+    ...((d && d.core && d.core.pending) || []).map((x) => label(x, "Core: ")),
+  ];
   let seen = [];
   if (fm.fileExists(seenPath)) {
     try { seen = JSON.parse(fm.readString(seenPath)); } catch (e) { seen = []; }
@@ -53,7 +76,7 @@ async function notifyNewMoves(d) {
   const fresh = pending.filter((m) => m.id && !seen.includes(m.id));
   for (const m of fresh) {
     const n = new Notification();
-    n.title = `Planned ${m.action}: ${m.ticker}`;
+    n.title = `${m._src}Planned ${m.action}: ${m.ticker}`;
     n.body = `${money(m.dollars)} at ${m.when}. ${m.reason || ""}`.trim();
     n.threadIdentifier = "paper1k";
     n.openURL = URLScheme.forRunningScript();
@@ -240,7 +263,8 @@ function vsSpyRow(stack, d, size) {
   addText(r, `vs SPY ${pct(edge)}`, size, tone(edge), "bold");
 }
 
-function holdingTile(row, h, width) {
+function holdingTile(row, h, width, total) {
+  if (h.stop == null) return weightTile(row, h, width, total);
   const t = row.addStack();
   t.layoutVertically();
   t.backgroundColor = C.card;
@@ -258,6 +282,62 @@ function holdingTile(row, h, width) {
   t.addSpacer(3);
   const toStop = h.last && h.stop ? (h.last / h.stop - 1) * 100 : null;
   addText(t, `stop ${toStop === null ? "--" : toStop.toFixed(1) + "% away"}`, 9, C.dim, "regular");
+}
+
+// Buy-and-hold holdings have no stop: show the position's share of the portfolio instead.
+function weightTile(row, h, width, total) {
+  const t = row.addStack();
+  t.layoutVertically();
+  t.backgroundColor = C.card;
+  t.cornerRadius = 10;
+  t.setPadding(6, 8, 6, 8);
+  t.size = new Size(width, 0);
+  const top = t.addStack();
+  addText(top, h.ticker, 12, C.text, "mono");
+  top.addSpacer();
+  const ch = h.entry && h.last ? (h.last / h.entry - 1) * 100 : null;
+  addText(top, pct(ch, 1), 11, tone(ch), "bold");
+  t.addSpacer(4);
+  const val = h.last && h.shares ? h.last * h.shares : null;
+  const wt = val && total ? val / total : null;
+  const ctx = new DrawContext();
+  ctx.size = new Size(width - 16, 4);
+  ctx.opaque = false;
+  ctx.respectScreenScale = true;
+  const bg = new Path();
+  bg.addRoundedRect(new Rect(0, 0, width - 16, 4), 2, 2);
+  ctx.addPath(bg);
+  ctx.setFillColor(C.line);
+  ctx.fillPath();
+  const fg = new Path();
+  fg.addRoundedRect(new Rect(0, 0, Math.max(4, (width - 16) * (wt || 0)), 4), 2, 2);
+  ctx.addPath(fg);
+  ctx.setFillColor(C.spy);
+  ctx.fillPath();
+  const m = t.addImage(ctx.getImage());
+  m.imageSize = new Size(width - 16, 4);
+  t.addSpacer(3);
+  addText(t, wt == null ? "weight --" : `${(wt * 100).toFixed(1)}% of port`, 9, C.dim, "regular");
+}
+
+// one-line summary of the other portfolio, shown under the momentum widget
+function coreLine(stack, core, size) {
+  if (!core) return;
+  const r = stack.addStack();
+  r.layoutHorizontally();
+  r.centerAlignContent();
+  addText(r, "CORE", size, C.dim, "bold");
+  r.addSpacer(5);
+  if (core.status === "PENDING_FILLS") {
+    addText(r, "buys at next close", size, C.amber, "regular");
+    return;
+  }
+  addText(r, money(core.value), size, C.text, "bold");
+  r.addSpacer(5);
+  addText(r, pct(core.total_pct), size, tone(core.total_pct), "bold");
+  r.addSpacer(5);
+  const e = (core.total_pct ?? 0) - (core.spy_total_pct ?? 0);
+  addText(r, `vs SPY ${pct(e)}`, size, C.dim, "regular");
 }
 
 // ---------- layouts ----------
@@ -446,7 +526,7 @@ function small(d) {
   top.layoutHorizontally();
   top.centerAlignContent();
   top.setPadding(12, 12, 0, 12);
-  const tk = top.addText("P1K");
+  const tk = top.addText(d.tag || "P1K");
   tk.font = Font.heavyMonospacedSystemFont(14);
   tk.textColor = S.ink;
   top.addSpacer(4);
@@ -519,7 +599,8 @@ function medium(d) {
   left.addSpacer(3);
   vsSpyRow(left, d, 11);
   left.addSpacer(3);
-  addText(left, `today ${pct(d.day_pct)} · SPY ${money(d.spy_value)}`, 10, C.dim, "regular");
+  if (d._core) coreLine(left, d._core, 10);
+  else addText(left, `today ${pct(d.day_pct)} · SPY ${money(d.spy_value)}`, 10, C.dim, "regular");
   mid.addSpacer();
   const sp = mid.addImage(sparkline(d.history, 128, 56));
   sp.imageSize = new Size(128, 56);
@@ -531,7 +612,7 @@ function medium(d) {
     row.layoutHorizontally();
     const hs = (d.holdings || []).slice(0, 3);
     hs.forEach((h, i) => {
-      holdingTile(row, h, 98);
+      holdingTile(row, h, 98, d.value);
       if (i < hs.length - 1) row.addSpacer(6);
     });
     if (!hs.length) addText(w, "All cash", 11, C.dim);
@@ -562,7 +643,7 @@ function large(d) {
   row.layoutHorizontally();
   const hs = (d.holdings || []).slice(0, 3);
   hs.forEach((h, i) => {
-    holdingTile(row, h, 98);
+    holdingTile(row, h, 98, d.value);
     if (i < hs.length - 1) row.addSpacer(6);
   });
   w.addSpacer(8);
@@ -577,6 +658,7 @@ function large(d) {
     addText(r, `${money(t.dollars)} · ${t.date}`, 10, C.dim, "regular");
   });
   w.addSpacer();
+  if (d._core) { coreLine(w, d._core, 10); w.addSpacer(3); }
   addText(w, d.next_event || "", 10, C.dim, "regular");
   return w;
 }
@@ -590,63 +672,98 @@ function errorWidget() {
 }
 
 // ---------- in-app dashboard ----------
-function dashboardHTML(d) {
-  const json = JSON.stringify(d).replace(/</g, "\\u003c");
+function dashboardHTML(data, start) {
+  const json = JSON.stringify(data).replace(/</g, "\\u003c");
   return `<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-:root{--bg:#0B1220;--card:rgba(255,255,255,.06);--t:#F4F6FB;--d:#8C97B2;--g:#2BD67B;--r:#FF5C6C;--a:#FFB547;--s:#7C8BFF}
+:root{--bg:#0B1220;--card:rgba(255,255,255,.06);--t:#F4F6FB;--d:#8C97B2;--g:#2BD67B;--r:#FF5C6C;--a:#FFB547;--s:#7C8BFF;--c:#4FC3F7}
 *{box-sizing:border-box}html{background:#0B1220}body{margin:0;min-height:100vh;background:linear-gradient(#0B1220,#121C33);color:var(--t);font:15px -apple-system,system-ui;padding:16px 16px 40px}
 h1{font-size:13px;letter-spacing:.08em;color:var(--d);margin:0 0 4px}.big{font-size:38px;font-weight:800}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.chip{padding:3px 8px;border-radius:8px;font-weight:700;font-size:13px}
 .card{background:var(--card);border-radius:14px;padding:12px;margin-top:12px}.dim{color:var(--d);font-size:13px}
+.seg{display:flex;gap:4px;background:var(--card);border-radius:12px;padding:4px;margin-bottom:14px}.sg{flex:1;text-align:center;padding:7px 0;border-radius:9px;color:var(--d);font-weight:700;font-size:13px}
+.sg.on{background:rgba(255,255,255,.14);color:var(--t)}
 .tabs{display:flex;gap:6px;margin-top:14px}.tab{flex:1;text-align:center;padding:8px 0;border-radius:10px;background:var(--card);color:var(--d);font-weight:600;font-size:13px}
-.tab.on{background:#fff;color:#0B1220}.h{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.tab.on{background:#fff;color:#0B1220}.h{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08)}
 .h:last-child{border:0}.mono{font-family:ui-monospace,Menlo,monospace;font-weight:700}.bar{height:6px;border-radius:3px;background:rgba(255,255,255,.12);margin-top:6px;overflow:hidden}
 .bar>i{display:block;height:100%}.pend{background:rgba(255,181,71,.15);color:var(--a);border-radius:12px;padding:10px 12px;margin-top:12px;font-weight:600}
 svg{width:100%;height:170px;display:block}.tip{font-size:12px;color:var(--d);text-align:right;min-height:16px}
+.leg{display:flex;gap:12px;font-size:12px;color:var(--d);margin-top:6px}.leg b{font-weight:700}
 </style></head><body>
-<h1 id="nm"></h1><div class="big" id="val"></div><div class="row" id="sub"></div>
-<div id="pend"></div>
-<div class="card"><svg id="ch" viewBox="0 0 340 170" preserveAspectRatio="none"></svg><div class="tip" id="tip">Touch the chart to read a day</div></div>
-<div class="tabs"><div class="tab on" data-t="hold">Holdings</div><div class="tab" data-t="sig">Signals</div><div class="tab" data-t="log">Trades</div></div>
-<div class="card" id="panel"></div>
-<p class="dim" id="note"></p>
+<div class="seg" id="seg"><div class="sg" data-v="momentum">Momentum</div><div class="sg" data-v="core">Core</div><div class="sg" data-v="compare">Compare</div></div>
+<div id="app"></div>
 <script>
-const d=${json};
+const D=${json};
 const $=s=>document.querySelector(s);
 const m=v=>v==null||isNaN(v)?'--':'$'+Number(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 const p=(v,k=2)=>v==null||isNaN(v)?'--':(v>0?'+':'')+Number(v).toFixed(k)+'%';
 const c=v=>v==null||Math.abs(v)<.005?'var(--d)':v>0?'var(--g)':'var(--r)';
-$('#nm').textContent=(d.name||'Paper $1K').toUpperCase()+' · '+(d.test_window||'');
-$('#val').textContent=m(d.value);
-const edge=(d.total_pct||0)-(d.spy_total_pct||0);
-$('#sub').innerHTML='<span class="chip" style="background:rgba(255,255,255,.08);color:'+c(d.total_pct)+'">'+p(d.total_pct)+'</span><span style="color:'+c(edge)+';font-weight:700">vs SPY '+p(edge)+'</span><span class="dim">today '+p(d.day_pct)+'</span>';
-if((d.pending||[]).length){$('#pend').innerHTML=d.pending.map(x=>'<div class="pend">🔔 Planned '+x.action+' '+x.ticker+' · '+m(x.dollars)+' at '+x.when+'<div class="dim" style="color:#e9c58a;margin-top:2px">'+(x.reason||'')+'</div></div>').join('');}
-$('#note').textContent=(d.next_event||'')+' '+(d.note||'');
-// chart
-const H=(d.history||[]).filter(x=>x.value!=null&&x.spy!=null), svg=$('#ch');
-if(H.length<2){svg.innerHTML='<line x1="0" y1="85" x2="340" y2="85" stroke="rgba(255,255,255,.15)"/><text x="170" y="105" fill="#8C97B2" font-size="12" text-anchor="middle">Chart starts after the first close</text>';}
-else{const vals=H.flatMap(x=>[x.value,x.spy]).concat([1000]);let lo=Math.min(...vals),hi=Math.max(...vals);if(hi-lo<4){hi+=2;lo-=2}
-const X=i=>6+i/(H.length-1)*328,Y=v=>8+(1-(v-lo)/(hi-lo))*154;
-const path=k=>H.map((x,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(x[k]).toFixed(1)).join(' ');
-const last=H[H.length-1],col=last.value>=last.spy?'#2BD67B':'#FF5C6C';
-svg.innerHTML='<line x1="0" x2="340" y1="'+Y(1000)+'" y2="'+Y(1000)+'" stroke="rgba(255,255,255,.12)" stroke-dasharray="3 4"/>'+
-'<path d="'+path('spy')+'" fill="none" stroke="#7C8BFF" stroke-width="1.6"/>'+
-'<path d="'+path('value')+'" fill="none" stroke="'+col+'" stroke-width="2.6"/>'+
-'<line id="cur" y1="0" y2="170" stroke="rgba(255,255,255,.35)" visibility="hidden"/>';
-const move=e=>{const r=svg.getBoundingClientRect(),t=(e.touches?e.touches[0]:e),fx=(t.clientX-r.left)/r.width;
-const i=Math.max(0,Math.min(H.length-1,Math.round(fx*(H.length-1)))),h=H[i],cur=$('#cur');cur.setAttribute('x1',X(i));cur.setAttribute('x2',X(i));cur.setAttribute('visibility','visible');
-$('#tip').innerHTML=h.date+' · <b style="color:'+col+'">'+m(h.value)+'</b> · <span style="color:#7C8BFF">SPY '+m(h.spy)+'</span>';};
-svg.addEventListener('touchstart',move);svg.addEventListener('touchmove',move);svg.addEventListener('mousemove',move);}
-// tabs
-const panels={
-hold:()=>{const hs=d.holdings||[];if(!hs.length)return'<div class="dim">No positions yet. '+((d.pending||[]).length?'Orders are queued for the close.':'All cash.')+'</div>';
-return hs.map(h=>{const ch=h.entry&&h.last?(h.last/h.entry-1)*100:null,room=h.last&&h.stop?(h.last-h.stop)/(h.entry-h.stop):1,f=Math.max(0,Math.min(1,room/1.5))*100,bc=room<.25?'var(--r)':room<.6?'var(--a)':'var(--g)';
-return '<div class="h"><div style="flex:1"><span class="mono">'+h.ticker+'</span> <span class="dim">'+(h.shares!=null?Number(h.shares).toFixed(4)+' sh':'')+'</span><div class="dim">entry '+m(h.entry)+' · last '+m(h.last)+' · stop '+m(h.stop)+'</div><div class="bar"><i style="width:'+f+'%;background:'+bc+'"></i></div></div><div style="text-align:right;margin-left:10px"><div style="font-weight:700;color:'+c(ch)+'">'+p(ch,1)+'</div><div class="dim">'+m(h.last&&h.shares?h.last*h.shares:null)+'</div></div></div>'}).join('')+'<div class="dim" style="margin-top:6px">Cash '+m(d.cash)+'</div>';},
-sig:()=>'<div class="dim" style="margin-bottom:6px">3-month momentum. Eligible = above 50-day avg. Top 3 eligible are held.</div>'+(d.signals||[]).map((s,i)=>'<div class="h"><span class="mono">'+(i+1)+'. '+s.ticker+'</span><span style="color:'+c(s.mom3m)+';font-weight:700">'+p(s.mom3m,1)+'</span><span class="dim">'+(s.vs50==null?'':p(s.vs50,1)+' vs 50d')+'</span><span>'+(s.eligible?'✅':'⛔️')+'</span></div>').join(''),
-log:()=>{const t=(d.trades||[]).slice().reverse();return t.length?t.map(x=>'<div class="h"><div><span class="mono" style="color:'+(x.action==='BUY'?'var(--g)':'var(--r)')+'">'+x.action+' '+x.ticker+'</span><div class="dim">'+(x.reason||'')+'</div></div><div style="text-align:right"><div>'+m(x.dollars)+'</div><div class="dim">'+x.date+(x.price?' @ '+m(x.price):'')+'</div></div></div>').join(''):'<div class="dim">No fills yet.</div>';}};
-const show=k=>{document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.t===k));$('#panel').innerHTML=panels[k]();};
-document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>show(t.dataset.t));show('hold');
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+const views={momentum:D,core:D.core};
+function chart(svg,series,base,tipEl,fmt){
+  const n=series[0].pts.length;
+  if(n<2){svg.innerHTML='<line x1="0" y1="85" x2="340" y2="85" stroke="rgba(255,255,255,.15)"/><text x="170" y="105" fill="#8C97B2" font-size="12" text-anchor="middle">Chart starts after the first close</text>';return;}
+  const vals=series.flatMap(s=>s.pts).concat([base]);let lo=Math.min(...vals),hi=Math.max(...vals);const pad=(hi-lo)<base*.004?base*.002:0;hi+=pad;lo-=pad;
+  const X=i=>6+i/(n-1)*328,Y=v=>8+(1-(v-lo)/(hi-lo))*154;
+  svg.innerHTML='<line x1="0" x2="340" y1="'+Y(base)+'" y2="'+Y(base)+'" stroke="rgba(255,255,255,.12)" stroke-dasharray="3 4"/>'+
+    series.map(s=>'<path d="'+s.pts.map((v,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)).join(' ')+'" fill="none" stroke="'+s.col+'" stroke-width="'+s.w+'"/>').join('')+
+    '<line class="cur" y1="0" y2="170" stroke="rgba(255,255,255,.35)" visibility="hidden"/>';
+  const move=e=>{const r=svg.getBoundingClientRect(),t=(e.touches?e.touches[0]:e),fx=(t.clientX-r.left)/r.width;
+    const i=Math.max(0,Math.min(n-1,Math.round(fx*(n-1)))),cur=svg.querySelector('.cur');cur.setAttribute('x1',X(i));cur.setAttribute('x2',X(i));cur.setAttribute('visibility','visible');
+    tipEl.innerHTML=esc(series[0].dates[i])+' · '+series.map(s=>'<b style="color:'+s.col+'">'+s.name+' '+fmt(s.pts[i])+'</b>').join(' · ');};
+  svg.addEventListener('touchstart',move,{passive:true});svg.addEventListener('touchmove',move,{passive:true});svg.addEventListener('mousemove',move);
+}
+function renderOne(d,kind){
+  const app=$('#app');
+  if(!d){app.innerHTML='<div class="card dim">Core portfolio not set up yet.</div>';return;}
+  const edge=(d.total_pct||0)-(d.spy_total_pct||0);
+  app.innerHTML='<h1>'+esc((d.name||'').toUpperCase())+' · '+esc(d.test_window||'')+'</h1>'+
+    (d.strategy?'<div class="dim" style="margin-bottom:4px">'+esc(d.strategy)+'</div>':'')+
+    '<div class="big">'+m(d.value)+'</div>'+
+    '<div class="row"><span class="chip" style="background:rgba(255,255,255,.08);color:'+c(d.total_pct)+'">'+p(d.total_pct)+'</span><span style="color:'+c(edge)+';font-weight:700">vs SPY '+p(edge)+'</span><span class="dim">today '+p(d.day_pct)+'</span></div>'+
+    (d.pending||[]).map(x=>'<div class="pend">🔔 Planned '+esc(x.action)+' '+esc(x.ticker)+' · '+m(x.dollars)+' at '+esc(x.when)+'<div class="dim" style="color:#e9c58a;margin-top:2px">'+esc(x.reason)+'</div></div>').join('')+
+    '<div class="card"><svg id="ch" viewBox="0 0 340 170" preserveAspectRatio="none"></svg><div class="tip" id="tip">Touch the chart to read a day</div></div>'+
+    '<div class="tabs"><div class="tab on" data-t="hold">Holdings</div><div class="tab" data-t="sig">'+(kind==='core'?'Plan':'Signals')+'</div><div class="tab" data-t="log">Trades</div></div>'+
+    '<div class="card" id="panel"></div><p class="dim">'+esc(d.next_event)+' '+esc(d.note)+'</p>';
+  const H=(d.history||[]).filter(x=>x.value!=null&&x.spy!=null),last=H[H.length-1];
+  const col=!last||last.value>=last.spy?'#2BD67B':'#FF5C6C';
+  chart($('#ch'),[{name:'SPY',col:'#7C8BFF',w:1.6,pts:H.map(x=>x.spy),dates:H.map(x=>x.date)},{name:kind==='core'?'Core':'Port',col:col,w:2.6,pts:H.map(x=>x.value),dates:H.map(x=>x.date)}].reverse(),1000,$('#tip'),m);
+  const panels={
+    hold:()=>{const hs=d.holdings||[];if(!hs.length)return'<div class="dim">No positions yet. '+((d.pending||[]).length?'Orders are queued for the close.':'All cash.')+'</div>';
+      return hs.map(h=>{const ch=h.entry&&h.last?(h.last/h.entry-1)*100:null,val=h.last&&h.shares?h.last*h.shares:null;let bar,sub;
+        if(h.stop!=null){const room=h.last&&h.stop?(h.last-h.stop)/(h.entry-h.stop):1,f=Math.max(0,Math.min(1,room/1.5))*100,bc=room<.25?'var(--r)':room<.6?'var(--a)':'var(--g)';bar='<div class="bar"><i style="width:'+f+'%;background:'+bc+'"></i></div>';sub='entry '+m(h.entry)+' · last '+m(h.last)+' · stop '+m(h.stop);}
+        else{const wt=val&&d.value?val/d.value*100:0;bar='<div class="bar"><i style="width:'+wt+'%;background:var(--s)"></i></div>';sub='entry '+m(h.entry)+' · last '+m(h.last)+' · '+wt.toFixed(1)+'% of port'+(h.target!=null?' (target '+h.target+'%)':'');}
+        return '<div class="h"><div style="flex:1"><span class="mono">'+esc(h.ticker)+'</span> <span class="dim">'+(h.shares!=null?Number(h.shares).toFixed(4)+' sh':'')+'</span><div class="dim">'+sub+'</div>'+bar+'</div><div style="text-align:right;margin-left:10px"><div style="font-weight:700;color:'+c(ch)+'">'+p(ch,1)+'</div><div class="dim">'+m(val)+'</div></div></div>'}).join('')+'<div class="dim" style="margin-top:6px">Cash '+m(d.cash)+'</div>';},
+    sig:()=>kind==='core'
+      ?'<div class="dim" style="margin-bottom:6px">Bought once at the start, then held. No rebalancing, no stops.</div>'+(d.targets||[]).map(t=>'<div class="h"><span class="mono">'+esc(t.ticker)+'</span><span class="dim">'+esc(t.label||'')+'</span><span style="font-weight:700">'+t.weight+'%</span></div>').join('')
+      :'<div class="dim" style="margin-bottom:6px">3-month momentum. Eligible = above 50-day avg. Top 3 eligible are held.</div>'+(d.signals||[]).map((s,i)=>'<div class="h"><span class="mono">'+(i+1)+'. '+esc(s.ticker)+'</span><span style="color:'+c(s.mom3m)+';font-weight:700">'+p(s.mom3m,1)+'</span><span class="dim">'+(s.vs50==null?'':p(s.vs50,1)+' vs 50d')+'</span><span>'+(s.eligible?'✅':'⛔️')+'</span></div>').join(''),
+    log:()=>{const t=(d.trades||[]).slice().reverse();return t.length?t.map(x=>'<div class="h"><div><span class="mono" style="color:'+(x.action==='BUY'?'var(--g)':'var(--r)')+'">'+esc(x.action)+' '+esc(x.ticker)+'</span><div class="dim">'+esc(x.reason)+'</div></div><div style="text-align:right"><div>'+m(x.dollars)+'</div><div class="dim">'+esc(x.date)+(x.price?' @ '+m(x.price):'')+'</div></div></div>').join(''):'<div class="dim">No fills yet.</div>';}};
+  const show=k=>{document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.t===k));$('#panel').innerHTML=panels[k]();};
+  document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>show(t.dataset.t));show('hold');
+}
+function renderCompare(){
+  const A=D,B=D.core,app=$('#app');
+  const row=(nm,d,col)=>d?'<div class="h"><div><b style="color:'+col+'">'+nm+'</b><div class="dim">'+esc(d.strategy||'')+'</div></div><div style="text-align:right"><div style="font-weight:700">'+m(d.value)+'</div><div style="color:'+c(d.total_pct)+';font-weight:700">'+p(d.total_pct)+'</div><div class="dim">vs SPY '+p((d.total_pct||0)-(d.spy_total_pct||0))+'</div></div></div>':'';
+  // common window: dates present in both histories, rebased to 100 at the first shared close
+  const ha=(A.history||[]),hb=(B&&B.history)||[],bmap={};hb.forEach(x=>bmap[x.date]=x);
+  const both=ha.filter(x=>bmap[x.date]&&x.value!=null&&bmap[x.date].value!=null);
+  let tbl='';
+  if(both.length){const a0=both[0].value,b0=bmap[both[0].date].value,s0=both[0].spy,L=both[both.length-1];
+    const ra=(L.value/a0-1)*100,rb=(bmap[L.date].value/b0-1)*100,rs=(L.spy/s0-1)*100;
+    tbl='<div class="card"><div class="dim" style="margin-bottom:6px">Same window: '+esc(both[0].date)+' close to '+esc(L.date)+'</div>'+
+      '<div class="h"><span style="color:var(--g);font-weight:700">Momentum</span><span style="color:'+c(ra)+';font-weight:700">'+p(ra)+'</span></div>'+
+      '<div class="h"><span style="color:var(--c);font-weight:700">Core</span><span style="color:'+c(rb)+';font-weight:700">'+p(rb)+'</span></div>'+
+      '<div class="h"><span style="color:var(--s);font-weight:700">SPY</span><span style="color:'+c(rs)+';font-weight:700">'+p(rs)+'</span></div></div>';}
+  app.innerHTML='<h1>MOMENTUM VS CORE VS SPY</h1><div class="card">'+row('Momentum',A,'var(--g)')+row('Core',B,'var(--c)')+'</div>'+tbl+
+    '<div class="card"><svg id="ch" viewBox="0 0 340 170" preserveAspectRatio="none"></svg><div class="leg"><span><b style="color:#2BD67B">●</b> Momentum</span><span><b style="color:#4FC3F7">●</b> Core</span><span><b style="color:#7C8BFF">●</b> SPY</span></div><div class="tip" id="tip">Indexed to 100 at the first shared close</div></div>'+
+    '<p class="dim">Each portfolio is also measured against its own SPY buy on its start date. Price returns only, no dividends, no costs.</p>';
+  if(both.length){const a0=both[0].value,b0=bmap[both[0].date].value,s0=both[0].spy,ix=(v,b)=>v/b*100,dates=both.map(x=>x.date);
+    chart($('#ch'),[{name:'Mom',col:'#2BD67B',w:2.4,pts:both.map(x=>ix(x.value,a0)),dates},{name:'Core',col:'#4FC3F7',w:2.4,pts:both.map(x=>ix(bmap[x.date].value,b0)),dates},{name:'SPY',col:'#7C8BFF',w:1.5,pts:both.map(x=>ix(x.spy,s0)),dates}],100,$('#tip'),v=>v.toFixed(2));}
+  else chart($('#ch'),[{pts:[]}],100,$('#tip'),String);
+}
+function go(v){document.querySelectorAll('.sg').forEach(s=>s.classList.toggle('on',s.dataset.v===v));if(v==='compare')renderCompare();else renderOne(views[v],v);window.scrollTo(0,0);}
+document.querySelectorAll('.sg').forEach(s=>s.onclick=()=>go(s.dataset.v));
+go(${JSON.stringify(start)});
 </script></body></html>`;
 }
 
@@ -729,7 +846,7 @@ function lockRect(d) {
   const r1 = w.addStack();
   r1.layoutHorizontally();
   r1.centerAlignContent();
-  const tk = r1.addText("P1K");
+  const tk = r1.addText(d.tag || "P1K");
   tk.font = Font.heavyMonospacedSystemFont(12);
   tk.textColor = LW;
   r1.addSpacer(5);
@@ -818,7 +935,7 @@ function lockCircle(d) {
   ctx.drawTextInRect(`${Math.abs(total).toFixed(1)}%`, new Rect(0, cy - 6, size, 16));
   ctx.setFont(Font.mediumMonospacedSystemFont(8));
   ctx.setTextColor(LW2);
-  ctx.drawTextInRect((d.pending || []).length ? "MOVE" : "P1K", new Rect(0, cy + 9, size, 10));
+  ctx.drawTextInRect((d.pending || []).length ? "MOVE" : (d.tag || "P1K"), new Rect(0, cy + 9, size, 10));
 
   const w = new ListWidget();
   w.addAccessoryWidgetBackground = true;
@@ -837,7 +954,7 @@ function lockInline(d) {
   const pend = d.pending || [];
   const txt = pend.length
     ? `🔔 ${pend[0].action} ${pend[0].ticker}${pend.length > 1 ? " +" + (pend.length - 1) : ""} at close`
-    : `${arrowFor(total)} P1K ${money(d.value)} ${pct(total)} · SPY ${edge >= 0 ? "+" : ""}${edge.toFixed(1)}`;
+    : `${arrowFor(total)} ${d.tag || "P1K"} ${money(d.value)} ${pct(total)} · SPY ${edge >= 0 ? "+" : ""}${edge.toFixed(1)}`;
   const t = w.addText(txt);
   t.font = Font.mediumSystemFont(12);
   w.url = URLScheme.forRunningScript();
@@ -856,13 +973,16 @@ if (config.runsInWidget) {
     w = new ListWidget();
     const t = w.addText(fam && fam.startsWith("accessory") ? "P1K offline" : "Couldn't load data");
     t.font = Font.mediumSystemFont(12);
-  } else if (lockFamilies[fam]) w = lockFamilies[fam](data);
-  else w = fam === "small" ? small(data) : fam === "large" ? large(data) : medium(data);
+  } else {
+    const v = viewOf(data, VIEW);
+    if (lockFamilies[fam]) w = lockFamilies[fam](v);
+    else w = fam === "small" ? small(v) : fam === "large" ? large(v) : medium(v);
+  }
   w.url = URLScheme.forRunningScript();
   Script.setWidget(w);
 } else if (data) {
   const wv = new WebView();
-  await wv.loadHTML(dashboardHTML(data));
+  await wv.loadHTML(dashboardHTML(data, VIEW === "core" ? "core" : "momentum"));
   await wv.present(true);
 } else {
   const a = new Alert();

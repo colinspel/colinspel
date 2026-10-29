@@ -124,5 +124,69 @@
     }
   ],
   "next_event": "Thu 10/29: stop check only at the close. Next re-rank Mon 11/2.",
-  "note": "Hypothetical. Not financial advice. Fills at official closing prices."
+  "note": "Hypothetical. Not financial advice. Fills at official closing prices.",
+  "tag": "P1K",
+  "core": {
+    "name": "Core $1K",
+    "tag": "CORE",
+    "strategy": "60% VTI, 30% VXUS, 10% BND. Bought once, held.",
+    "test_window": "2026-10-29 to 2026-11-27",
+    "updated": "2026-10-28T21:30:00-04:00",
+    "status": "PENDING_FILLS",
+    "start_capital": 1000,
+    "value": 1000,
+    "spy_value": 1000,
+    "day_pct": 0,
+    "total_pct": 0,
+    "spy_total_pct": 0,
+    "cash": 1000,
+    "targets": [
+      {
+        "ticker": "VTI",
+        "weight": 60,
+        "label": "US total market"
+      },
+      {
+        "ticker": "VXUS",
+        "weight": 30,
+        "label": "International stocks"
+      },
+      {
+        "ticker": "BND",
+        "weight": 10,
+        "label": "US bonds"
+      }
+    ],
+    "holdings": [],
+    "history": [],
+    "trades": [],
+    "pending": [
+      {
+        "id": "2026-10-29-CORE-BUY-VTI",
+        "action": "BUY",
+        "ticker": "VTI",
+        "dollars": 600.0,
+        "when": "Thu 10/29 close",
+        "reason": "Core 60%: US total market"
+      },
+      {
+        "id": "2026-10-29-CORE-BUY-VXUS",
+        "action": "BUY",
+        "ticker": "VXUS",
+        "dollars": 300.0,
+        "when": "Thu 10/29 close",
+        "reason": "Core 30%: international stocks"
+      },
+      {
+        "id": "2026-10-29-CORE-BUY-BND",
+        "action": "BUY",
+        "ticker": "BND",
+        "dollars": 100.0,
+        "when": "Thu 10/29 close",
+        "reason": "Core 10%: US bonds"
+      }
+    ],
+    "next_event": "Buys VTI $600, VXUS $300, BND $100 at the Thu 10/29 close, then holds to Nov 27.",
+    "note": "Hypothetical. Not financial advice. Fills at official closing prices. Price returns only."
+  }
 }
