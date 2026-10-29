@@ -44,9 +44,12 @@ async function loadData() {
   }
 }
 
-// Which portfolio a widget shows: set the widget's Parameter to "core" for the
-// passive Core $1K; leave it empty for the momentum Paper $1K.
-const VIEW = ((typeof args !== "undefined" && args.widgetParameter) || "").trim().toLowerCase();
+// Which portfolio a widget shows (the widget's Parameter):
+//   empty or "compare": Momentum vs Core on medium/large (small and lock screen show Momentum)
+//   "momentum": Momentum only   "core": Core only
+const VIEW = (
+  (typeof args !== "undefined" && ((args.queryParameters && args.queryParameters.view) || args.widgetParameter)) || ""
+).trim().toLowerCase();
 
 function viewOf(data, which) {
   if (which === "core" && data && data.core) {
@@ -663,6 +666,207 @@ function large(d) {
   return w;
 }
 
+// ---------- compare: Momentum vs Core vs SPY on one widget ----------
+const CORE_COL = new Color("#4FC3F7");
+
+// Shared closes of both portfolios, indexed to 100 at the first shared close.
+function sharedSeries(data) {
+  const core = data.core || {};
+  const bmap = {};
+  (core.history || []).forEach((x) => { if (x.value != null) bmap[x.date] = x; });
+  const both = (data.history || []).filter((x) => x.value != null && x.spy != null && bmap[x.date]);
+  if (!both.length) return null;
+  const a0 = both[0].value, b0 = bmap[both[0].date].value, s0 = both[0].spy;
+  return {
+    from: both[0].date,
+    to: both[both.length - 1].date,
+    mom: both.map((x) => (x.value / a0) * 100),
+    core: both.map((x) => (bmap[x.date].value / b0) * 100),
+    spy: both.map((x) => (x.spy / s0) * 100),
+  };
+}
+
+function compareChart(ser, w, h) {
+  const ctx = new DrawContext();
+  ctx.size = new Size(w, h);
+  ctx.opaque = false;
+  ctx.respectScreenScale = true;
+  const n = ser ? ser.mom.length : 0;
+  if (n < 2) {
+    ctx.setStrokeColor(C.line);
+    ctx.setLineWidth(1.5);
+    const p = new Path();
+    p.move(new Point(0, h / 2));
+    p.addLine(new Point(w, h / 2));
+    ctx.addPath(p);
+    ctx.strokePath();
+    ctx.setTextColor(C.dim);
+    ctx.setFont(Font.mediumSystemFont(10));
+    ctx.setTextAlignedCenter();
+    ctx.drawTextInRect("race starts after Core's first close", new Rect(0, h / 2 + 4, w, 14));
+    return ctx.getImage();
+  }
+  const all = ser.mom.concat(ser.core, ser.spy, [100]);
+  let lo = Math.min(...all), hi = Math.max(...all);
+  if (hi - lo < 0.4) { hi += 0.2; lo -= 0.2; }
+  const pad = 4;
+  const X = (i) => pad + (i / (n - 1)) * (w - pad * 2);
+  const Y = (v) => pad + (1 - (v - lo) / (hi - lo)) * (h - pad * 2);
+  ctx.setStrokeColor(C.line);
+  ctx.setLineWidth(1);
+  const g = new Path();
+  g.move(new Point(pad, Y(100)));
+  g.addLine(new Point(w - pad, Y(100)));
+  ctx.addPath(g);
+  ctx.strokePath();
+  const draw = (vals, color, width) => {
+    const p = new Path();
+    vals.forEach((v, i) => (i ? p.addLine(new Point(X(i), Y(v))) : p.move(new Point(X(i), Y(v)))));
+    ctx.addPath(p);
+    ctx.setStrokeColor(color);
+    ctx.setLineWidth(width);
+    ctx.strokePath();
+    ctx.setFillColor(color);
+    ctx.fillEllipse(new Rect(X(n - 1) - 2.5, Y(vals[n - 1]) - 2.5, 5, 5));
+  };
+  draw(ser.spy, C.spy, 1.3);
+  draw(ser.core, CORE_COL, 2.2);
+  draw(ser.mom, C.green, 2.2);
+  return ctx.getImage();
+}
+
+function racerRow(stack, label, color, d, size) {
+  const r = stack.addStack();
+  r.layoutVertically();
+  const top = r.addStack();
+  top.layoutHorizontally();
+  top.centerAlignContent();
+  const dot = top.addStack();
+  dot.size = new Size(7, 7);
+  dot.cornerRadius = 3.5;
+  dot.backgroundColor = color;
+  top.addSpacer(5);
+  addText(top, label, size - 2, C.dim, "bold");
+  r.addSpacer(1);
+  const mid = r.addStack();
+  mid.layoutHorizontally();
+  mid.bottomAlignContent();
+  if (!d || d.status === "PENDING_FILLS") {
+    addText(mid, money(d ? d.value : null), size + 4, C.text, "bold");
+    mid.addSpacer(5);
+    addText(mid, "buys at next close", size - 2, C.amber, "bold");
+    return;
+  }
+  addText(mid, money(d.value), size + 4, C.text, "bold");
+  mid.addSpacer(5);
+  addText(mid, pct(d.total_pct), size - 1, tone(d.total_pct), "bold");
+  const e = (d.total_pct ?? 0) - (d.spy_total_pct ?? 0);
+  addText(r, `vs SPY ${pct(e)} · today ${pct(d.day_pct)}`, size - 3, C.dim, "regular");
+}
+
+function verdictLine(data, ser) {
+  const core = data.core;
+  if (core && core.status === "PENDING_FILLS") return { text: "Core buys VTI, VXUS, BND at Thu 10/29 close", color: C.amber };
+  if (!ser || ser.mom.length < 2) return { text: `Head to head starts from the ${ser ? ser.from : "first shared"} close`, color: C.dim };
+  const n = ser.mom.length - 1;
+  const m = ser.mom[n] - 100, c = ser.core[n] - 100, s = ser.spy[n] - 100;
+  const gap = Math.abs(m - c);
+  const lead = gap < 0.005 ? "Dead even" : m > c ? `Momentum ahead by ${gap.toFixed(2)} pts` : `Core ahead by ${gap.toFixed(2)} pts`;
+  return { text: `${lead} since ${ser.from} (SPY ${pct(s)})`, color: gap < 0.005 ? C.dim : m > c ? C.green : CORE_COL };
+}
+
+function compareHeader(w, data) {
+  const top = w.addStack();
+  top.layoutHorizontally();
+  top.centerAlignContent();
+  addText(top, "MOMENTUM VS CORE", 11, C.dim, "bold");
+  top.addSpacer();
+  addText(top, data._offline ? "offline" : ago(data.updated), 10, C.dim, "regular");
+}
+
+function compareMedium(data) {
+  const w = base();
+  const ser = sharedSeries(data);
+  compareHeader(w, data);
+  w.addSpacer(6);
+  const mid = w.addStack();
+  mid.layoutHorizontally();
+  const left = mid.addStack();
+  left.layoutVertically();
+  racerRow(left, "MOMENTUM", C.green, data, 12);
+  left.addSpacer(6);
+  racerRow(left, "CORE", CORE_COL, data.core, 12);
+  mid.addSpacer();
+  const ch = mid.addImage(compareChart(ser, 120, 78));
+  ch.imageSize = new Size(120, 78);
+  w.addSpacer();
+  const v = verdictLine(data, ser);
+  addText(w, v.text, 10, v.color, "bold");
+  return w;
+}
+
+function compareLarge(data) {
+  const w = base();
+  const ser = sharedSeries(data);
+  compareHeader(w, data);
+  w.addSpacer(8);
+  const row = w.addStack();
+  row.layoutHorizontally();
+  const a = row.addStack();
+  a.layoutVertically();
+  racerRow(a, "MOMENTUM", C.green, data, 13);
+  row.addSpacer();
+  const b = row.addStack();
+  b.layoutVertically();
+  racerRow(b, "CORE", CORE_COL, data.core, 13);
+  w.addSpacer(8);
+  const ch = w.addImage(compareChart(ser, 300, 92));
+  ch.imageSize = new Size(300, 92);
+  const legend = w.addStack();
+  addText(legend, "● Momentum", 9, C.green, "regular");
+  legend.addSpacer(8);
+  addText(legend, "● Core", 9, CORE_COL, "regular");
+  legend.addSpacer(8);
+  addText(legend, "● SPY", 9, C.spy, "regular");
+  legend.addSpacer();
+  addText(legend, "indexed to 100", 9, C.dim, "regular");
+  w.addSpacer(6);
+  const v = verdictLine(data, ser);
+  addText(w, v.text, 10, v.color, "bold");
+  w.addSpacer(8);
+  // holdings, one column per portfolio
+  const cols = w.addStack();
+  cols.layoutHorizontally();
+  const list = (stack, title, hs, pend) => {
+    const c = stack.addStack();
+    c.layoutVertically();
+    c.backgroundColor = C.card;
+    c.cornerRadius = 10;
+    c.setPadding(6, 8, 6, 8);
+    c.size = new Size(148, 0);
+    addText(c, title, 9, C.dim, "bold");
+    c.addSpacer(3);
+    if (!hs.length) {
+      addText(c, pend.length ? pend.map((p) => p.ticker).join(", ") + " at close" : "All cash", 10, pend.length ? C.amber : C.dim, "regular");
+      return;
+    }
+    hs.slice(0, 3).forEach((h) => {
+      const r = c.addStack();
+      r.layoutHorizontally();
+      addText(r, h.ticker, 11, C.text, "mono");
+      r.addSpacer();
+      const chg = h.entry && h.last ? (h.last / h.entry - 1) * 100 : null;
+      addText(r, pct(chg, 1), 10, tone(chg), "bold");
+    });
+  };
+  list(cols, "MOMENTUM HOLDINGS", data.holdings || [], data.pending || []);
+  cols.addSpacer();
+  list(cols, "CORE HOLDINGS", (data.core && data.core.holdings) || [], (data.core && data.core.pending) || []);
+  w.addSpacer();
+  addText(w, data.next_event || "", 9, C.dim, "regular");
+  return w;
+}
+
 function errorWidget() {
   const w = base();
   addText(w, "PAPER $1K", 11, C.dim, "bold");
@@ -974,15 +1178,20 @@ if (config.runsInWidget) {
     const t = w.addText(fam && fam.startsWith("accessory") ? "P1K offline" : "Couldn't load data");
     t.font = Font.mediumSystemFont(12);
   } else {
-    const v = viewOf(data, VIEW);
+    const compare = VIEW === "" || VIEW === "compare";
+    const v = viewOf(data, VIEW === "core" ? "core" : "momentum");
     if (lockFamilies[fam]) w = lockFamilies[fam](v);
-    else w = fam === "small" ? small(v) : fam === "large" ? large(v) : medium(v);
+    else if (fam === "small") w = small(v);
+    else if (compare && data.core) w = fam === "large" ? compareLarge(data) : compareMedium(data);
+    else w = fam === "large" ? large(v) : medium(v);
   }
-  w.url = URLScheme.forRunningScript();
+  const single = fam === "small" || (fam && fam.startsWith("accessory"));
+  const tab = VIEW === "core" ? "core" : VIEW === "momentum" || single ? "momentum" : "compare";
+  w.url = URLScheme.forRunningScript() + "?view=" + tab;
   Script.setWidget(w);
 } else if (data) {
   const wv = new WebView();
-  await wv.loadHTML(dashboardHTML(data, VIEW === "core" ? "core" : "momentum"));
+  await wv.loadHTML(dashboardHTML(data, VIEW === "core" ? "core" : VIEW === "momentum" ? "momentum" : "compare"));
   await wv.present(true);
 } else {
   const a = new Alert();

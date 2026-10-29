@@ -14,4 +14,4 @@ A month-long hypothetical $1,000 portfolio test (Oct 28 to Nov 27, 2026) benchma
 2. In Scriptable, tap +, paste `paper-1k-widget.js`, name it `Paper 1K`.
 3. Run it once in the app and allow notifications.
 4. Long-press the home screen, add a Scriptable widget (medium recommended), edit it, choose the `Paper 1K` script.
-5. Optional: add a second widget with the same script and set its Parameter to `core` to show Core $1K. Tapping any widget opens the dashboard with Momentum / Core / Compare tabs.
+5. Widget Parameter: leave empty (or `compare`) for Momentum vs Core vs SPY on one medium or large widget; `momentum` or `core` for one portfolio. Small and Lock Screen widgets show Momentum unless set to `core`. Tapping opens the dashboard on the matching tab.
