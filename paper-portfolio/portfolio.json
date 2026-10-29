@@ -1,7 +1,7 @@
 {
   "name": "Paper $1K",
   "test_window": "2026-10-28 to 2026-11-27",
-  "updated": "2026-10-28T16:30:00-04:00",
+  "updated": "2026-10-29T15:45:00-04:00",
   "status": "ACTIVE",
   "start_capital": 1000,
   "value": 1000.01,
@@ -123,7 +123,7 @@
       "eligible": false
     }
   ],
-  "next_event": "Thu 10/29: stop check only at the close. Next re-rank Mon 11/2.",
+  "next_event": "Thu 10/29: no momentum stops near (XLE ~68.25 vs 63.00, XLV ~183.52 vs 165.38, XLY ~115.80 vs 106.09). Core buys VTI/VXUS/BND at today's close. Next re-rank Mon 11/2.",
   "note": "Hypothetical. Not financial advice. Fills at official closing prices.",
   "tag": "P1K",
   "core": {
