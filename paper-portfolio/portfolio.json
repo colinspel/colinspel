@@ -1,35 +1,35 @@
 {
   "name": "Paper $1K",
   "test_window": "2026-10-28 to 2026-11-27",
-  "updated": "2026-10-29T15:45:00-04:00",
+  "updated": "2026-10-29T16:25:00-04:00",
   "status": "ACTIVE",
   "start_capital": 1000,
-  "value": 1000.01,
-  "spy_value": 1000.01,
-  "day_pct": 0.0,
-  "total_pct": 0.0,
-  "spy_total_pct": 0.0,
+  "value": 1011.5,
+  "spy_value": 996.26,
+  "day_pct": 1.15,
+  "total_pct": 1.15,
+  "spy_total_pct": -0.38,
   "cash": 0.0,
   "holdings": [
     {
       "ticker": "XLE",
       "shares": 4.8676,
       "entry": 68.48,
-      "last": 68.48,
+      "last": 68.71,
       "stop": 63.0
     },
     {
       "ticker": "XLV",
       "shares": 1.8543,
       "entry": 179.76,
-      "last": 179.76,
+      "last": 184.06,
       "stop": 165.38
     },
     {
       "ticker": "XLY",
       "shares": 2.8906,
       "entry": 115.32,
-      "last": 115.32,
+      "last": 116.15,
       "stop": 106.09
     }
   ],
@@ -38,6 +38,11 @@
       "date": "10/28",
       "value": 1000.01,
       "spy": 1000.01
+    },
+    {
+      "date": "10/29",
+      "value": 1011.5,
+      "spy": 996.26
     }
   ],
   "pending": [],
@@ -123,7 +128,7 @@
       "eligible": false
     }
   ],
-  "next_event": "Thu 10/29: no momentum stops near (XLE ~68.25 vs 63.00, XLV ~183.52 vs 165.38, XLY ~115.80 vs 106.09). Core buys VTI/VXUS/BND at today's close. Next re-rank Mon 11/2.",
+  "next_event": "Fri 10/30: stop check only (XLE 68.71 vs 63.00, XLV 184.06 vs 165.38, XLY 116.15 vs 106.09). Next re-rank Mon 11/2.",
   "note": "Hypothetical. Not financial advice. Fills at official closing prices.",
   "tag": "P1K",
   "core": {
@@ -131,15 +136,15 @@
     "tag": "CORE",
     "strategy": "60% VTI, 30% VXUS, 10% BND. Bought once, held.",
     "test_window": "2026-10-29 to 2026-11-27",
-    "updated": "2026-10-28T21:30:00-04:00",
-    "status": "PENDING_FILLS",
+    "updated": "2026-10-29T16:25:00-04:00",
+    "status": "ACTIVE",
     "start_capital": 1000,
-    "value": 1000,
-    "spy_value": 1000,
-    "day_pct": 0,
-    "total_pct": 0,
-    "spy_total_pct": 0,
-    "cash": 1000,
+    "value": 1000.0,
+    "spy_value": 1000.03,
+    "day_pct": 0.0,
+    "total_pct": 0.0,
+    "spy_total_pct": 0.0,
+    "cash": 0.0,
     "targets": [
       {
         "ticker": "VTI",
@@ -157,36 +162,64 @@
         "label": "US bonds"
       }
     ],
-    "holdings": [],
-    "history": [],
-    "trades": [],
-    "pending": [
+    "holdings": [
       {
-        "id": "2026-10-29-CORE-BUY-VTI",
+        "ticker": "VTI",
+        "shares": 1.586,
+        "entry": 378.305,
+        "last": 378.305,
+        "target": 60
+      },
+      {
+        "ticker": "VXUS",
+        "shares": 3.5864,
+        "entry": 83.65,
+        "last": 83.65,
+        "target": 30
+      },
+      {
+        "ticker": "BND",
+        "shares": 1.401,
+        "entry": 71.38,
+        "last": 71.38,
+        "target": 10
+      }
+    ],
+    "history": [
+      {
+        "date": "10/29",
+        "value": 1000.0,
+        "spy": 1000.03
+      }
+    ],
+    "trades": [
+      {
+        "date": "10/29",
         "action": "BUY",
         "ticker": "VTI",
         "dollars": 600.0,
-        "when": "Thu 10/29 close",
+        "price": 378.305,
         "reason": "Core 60%: US total market"
       },
       {
-        "id": "2026-10-29-CORE-BUY-VXUS",
+        "date": "10/29",
         "action": "BUY",
         "ticker": "VXUS",
         "dollars": 300.0,
-        "when": "Thu 10/29 close",
+        "price": 83.65,
         "reason": "Core 30%: international stocks"
       },
       {
-        "id": "2026-10-29-CORE-BUY-BND",
+        "date": "10/29",
         "action": "BUY",
         "ticker": "BND",
         "dollars": 100.0,
-        "when": "Thu 10/29 close",
+        "price": 71.38,
         "reason": "Core 10%: US bonds"
       }
     ],
-    "next_event": "Buys VTI $600, VXUS $300, BND $100 at the Thu 10/29 close, then holds to Nov 27.",
+    "pending": [],
+    "next_event": "Fri 10/30: hold, mark to market. No trades until Nov 27.",
     "note": "Hypothetical. Not financial advice. Fills at official closing prices. Price returns only."
   }
 }
