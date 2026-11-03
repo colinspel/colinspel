@@ -1,36 +1,36 @@
 {
   "name": "Paper $1K",
   "test_window": "2026-10-28 to 2026-11-27",
-  "updated": "2026-11-02T15:50:00-05:00",
+  "updated": "2026-11-03T15:45:00-05:00",
   "status": "ACTIVE",
   "start_capital": 1000,
-  "value": 1017.03,
-  "spy_value": 978.51,
-  "day_pct": 0.55,
-  "total_pct": 1.7,
-  "spy_total_pct": -2.15,
-  "cash": 0.0,
+  "value": 1011.34,
+  "spy_value": 973.81,
+  "day_pct": -0.56,
+  "total_pct": 1.13,
+  "spy_total_pct": -2.62,
+  "cash": 4.39,
   "holdings": [
     {
       "ticker": "XLE",
       "shares": 4.8676,
       "entry": 68.48,
-      "last": 70.0,
+      "last": 67.27,
       "stop": 63.0
     },
     {
       "ticker": "XLV",
       "shares": 1.8543,
       "entry": 179.76,
-      "last": 184.84,
+      "last": 184.65,
       "stop": 165.38
     },
     {
-      "ticker": "XLY",
-      "shares": 2.8906,
-      "entry": 115.32,
-      "last": 115.39,
-      "stop": 106.09
+      "ticker": "XLP",
+      "shares": 3.7106,
+      "entry": 90.85,
+      "last": 90.85,
+      "stop": 83.58
     }
   ],
   "history": [
@@ -48,6 +48,11 @@
       "date": "10/30",
       "value": 1017.03,
       "spy": 978.51
+    },
+    {
+      "date": "11/02",
+      "value": 1011.34,
+      "spy": 973.81
     }
   ],
   "pending": [],
@@ -75,65 +80,81 @@
       "dollars": 333.34,
       "price": 115.32,
       "reason": "Rank 3: +5.5% over 3 months, above 50-day avg"
+    },
+    {
+      "date": "11/02",
+      "action": "SELL",
+      "ticker": "XLY",
+      "dollars": 341.5,
+      "price": 118.14,
+      "reason": "Weekly re-rank: fell to rank 4 (-0.13% over 63 sessions)"
+    },
+    {
+      "date": "11/02",
+      "action": "BUY",
+      "ticker": "XLP",
+      "dollars": 337.11,
+      "price": 90.85,
+      "reason": "Weekly re-rank: rank 3, +6.42% over 63 sessions, 7.3% above 50-day avg"
     }
   ],
   "signals": [
     {
       "ticker": "XLE",
-      "mom3m": 14.4,
-      "vs50": 5.6,
+      "mom3m": 14.95,
+      "vs50": 3.49,
       "eligible": true
     },
     {
       "ticker": "XLV",
-      "mom3m": 10.2,
-      "vs50": 4.4,
-      "eligible": true
-    },
-    {
-      "ticker": "XLK",
-      "mom3m": 7.7,
-      "vs50": -0.03,
-      "eligible": false
-    },
-    {
-      "ticker": "XLY",
-      "mom3m": 5.5,
-      "vs50": 1.9,
+      "mom3m": 13.91,
+      "vs50": 7.1,
       "eligible": true
     },
     {
       "ticker": "XLP",
-      "mom3m": 3.6,
-      "vs50": 3.2,
+      "mom3m": 6.42,
+      "vs50": 7.26,
+      "eligible": true
+    },
+    {
+      "ticker": "XLY",
+      "mom3m": -0.13,
+      "vs50": 4.33,
+      "eligible": true
+    },
+    {
+      "ticker": "XLF",
+      "mom3m": -0.59,
+      "vs50": 2.85,
+      "eligible": true
+    },
+    {
+      "ticker": "XLU",
+      "mom3m": -0.97,
+      "vs50": 4.58,
       "eligible": true
     },
     {
       "ticker": "GLD",
-      "mom3m": 0.1,
-      "vs50": null,
+      "mom3m": -3.37,
+      "vs50": -7.13,
       "eligible": false
     },
     {
-      "ticker": "XLF",
-      "mom3m": -0.8,
-      "vs50": null,
-      "eligible": false
-    },
-    {
-      "ticker": "XLU",
-      "mom3m": -7.4,
-      "vs50": null,
+      "ticker": "XLK",
+      "mom3m": -6.77,
+      "vs50": -8.06,
       "eligible": false
     },
     {
       "ticker": "XLI",
-      "mom3m": -8.1,
-      "vs50": null,
+      "mom3m": -8.93,
+      "vs50": -0.43,
       "eligible": false
     }
   ],
-  "next_event": "Mon 11/2 close: re-rank est. no change (XLE, XLV, XLY stay top 3); stops not near (XLE 63.00, XLV 165.38, XLY 106.09).",
+  "next_event": "Tue 11/3 close: stop check only, none near (XLE ~66.8 vs 63.00, XLV ~183.8 vs 165.38, XLP ~89.3 vs 83.58). Next re-rank Mon 11/9 close.",
   "note": "Hypothetical. Not financial advice. Fills at official closing prices.",
   "tag": "P1K",
   "core": {
@@ -141,14 +162,14 @@
     "tag": "CORE",
     "strategy": "60% VTI, 30% VXUS, 10% BND. Bought once, held.",
     "test_window": "2026-10-29 to 2026-11-27",
-    "updated": "2026-10-30T16:25:00-04:00",
+    "updated": "2026-11-02T16:25:00-05:00",
     "status": "ACTIVE",
     "start_capital": 1000,
-    "value": 985.12,
-    "spy_value": 982.21,
-    "day_pct": -1.49,
-    "total_pct": -1.49,
-    "spy_total_pct": -1.78,
+    "value": 982.87,
+    "spy_value": 977.49,
+    "day_pct": -0.23,
+    "total_pct": -1.71,
+    "spy_total_pct": -2.25,
     "cash": 0.0,
     "targets": [
       {
@@ -172,21 +193,21 @@
         "ticker": "VTI",
         "shares": 1.586,
         "entry": 378.305,
-        "last": 371.66,
+        "last": 369.95,
         "target": 60
       },
       {
         "ticker": "VXUS",
         "shares": 3.5864,
         "entry": 83.65,
-        "last": 82.37,
+        "last": 82.59,
         "target": 30
       },
       {
         "ticker": "BND",
         "shares": 1.401,
         "entry": 71.38,
-        "last": 71.56,
+        "last": 71.33,
         "target": 10
       }
     ],
@@ -200,6 +221,11 @@
         "date": "10/30",
         "value": 985.12,
         "spy": 982.21
+      },
+      {
+        "date": "11/02",
+        "value": 982.87,
+        "spy": 977.49
       }
     ],
     "trades": [
