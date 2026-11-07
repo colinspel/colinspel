@@ -15,6 +15,7 @@ I turn sports data into tools that coaches, scouts and fans can actually use, an
 |---|---|
 | [Model Scoreboard](https://github.com/colinspel/colinspel/tree/main/model-scoreboard) | My Premier League (Dixon-Coles) and NFL prediction models against the betting market, on every pick logged before kickoff since Oct 29. Both sit inside noise of the market so far (90% intervals cross zero) · [open it](https://colinspel.github.io/model-scoreboard/) |
 | [Decision Value Added](https://github.com/colinspel/colinspel/tree/main/decision-value-added) | Grades 322,169 on-ball *decisions* (pass, carry or shoot), not outcomes, from StatsBomb 360 freeze frames: the value of the option a player chose minus what a typical player picks from the same menu |
+| [Ghost Games](https://github.com/colinspel/colinspel/tree/main/ghost-games) | Empty COVID-era stadiums as a natural experiment: 2,234 matches without crowds vs 14,056 with them, controlling for team strength and the trend in home advantage. The home edge in yellow cards fell 94%, the home points edge 63%, and the card edge returned with the fans · [read it](https://colinspel.github.io/ghost-games/) |
 
 ---
 

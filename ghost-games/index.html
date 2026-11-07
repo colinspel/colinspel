@@ -1,0 +1,482 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ghost Games</title><meta name="description" content="What empty stadiums did to home advantage in Europe's top five leagues.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+:root{--page:#0a0a0c;--surface:#141518;--surface2:#1b1c20;--ink:#eeebe4;--ink2:#b9b5ac;--muted:#86837c;--grid:#26272b;--axis:#3b3c41;
+--border:rgba(255,255,255,.09);--crowd:#2ea8e6;--empty:#ff7a1a;--shade:rgba(255,122,26,.13);--trans:#5a5a5f;--chip:#1f2024;--blood:#e5332a;--bone:#e8e2d4;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background-color:var(--page);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cpath d='M130.0 130.0L277.0 159.8M130.0 130.0L242.4 229.3M130.0 130.0L177.7 272.2M130.0 130.0L100.2 277.0M130.0 130.0L30.7 242.4M130.0 130.0L-12.2 177.7M130.0 130.0L-17.0 100.2M130.0 130.0L17.6 30.7M130.0 130.0L82.3 -12.2M130.0 130.0L159.8 -17.0M130.0 130.0L229.3 17.6M130.0 130.0L272.2 82.3M154.5 135.0Q149.2 139.6 148.7 146.6Q141.9 147.9 137.9 153.7Q131.3 151.5 125.0 154.5Q120.4 149.2 113.4 148.7Q112.1 141.9 106.3 137.9Q108.5 131.3 105.5 125.0Q110.8 120.4 111.3 113.4Q118.1 112.1 122.1 106.3Q128.7 108.5 135.0 105.5Q139.6 110.8 146.6 111.3Q147.9 118.1 153.7 122.1Q151.5 128.7 154.5 135.0M179.0 139.9Q168.5 149.2 167.5 163.1Q153.8 165.8 145.9 177.4Q132.7 172.9 120.1 179.0Q110.8 168.5 96.9 167.5Q94.2 153.8 82.6 145.9Q87.1 132.7 81.0 120.1Q91.5 110.8 92.5 96.9Q106.2 94.2 114.1 82.6Q127.3 87.1 139.9 81.0Q149.2 91.5 163.1 92.5Q165.8 106.2 177.4 114.1Q172.9 127.3 179.0 139.9M203.5 144.9Q187.7 158.7 186.2 179.7Q165.6 183.8 153.8 201.1Q134.0 194.4 115.1 203.5Q101.3 187.7 80.3 186.2Q76.2 165.6 58.9 153.8Q65.6 134.0 56.5 115.1Q72.3 101.3 73.8 80.3Q94.4 76.2 106.2 58.9Q126.0 65.6 144.9 56.5Q158.7 72.3 179.7 73.8Q183.8 94.4 201.1 106.2Q194.4 126.0 203.5 144.9M228.0 149.9Q207.0 168.3 204.9 196.2Q177.5 201.7 161.8 224.8Q135.3 215.8 110.1 228.0Q91.7 207.0 63.8 204.9Q58.3 177.5 35.2 161.8Q44.2 135.3 32.0 110.1Q53.0 91.7 55.1 63.8Q82.5 58.3 98.2 35.2Q124.7 44.2 149.9 32.0Q168.3 53.0 196.2 55.1Q201.7 82.5 224.8 98.2Q215.8 124.7 228.0 149.9M252.5 154.8Q226.2 177.9 223.7 212.8Q189.4 219.6 169.7 248.5Q136.6 237.3 105.2 252.5Q82.1 226.2 47.2 223.7Q40.4 189.4 11.5 169.7Q22.7 136.6 7.5 105.2Q33.8 82.1 36.3 47.2Q70.6 40.4 90.3 11.5Q123.4 22.7 154.8 7.5Q177.9 33.8 212.8 36.3Q219.6 70.6 248.5 90.3Q237.3 123.4 252.5 154.8M277.0 159.8Q245.5 187.5 242.4 229.3Q201.3 237.5 177.7 272.2Q138.0 258.8 100.2 277.0Q72.5 245.5 30.7 242.4Q22.5 201.3 -12.2 177.7Q1.2 138.0 -17.0 100.2Q14.5 72.5 17.6 30.7Q58.7 22.5 82.3 -12.2Q122.0 1.2 159.8 -17.0Q187.5 14.5 229.3 17.6Q237.5 58.7 272.2 82.3Q258.8 122.0 277.0 159.8' fill='none' stroke='%23ffffff' stroke-width='0.7'/%3E%3C/svg%3E");background-size:260px 260px;color:var(--ink);
+font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(900px 500px at 50% -120px,rgba(46,168,230,.16),transparent 70%),linear-gradient(rgba(10,10,12,.82),rgba(10,10,12,.92));pointer-events:none;z-index:0}
+main{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:0 16px 64px}
+.collar{height:6px;background:linear-gradient(90deg,var(--crowd) 0 34%,var(--bone) 34% 66%,var(--empty) 66%);margin:0 -16px}
+.hero{position:relative;padding:26px 0 8px;overflow:hidden}
+.hero .corner{position:absolute;right:-16px;top:0;width:190px;height:190px;color:rgba(232,226,212,.28);pointer-events:none}
+.hero .bats{display:block;width:100%;max-width:360px;height:auto;fill:#050506;stroke:rgba(232,226,212,.55);stroke-width:.6;margin:10px 0 0;position:relative}
+.kicker{font:400 1.05rem/1 "Bebas Neue","Avenir Next Condensed","Arial Narrow",sans-serif;color:var(--empty);letter-spacing:.06em;margin:0;position:relative}
+h1{font:400 2.75rem/.98 "Bebas Neue","Avenir Next Condensed","Arial Narrow",sans-serif;letter-spacing:.01em;margin:.25em 0 .35em;color:var(--bone);position:relative;max-width:15ch}
+h1 em{font-style:normal;color:var(--crowd)}
+h2{font:400 1.7rem/1.05 "Bebas Neue","Avenir Next Condensed","Arial Narrow",sans-serif;letter-spacing:.03em;color:var(--bone);margin:2.1em 0 .35em;padding-top:.75em;border-top:1px solid var(--border);position:relative}
+h2::before{content:"";position:absolute;top:-1px;left:0;width:56px;height:3px;background:var(--empty)}
+h3{font-size:1rem;margin:1.3em 0 .2em;color:var(--bone)}
+.byline{color:var(--ink2);font-size:.86rem;margin:0}p{margin:.6em 0}.lede{font-size:1.06rem}
+.halloween{background:linear-gradient(135deg,rgba(255,122,26,.16),rgba(255,122,26,.04));border:1px solid rgba(255,122,26,.35);border-radius:12px;padding:12px 14px;margin:14px 0 10px;font-size:.98rem}
+.halloween b{color:var(--empty)}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0}
+.tile{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 8px 10px;text-align:center;position:relative;overflow:hidden}
+.tile::after{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cpath d='M130.0 130.0L277.0 159.8M130.0 130.0L242.4 229.3M130.0 130.0L177.7 272.2M130.0 130.0L100.2 277.0M130.0 130.0L30.7 242.4M130.0 130.0L-12.2 177.7M130.0 130.0L-17.0 100.2M130.0 130.0L17.6 30.7M130.0 130.0L82.3 -12.2M130.0 130.0L159.8 -17.0M130.0 130.0L229.3 17.6M130.0 130.0L272.2 82.3M154.5 135.0Q149.2 139.6 148.7 146.6Q141.9 147.9 137.9 153.7Q131.3 151.5 125.0 154.5Q120.4 149.2 113.4 148.7Q112.1 141.9 106.3 137.9Q108.5 131.3 105.5 125.0Q110.8 120.4 111.3 113.4Q118.1 112.1 122.1 106.3Q128.7 108.5 135.0 105.5Q139.6 110.8 146.6 111.3Q147.9 118.1 153.7 122.1Q151.5 128.7 154.5 135.0M179.0 139.9Q168.5 149.2 167.5 163.1Q153.8 165.8 145.9 177.4Q132.7 172.9 120.1 179.0Q110.8 168.5 96.9 167.5Q94.2 153.8 82.6 145.9Q87.1 132.7 81.0 120.1Q91.5 110.8 92.5 96.9Q106.2 94.2 114.1 82.6Q127.3 87.1 139.9 81.0Q149.2 91.5 163.1 92.5Q165.8 106.2 177.4 114.1Q172.9 127.3 179.0 139.9M203.5 144.9Q187.7 158.7 186.2 179.7Q165.6 183.8 153.8 201.1Q134.0 194.4 115.1 203.5Q101.3 187.7 80.3 186.2Q76.2 165.6 58.9 153.8Q65.6 134.0 56.5 115.1Q72.3 101.3 73.8 80.3Q94.4 76.2 106.2 58.9Q126.0 65.6 144.9 56.5Q158.7 72.3 179.7 73.8Q183.8 94.4 201.1 106.2Q194.4 126.0 203.5 144.9M228.0 149.9Q207.0 168.3 204.9 196.2Q177.5 201.7 161.8 224.8Q135.3 215.8 110.1 228.0Q91.7 207.0 63.8 204.9Q58.3 177.5 35.2 161.8Q44.2 135.3 32.0 110.1Q53.0 91.7 55.1 63.8Q82.5 58.3 98.2 35.2Q124.7 44.2 149.9 32.0Q168.3 53.0 196.2 55.1Q201.7 82.5 224.8 98.2Q215.8 124.7 228.0 149.9M252.5 154.8Q226.2 177.9 223.7 212.8Q189.4 219.6 169.7 248.5Q136.6 237.3 105.2 252.5Q82.1 226.2 47.2 223.7Q40.4 189.4 11.5 169.7Q22.7 136.6 7.5 105.2Q33.8 82.1 36.3 47.2Q70.6 40.4 90.3 11.5Q123.4 22.7 154.8 7.5Q177.9 33.8 212.8 36.3Q219.6 70.6 248.5 90.3Q237.3 123.4 252.5 154.8M277.0 159.8Q245.5 187.5 242.4 229.3Q201.3 237.5 177.7 272.2Q138.0 258.8 100.2 277.0Q72.5 245.5 30.7 242.4Q22.5 201.3 -12.2 177.7Q1.2 138.0 -17.0 100.2Q14.5 72.5 17.6 30.7Q58.7 22.5 82.3 -12.2Q122.0 1.2 159.8 -17.0Q187.5 14.5 229.3 17.6Q237.5 58.7 272.2 82.3Q258.8 122.0 277.0 159.8' fill='none' stroke='%23ffffff' stroke-width='0.7'/%3E%3C/svg%3E") center/180px;opacity:.12;pointer-events:none}
+.tile .v{font:400 2.25rem/1 "Bebas Neue","Avenir Next Condensed","Arial Narrow",sans-serif;color:var(--blood);-webkit-text-stroke:1px var(--bone);letter-spacing:.02em;position:relative}
+.tile .k{font-size:.74rem;color:var(--ink2);margin-top:6px;line-height:1.3;position:relative}
+figure{margin:14px 0;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 10px 10px}
+figcaption{font-size:.84rem;color:var(--ink2);margin-top:6px}.fig-title{font-weight:650;font-size:.95rem;margin:0 0 6px;color:var(--bone)}
+.legend{display:flex;gap:14px;font-size:.8rem;color:var(--ink2);margin:0 0 6px;flex-wrap:wrap}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:-1px;margin-right:5px}
+.legend.sb{margin-top:6px}.legend i.sw{border-radius:2px}.legend i.seg-a{background:var(--empty)}.legend i.seg-b{background:var(--trans)}.legend i.seg-c{background:var(--crowd)}
+svg.chart{width:100%;height:auto;display:block}
+.grid{stroke:var(--grid);stroke-width:1}.zero{stroke:var(--axis);stroke-width:1.5}
+.tick{fill:var(--muted);font-size:10px;font-variant-numeric:tabular-nums}.axis-title{fill:var(--muted);font-size:10px}
+.note{fill:var(--muted);font-size:9.5px}.rlabel{fill:var(--ink);font-size:11.5px}.rlabel.small{font-size:10.5px;fill:var(--ink2)}.muted{fill:var(--muted)}
+.vlabel{fill:var(--ink2);font-size:11px;font-variant-numeric:tabular-nums}.inbar{fill:#0a0a0c;font-size:12px;font-weight:700}
+.shade{fill:var(--shade)}.shade-lab{fill:var(--empty);font-size:10px;font-weight:600}
+.trend{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
+.dot-c{fill:var(--crowd)}.dot-e{fill:var(--empty)}.dot-t{fill:var(--surface);stroke:var(--trans);stroke-width:2}
+.ring{stroke:var(--surface);stroke-width:2}line.ci{stroke:var(--empty);stroke-width:2;stroke-linecap:round;opacity:.6}
+.db{stroke:var(--axis);stroke-width:2.5}.seg-a{fill:var(--empty)}.seg-b{fill:var(--trans)}.seg-c{fill:var(--crowd)}
+.seg-b+.inbar{fill:var(--bone)}
+.hit{fill:transparent;cursor:pointer}
+.toggle{display:flex;background:var(--chip);border:1px solid var(--border);border-radius:999px;padding:4px;margin:4px 0 12px;width:max-content}
+.toggle button{font:inherit;font-size:.9rem;font-weight:600;border:0;border-radius:999px;padding:7px 16px;background:transparent;color:var(--ink2);cursor:pointer}
+.toggle button.on{background:var(--crowd);color:#04131c}
+.toggle button.on[data-m="empty"]{background:var(--empty);color:#1a0b02}
+.trow{display:grid;grid-template-columns:110px 1fr;gap:4px 10px;align-items:center;margin:10px 0}
+.trow .tlab{font-size:.85rem;color:var(--ink2);grid-row:span 2}
+.tbar{position:relative;height:18px;display:flex;align-items:center;gap:6px}
+.tbar span{display:block;height:14px;border-radius:0 4px 4px 0;width:calc(var(--w,var(--c)) * 78%);transition:width .7s cubic-bezier(.3,.8,.3,1)}
+.bar-h{background:var(--bone)}.bar-a{background:var(--axis)}
+.card[data-mode="empty"] .tbar span{--w:var(--e)}
+.tbar .v{font-size:.82rem;font-variant-numeric:tabular-nums}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px}
+.card .lg{font-size:.78rem;color:var(--ink2);display:flex;gap:14px;margin-top:4px}
+.card .lg i{display:inline-block;width:12px;height:8px;border-radius:2px;margin-right:5px;vertical-align:0}
+table{width:100%;border-collapse:collapse;font-size:.86rem;margin:10px 0;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+th,td{padding:7px 8px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+th{font-size:.76rem;color:var(--ink2);font-weight:600}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+span.ci,p.ci{color:var(--muted);font-size:.76rem}
+.qa h3{margin-top:1.2em}
+#tip{position:fixed;pointer-events:none;background:var(--bone);color:#0a0a0c;font-size:.8rem;line-height:1.35;padding:6px 8px;border-radius:6px;display:none;z-index:9;max-width:240px}
+footer{margin-top:40px;font-size:.8rem;color:var(--ink2);border-top:1px solid var(--border);padding-top:12px}
+@media (max-width:380px){h1{font-size:2.35rem}.tile .v{font-size:1.95rem}}
+</style></head><body>
+<main>
+<div class="collar"></div>
+<header class="hero"><svg class="corner" viewBox="0 0 220 220" aria-hidden="true"><path d="M220.0 0.0L450.0 0.0M220.0 0.0L427.2 99.8M220.0 0.0L363.4 179.8M220.0 0.0L271.2 224.2M220.0 0.0L168.8 224.2M220.0 0.0L76.6 179.8M220.0 0.0L12.8 99.8M220.0 0.0L-10.0 0.0M220.0 0.0L12.8 -99.8M220.0 0.0L76.6 -179.8M220.0 0.0L168.8 -224.2M220.0 0.0L271.2 -224.2M220.0 0.0L363.4 -179.8M220.0 0.0L427.2 -99.8M252.9 0.0Q247.5 6.3 249.6 14.3Q242.1 17.6 240.5 25.7Q232.3 25.5 227.3 32.0Q220.0 28.3 212.7 32.0Q207.7 25.5 199.5 25.7Q197.9 17.6 190.4 14.3Q192.5 6.3 187.1 0.0Q192.5 -6.3 190.4 -14.3Q197.9 -17.6 199.5 -25.7Q207.7 -25.5 212.7 -32.0Q220.0 -28.3 227.3 -32.0Q232.3 -25.5 240.5 -25.7Q242.1 -17.6 249.6 -14.3Q247.5 -6.3 252.9 0.0M285.7 0.0Q275.1 12.6 279.2 28.5Q264.2 35.2 261.0 51.4Q244.5 50.9 234.6 64.1Q220.0 56.5 205.4 64.1Q195.5 50.9 179.0 51.4Q175.8 35.2 160.8 28.5Q164.9 12.6 154.3 0.0Q164.9 -12.6 160.8 -28.5Q175.8 -35.2 179.0 -51.4Q195.5 -50.9 205.4 -64.1Q220.0 -56.5 234.6 -64.1Q244.5 -50.9 261.0 -51.4Q264.2 -35.2 279.2 -28.5Q275.1 -12.6 285.7 0.0M318.6 0.0Q302.6 18.9 308.8 42.8Q286.3 52.9 281.5 77.1Q256.8 76.4 241.9 96.1Q220.0 84.8 198.1 96.1Q183.2 76.4 158.5 77.1Q153.7 52.9 131.2 42.8Q137.4 18.9 121.4 0.0Q137.4 -18.9 131.2 -42.8Q153.7 -52.9 158.5 -77.1Q183.2 -76.4 198.1 -96.1Q220.0 -84.8 241.9 -96.1Q256.8 -76.4 281.5 -77.1Q286.3 -52.9 308.8 -42.8Q302.6 -18.9 318.6 0.0M351.4 0.0Q330.2 25.2 338.4 57.0Q308.4 70.5 301.9 102.8Q269.0 101.8 249.2 128.1Q220.0 113.0 190.8 128.1Q171.0 101.8 138.1 102.8Q131.6 70.5 101.6 57.0Q109.8 25.2 88.6 0.0Q109.8 -25.2 101.6 -57.0Q131.6 -70.5 138.1 -102.8Q171.0 -101.8 190.8 -128.1Q220.0 -113.0 249.2 -128.1Q269.0 -101.8 301.9 -102.8Q308.4 -70.5 338.4 -57.0Q330.2 -25.2 351.4 0.0M384.3 0.0Q357.7 31.4 368.0 71.3Q330.5 88.1 322.4 128.4Q281.3 127.3 256.6 160.2Q220.0 141.3 183.4 160.2Q158.7 127.3 117.6 128.4Q109.5 88.1 72.0 71.3Q82.3 31.4 55.7 0.0Q82.3 -31.4 72.0 -71.3Q109.5 -88.1 117.6 -128.4Q158.7 -127.3 183.4 -160.2Q220.0 -141.3 256.6 -160.2Q281.3 -127.3 322.4 -128.4Q330.5 -88.1 368.0 -71.3Q357.7 -31.4 384.3 0.0M417.1 0.0Q385.3 37.7 397.6 85.5Q352.6 105.7 342.9 154.1Q293.6 152.8 263.9 192.2Q220.0 169.5 176.1 192.2Q146.4 152.8 97.1 154.1Q87.4 105.7 42.4 85.5Q54.7 37.7 22.9 0.0Q54.7 -37.7 42.4 -85.5Q87.4 -105.7 97.1 -154.1Q146.4 -152.8 176.1 -192.2Q220.0 -169.5 263.9 -192.2Q293.6 -152.8 342.9 -154.1Q352.6 -105.7 397.6 -85.5Q385.3 -37.7 417.1 0.0M450.0 0.0Q412.8 44.0 427.2 99.8Q374.6 123.3 363.4 179.8Q305.8 178.2 271.2 224.2Q220.0 197.8 168.8 224.2Q134.2 178.2 76.6 179.8Q65.4 123.3 12.8 99.8Q27.2 44.0 -10.0 0.0Q27.2 -44.0 12.8 -99.8Q65.4 -123.3 76.6 -179.8Q134.2 -178.2 168.8 -224.2Q220.0 -197.8 271.2 -224.2Q305.8 -178.2 363.4 -179.8Q374.6 -123.3 427.2 -99.8Q412.8 -44.0 450.0 0.0" fill="none" stroke="currentColor" stroke-width="1"/><line x1="150" y1="0" x2="150" y2="96" stroke="currentColor" stroke-width="1"/><circle cx="150" cy="102" r="6" fill="currentColor"/></svg>
+<p class="kicker">Ghost Games · Europe's top five leagues</p>
+<svg class="bats" viewBox="0 0 360 90" aria-hidden="true"><g transform="translate(10,46) scale(1.5) rotate(-8 16 6)"><path d="M0 6 C4 1 8 1 10 5 C11 2 13 0 15 1 C14 3 15 5 16 6 C17 5 18 3 17 1 C19 0 21 2 22 5 C24 1 28 1 32 6 C28 5 26 7 25 10 C23 8 21 8 20 10 C19 9 17 9 16 11 C15 9 13 9 12 10 C11 8 9 8 7 10 C6 7 4 5 0 6Z"/></g><g transform="translate(78,12) scale(1.0) rotate(10 16 6)"><path d="M0 6 C4 1 8 1 10 5 C11 2 13 0 15 1 C14 3 15 5 16 6 C17 5 18 3 17 1 C19 0 21 2 22 5 C24 1 28 1 32 6 C28 5 26 7 25 10 C23 8 21 8 20 10 C19 9 17 9 16 11 C15 9 13 9 12 10 C11 8 9 8 7 10 C6 7 4 5 0 6Z"/></g><g transform="translate(134,50) scale(0.75) rotate(-4 16 6)"><path d="M0 6 C4 1 8 1 10 5 C11 2 13 0 15 1 C14 3 15 5 16 6 C17 5 18 3 17 1 C19 0 21 2 22 5 C24 1 28 1 32 6 C28 5 26 7 25 10 C23 8 21 8 20 10 C19 9 17 9 16 11 C15 9 13 9 12 10 C11 8 9 8 7 10 C6 7 4 5 0 6Z"/></g><g transform="translate(262,24) scale(1.25) rotate(6 16 6)"><path d="M0 6 C4 1 8 1 10 5 C11 2 13 0 15 1 C14 3 15 5 16 6 C17 5 18 3 17 1 C19 0 21 2 22 5 C24 1 28 1 32 6 C28 5 26 7 25 10 C23 8 21 8 20 10 C19 9 17 9 16 11 C15 9 13 9 12 10 C11 8 9 8 7 10 C6 7 4 5 0 6Z"/></g><g transform="translate(318,58) scale(0.85) rotate(-12 16 6)"><path d="M0 6 C4 1 8 1 10 5 C11 2 13 0 15 1 C14 3 15 5 16 6 C17 5 18 3 17 1 C19 0 21 2 22 5 C24 1 28 1 32 6 C28 5 26 7 25 10 C23 8 21 8 20 10 C19 9 17 9 16 11 C15 9 13 9 12 10 C11 8 9 8 7 10 C6 7 4 5 0 6Z"/></g><g transform="translate(212,6) scale(0.7) rotate(4 16 6)"><path d="M0 6 C4 1 8 1 10 5 C11 2 13 0 15 1 C14 3 15 5 16 6 C17 5 18 3 17 1 C19 0 21 2 22 5 C24 1 28 1 32 6 C28 5 26 7 25 10 C23 8 21 8 20 10 C19 9 17 9 16 11 C15 9 13 9 12 10 C11 8 9 8 7 10 C6 7 4 5 0 6Z"/></g></svg>
+<h1>Take the fans away and the referee stops <em>favouring</em> the home team.</h1>
+<p class="byline">Colin Spelman · 2,234 matches played without crowds, against 14,056 with them · November 2026</p>
+</header>
+<p class="halloween"><b>Halloween just passed,</b> and I spent it with ghosts of my own: the 2,234 top-flight matches Europe played in empty stadiums.
+Silent stands, echoing shouts, nobody whistling the referee. Here is what that did to home advantage.</p>
+<p class="lede">For about 13 months in 2020 and 2021, top-flight football in England, Spain, Italy, Germany and France was played in empty stadiums.
+That is the closest the sport will get to a controlled experiment on what crowds do. The answer: the referee's home lean vanished almost completely,
+home teams lost over a third of their shots-on-target edge, and 63% of home advantage in points went with it. When fans came back, so did the referee's lean.</p>
+<div class="tiles">
+<div class="tile"><div class="v">−94%</div><div class="k">Home edge in yellow cards</div></div>
+<div class="tile"><div class="v">−63%</div><div class="k">Home edge in points</div></div>
+<div class="tile"><div class="v">−36%</div><div class="k">Home edge in shots on target</div></div>
+</div>
+
+<h2>The average match, with and without fans</h2>
+<div class="toggle" role="tablist"><button data-m="crowd" class="on">With fans</button><button data-m="empty">No fans</button></div>
+<div class="card" data-mode="crowd">
+<div class="trow"><div class="tlab">Home win rate</div>
+<div class="tbar"><span class="bar-h" style="--c:0.749;--e:0.669"></span><b class="v" data-c="44.9%" data-e="40.2%">44.9%</b></div></div><div class="trow"><div class="tlab">Shots on target</div>
+<div class="tbar"><span class="bar-h" style="--c:0.952;--e:0.906"></span><b class="v" data-c="4.9" data-e="4.7">4.9</b></div>
+<div class="tbar"><span class="bar-a" style="--c:0.774;--e:0.801"></span><b class="v" data-c="4.0" data-e="4.2">4.0</b></div></div><div class="trow"><div class="tlab">Fouls called</div>
+<div class="tbar"><span class="bar-h" style="--c:0.921;--e:0.952"></span><b class="v" data-c="12.3" data-e="12.7">12.3</b></div>
+<div class="tbar"><span class="bar-a" style="--c:0.947;--e:0.937"></span><b class="v" data-c="12.7" data-e="12.5">12.7</b></div></div><div class="trow"><div class="tlab">Yellow cards</div>
+<div class="tbar"><span class="bar-h" style="--c:0.836;--e:0.847"></span><b class="v" data-c="1.91" data-e="1.93">1.91</b></div>
+<div class="tbar"><span class="bar-a" style="--c:0.952;--e:0.854"></span><b class="v" data-c="2.17" data-e="1.95">2.17</b></div></div>
+<div class="lg"><span><i style="background:var(--ink)"></i>Home team</span><span><i style="background:var(--axis)"></i>Away team</span></div>
+</div>
+<p class="ci" id="cap">Average match with fans, 2017-18 to March 2020</p>
+<p>Look at the cards. Home teams were booked about as often as before (1.91 to 1.93 a match). Away teams were booked less (2.17 to 1.95).
+With fans, each away foul was 11% more likely than a home foul to draw a yellow. Without them the gap fell to 2%.
+The fouls flipped too: with fans, referees called more fouls on the away side; in empty stadiums they called slightly more on the home side.</p>
+
+<h2>What disappeared</h2>
+<figure><p class="fig-title">Change in each home edge when the stands emptied</p>
+<svg class="chart" viewBox="0 0 360 302" role="img" aria-label="Share of the home edge that disappeared">
+<line class="grid" x1="55.1" x2="55.1" y1="4" y2="282"/><text class="tick" x="55.1" y="296" text-anchor="middle">−100%</text>
+<line class="grid" x1="109.1" x2="109.1" y1="4" y2="282"/><text class="tick" x="109.1" y="296" text-anchor="middle">−75%</text>
+<line class="grid" x1="163.0" x2="163.0" y1="4" y2="282"/><text class="tick" x="163.0" y="296" text-anchor="middle">−50%</text>
+<line class="grid" x1="216.9" x2="216.9" y1="4" y2="282"/><text class="tick" x="216.9" y="296" text-anchor="middle">−25%</text>
+<line class="zero" x1="270.9" x2="270.9" y1="4" y2="282"/><text class="tick" x="270.9" y="296" text-anchor="middle">0%</text>
+<text class="rlabel" x="12" y="16">Yellow-card edge</text>
+<line class="ci" x1="12.0" x2="146.2" y1="30" y2="30"/>
+<circle class="dot-e ring" cx="68.8" cy="30" r="5"/>
+<text class="vlabel" x="320" y="34">−94%</text>
+<rect class="hit" x="0" y="6" width="360" height="40" data-tip="Yellow-card edge|With fans: +0.26 per match|Change without fans: −0.25 (−94%)|95% CI −130% to −58%"/>
+<text class="rlabel" x="12" y="56">Yellows per foul edge</text>
+<line class="ci" x1="37.7" x2="237.2" y1="70" y2="70"/>
+<circle class="dot-e ring" cx="137.4" cy="70" r="5"/>
+<text class="vlabel" x="320" y="74">−62%</text>
+<rect class="hit" x="0" y="46" width="360" height="40" data-tip="Yellows per foul edge|With fans: +0.02 per match|Change without fans: −0.01 (−62%)|95% CI −108% to −16%"/>
+<text class="rlabel" x="12" y="96">Points edge</text>
+<line class="ci" x1="72.6" x2="196.8" y1="110" y2="110"/>
+<circle class="dot-e ring" cx="134.7" cy="110" r="5"/>
+<text class="vlabel" x="320" y="114">−63%</text>
+<rect class="hit" x="0" y="86" width="360" height="40" data-tip="Points edge|With fans: +0.46 per match|Change without fans: −0.29 (−63%)|95% CI −92% to −34%"/>
+<text class="rlabel" x="12" y="136">Goal edge</text>
+<line class="ci" x1="98.8" x2="214.3" y1="150" y2="150"/>
+<circle class="dot-e ring" cx="156.5" cy="150" r="5"/>
+<text class="vlabel" x="320" y="154">−53%</text>
+<rect class="hit" x="0" y="126" width="360" height="40" data-tip="Goal edge|With fans: +0.34 per match|Change without fans: −0.18 (−53%)|95% CI −80% to −26%"/>
+<text class="rlabel" x="12" y="176">Shot edge</text>
+<line class="ci" x1="142.1" x2="206.2" y1="190" y2="190"/>
+<circle class="dot-e ring" cx="174.1" cy="190" r="5"/>
+<text class="vlabel" x="320" y="194">−45%</text>
+<rect class="hit" x="0" y="166" width="360" height="40" data-tip="Shot edge|With fans: +2.56 per match|Change without fans: −1.15 (−45%)|95% CI −60% to −30%"/>
+<text class="rlabel" x="12" y="216">Shots-on-target edge</text>
+<line class="ci" x1="147.4" x2="240.8" y1="230" y2="230"/>
+<circle class="dot-e ring" cx="194.1" cy="230" r="5"/>
+<text class="vlabel" x="320" y="234">−36%</text>
+<rect class="hit" x="0" y="206" width="360" height="40" data-tip="Shots-on-target edge|With fans: +0.86 per match|Change without fans: −0.31 (−36%)|95% CI −57% to −14%"/>
+<text class="rlabel" x="12" y="256">Home win rate</text>
+<line class="ci" x1="234.7" x2="259.0" y1="270" y2="270"/>
+<circle class="dot-e ring" cx="246.8" cy="270" r="5"/>
+<text class="vlabel" x="320" y="274">−11%</text>
+<rect class="hit" x="0" y="246" width="360" height="40" data-tip="Home win rate|With fans: +0.45 per match|Change without fans: −0.05 (−11%)|95% CI −17% to −5%"/>
+</svg>
+<figcaption>Each estimate controls for team strength (pre-match Elo), league and the long-run decline in home advantage. Lines are 95% intervals.
+The yellow-card interval runs past −100% (to −130%) and is cut off at the edge. The foul edge is left off the chart because it did not just shrink, it reversed (+0.36 fouls a match toward the home side became −0.20).</figcaption></figure>
+
+<h2>Two stories, two different sizes</h2>
+<h3>The referee story is clean</h3>
+<figure><p class="fig-title">Home edge in yellow cards, by season</p>
+<div class="legend"><span><i style="background:var(--crowd)"></i>Fans</span><span><i style="background:var(--empty)"></i>No fans</span><span><i style="background:var(--surface);border:2px solid var(--trans)"></i>Mixed crowds, excluded</span></div>
+<svg class="chart" viewBox="0 0 360 230" role="img" aria-label="Yellow card edge by season">
+<rect class="shade" x="203.3" y="14" width="33.9" height="176"/>
+<text class="shade-lab" x="220.2" y="24" text-anchor="middle">No fans</text>
+<line class="grid" x1="34" x2="350" y1="190.0" y2="190.0"/><text class="tick" x="29" y="193.5" text-anchor="end">-0.3</text>
+<line class="grid" x1="34" x2="350" y1="168.0" y2="168.0"/><text class="tick" x="29" y="171.5" text-anchor="end">-0.2</text>
+<line class="grid" x1="34" x2="350" y1="146.0" y2="146.0"/><text class="tick" x="29" y="149.5" text-anchor="end">-0.1</text>
+<line class="zero" x1="34" x2="350" y1="124.0" y2="124.0"/><text class="tick" x="29" y="127.5" text-anchor="end">0.0</text>
+<line class="grid" x1="34" x2="350" y1="102.0" y2="102.0"/><text class="tick" x="29" y="105.5" text-anchor="end">0.1</text>
+<line class="grid" x1="34" x2="350" y1="80.0" y2="80.0"/><text class="tick" x="29" y="83.5" text-anchor="end">0.2</text>
+<line class="grid" x1="34" x2="350" y1="58.0" y2="58.0"/><text class="tick" x="29" y="61.5" text-anchor="end">0.3</text>
+<line class="grid" x1="34" x2="350" y1="36.0" y2="36.0"/><text class="tick" x="29" y="39.5" text-anchor="end">0.4</text>
+<line class="grid" x1="34" x2="350" y1="14.0" y2="14.0"/><text class="tick" x="29" y="17.5" text-anchor="end">0.5</text>
+<text class="tick" x="45.3" y="204" text-anchor="middle">12-13</text>
+<text class="tick" x="90.4" y="204" text-anchor="middle">14-15</text>
+<text class="tick" x="135.6" y="204" text-anchor="middle">16-17</text>
+<text class="tick" x="180.7" y="204" text-anchor="middle">18-19</text>
+<text class="tick" x="225.9" y="204" text-anchor="middle">20-21</text>
+<text class="tick" x="271.0" y="204" text-anchor="middle">22-23</text>
+<text class="tick" x="316.1" y="204" text-anchor="middle">24-25</text>
+<text class="axis-title" x="192.0" y="224" text-anchor="middle">Season</text>
+<line class="trend" x1="45.3" y1="61.3" x2="338.7" y2="77.4"/>
+<text class="note" x="348" y="94" text-anchor="end">pre-2020 trend</text>
+<circle class="dot-c" cx="45.3" cy="56.9" r="4.5"/>
+<circle class="hit" cx="45.3" cy="56.9" r="11" data-tip="2012-13 · Fans|+0.31 per match|1,826 matches"/>
+<circle class="dot-c" cx="67.9" cy="65.4" r="4.5"/>
+<circle class="hit" cx="67.9" cy="65.4" r="11" data-tip="2013-14 · Fans|+0.27 per match|1,826 matches"/>
+<circle class="dot-c" cx="90.4" cy="63.6" r="4.5"/>
+<circle class="hit" cx="90.4" cy="63.6" r="11" data-tip="2014-15 · Fans|+0.27 per match|1,826 matches"/>
+<circle class="dot-c" cx="113.0" cy="66.8" r="4.5"/>
+<circle class="hit" cx="113.0" cy="66.8" r="11" data-tip="2015-16 · Fans|+0.26 per match|1,826 matches"/>
+<circle class="dot-c" cx="135.6" cy="68.7" r="4.5"/>
+<circle class="hit" cx="135.6" cy="68.7" r="11" data-tip="2016-17 · Fans|+0.25 per match|1,826 matches"/>
+<circle class="dot-c" cx="158.1" cy="69.8" r="4.5"/>
+<circle class="hit" cx="158.1" cy="69.8" r="11" data-tip="2017-18 · Fans|+0.25 per match|1,826 matches"/>
+<circle class="dot-c" cx="180.7" cy="63.9" r="4.5"/>
+<circle class="hit" cx="180.7" cy="63.9" r="11" data-tip="2018-19 · Fans|+0.27 per match|1,826 matches"/>
+<circle class="dot-c" cx="198.3" cy="62.5" r="4.5"/>
+<circle class="hit" cx="198.3" cy="62.5" r="11" data-tip="2019-20 · Fans|+0.28 per match|1,274 matches"/>
+<circle class="dot-e" cx="208.3" cy="161.8" r="4.5"/>
+<circle class="hit" cx="208.3" cy="161.8" r="11" data-tip="2019-20 · No fans|−0.17 per match|408 matches"/>
+<circle class="dot-e" cx="225.9" cy="111.6" r="4.5"/>
+<circle class="hit" cx="225.9" cy="111.6" r="11" data-tip="2020-21 · No fans|+0.06 per match|1,826 matches"/>
+<circle class="dot-t" cx="248.4" cy="67.7" r="4.5"/>
+<circle class="hit" cx="248.4" cy="67.7" r="11" data-tip="2021-22 · Mixed crowds (excluded)|+0.26 per match|1,826 matches"/>
+<circle class="dot-c" cx="271.0" cy="61.5" r="4.5"/>
+<circle class="hit" cx="271.0" cy="61.5" r="11" data-tip="2022-23 · Fans|+0.28 per match|1,826 matches"/>
+<circle class="dot-c" cx="293.6" cy="60.1" r="4.5"/>
+<circle class="hit" cx="293.6" cy="60.1" r="11" data-tip="2023-24 · Fans|+0.29 per match|1,752 matches"/>
+<circle class="dot-c" cx="316.1" cy="72.7" r="4.5"/>
+<circle class="hit" cx="316.1" cy="72.7" r="11" data-tip="2024-25 · Fans|+0.23 per match|1,752 matches"/>
+<circle class="dot-c" cx="338.7" cy="60.0" r="4.5"/>
+<circle class="hit" cx="338.7" cy="60.0" r="11" data-tip="2025-26 · Fans|+0.29 per match|1,752 matches"/>
+</svg>
+<figcaption>Away yellows minus home yellows per match. 2019-20 shows two dots: before the suspension and after the restart. Tap a dot for the numbers.</figcaption></figure>
+<p>The card edge sat between 0.2 and 0.35 a match for a decade, fell to nearly zero (0.01) in empty stadiums, and was back to 0.27 by 2022-23 onwards.
+About 61% of the drop came from referees booking away players less often per foul, and 35% from calling fewer fouls on them in the first place.</p>
+<figure><p class="fig-title">Where the yellow-card edge went</p>
+<svg class="chart" viewBox="0 0 360 34" role="img" aria-label="the drop in the card edge">
+<rect class="seg-a" x="1.0" y="4" width="216.2" height="26" rx="4"/>
+<text class="inbar" x="8.0" y="21">61%</text>
+<rect class="hit" x="0.0" y="0" width="218.2" height="34" data-tip="Fewer cards per away foul|61% of the drop in the card edge"/>
+<rect class="seg-c" x="219.2" y="4" width="124.7" height="26" rx="4"/>
+<text class="inbar" x="226.2" y="21">35%</text>
+<rect class="hit" x="218.2" y="0" width="126.7" height="34" data-tip="Fewer away fouls called|35% of the drop in the card edge"/>
+</svg><div class="legend sb"><span><i class="sw seg-a"></i>Fewer cards per away foul (61%)</span><span><i class="sw seg-c"></i>Fewer away fouls called (35%)</span></div>
+<figcaption>The remaining 4% is the two moving together. Raw averages: empty period against the three crowd seasons before it.</figcaption>
+</figure>
+
+<h3>The points story is bigger than the shots</h3>
+<figure><p class="fig-title">Home edge in points, by season</p>
+<div class="legend"><span><i style="background:var(--crowd)"></i>Fans</span><span><i style="background:var(--empty)"></i>No fans</span><span><i style="background:var(--surface);border:2px solid var(--trans)"></i>Mixed crowds, excluded</span></div>
+<svg class="chart" viewBox="0 0 360 230" role="img" aria-label="Points edge by season">
+<rect class="shade" x="203.3" y="14" width="33.9" height="176"/>
+<text class="shade-lab" x="220.2" y="24" text-anchor="middle">No fans</text>
+<line class="zero" x1="34" x2="350" y1="190.0" y2="190.0"/><text class="tick" x="29" y="193.5" text-anchor="end">0.0</text>
+<line class="grid" x1="34" x2="350" y1="164.9" y2="164.9"/><text class="tick" x="29" y="168.4" text-anchor="end">0.1</text>
+<line class="grid" x1="34" x2="350" y1="139.7" y2="139.7"/><text class="tick" x="29" y="143.2" text-anchor="end">0.2</text>
+<line class="grid" x1="34" x2="350" y1="114.6" y2="114.6"/><text class="tick" x="29" y="118.1" text-anchor="end">0.3</text>
+<line class="grid" x1="34" x2="350" y1="89.4" y2="89.4"/><text class="tick" x="29" y="92.9" text-anchor="end">0.4</text>
+<line class="grid" x1="34" x2="350" y1="64.3" y2="64.3"/><text class="tick" x="29" y="67.8" text-anchor="end">0.5</text>
+<line class="grid" x1="34" x2="350" y1="39.1" y2="39.1"/><text class="tick" x="29" y="42.6" text-anchor="end">0.6</text>
+<line class="grid" x1="34" x2="350" y1="14.0" y2="14.0"/><text class="tick" x="29" y="17.5" text-anchor="end">0.7</text>
+<text class="tick" x="45.3" y="204" text-anchor="middle">12-13</text>
+<text class="tick" x="90.4" y="204" text-anchor="middle">14-15</text>
+<text class="tick" x="135.6" y="204" text-anchor="middle">16-17</text>
+<text class="tick" x="180.7" y="204" text-anchor="middle">18-19</text>
+<text class="tick" x="225.9" y="204" text-anchor="middle">20-21</text>
+<text class="tick" x="271.0" y="204" text-anchor="middle">22-23</text>
+<text class="tick" x="316.1" y="204" text-anchor="middle">24-25</text>
+<text class="axis-title" x="192.0" y="224" text-anchor="middle">Season</text>
+<line class="trend" x1="45.3" y1="63.0" x2="338.7" y2="76.2"/>
+<text class="note" x="348" y="60" text-anchor="end">pre-2020 trend</text>
+<circle class="dot-c" cx="45.3" cy="61.1" r="4.5"/>
+<circle class="hit" cx="45.3" cy="61.1" r="11" data-tip="2012-13 · Fans|+0.51 per match|1,826 matches"/>
+<circle class="dot-c" cx="67.9" cy="64.4" r="4.5"/>
+<circle class="hit" cx="67.9" cy="64.4" r="11" data-tip="2013-14 · Fans|+0.50 per match|1,826 matches"/>
+<circle class="dot-c" cx="90.4" cy="70.2" r="4.5"/>
+<circle class="hit" cx="90.4" cy="70.2" r="11" data-tip="2014-15 · Fans|+0.48 per match|1,826 matches"/>
+<circle class="dot-c" cx="113.0" cy="79.7" r="4.5"/>
+<circle class="hit" cx="113.0" cy="79.7" r="11" data-tip="2015-16 · Fans|+0.44 per match|1,826 matches"/>
+<circle class="dot-c" cx="135.6" cy="36.8" r="4.5"/>
+<circle class="hit" cx="135.6" cy="36.8" r="11" data-tip="2016-17 · Fans|+0.61 per match|1,826 matches"/>
+<circle class="dot-c" cx="158.1" cy="75.6" r="4.5"/>
+<circle class="hit" cx="158.1" cy="75.6" r="11" data-tip="2017-18 · Fans|+0.46 per match|1,826 matches"/>
+<circle class="dot-c" cx="180.7" cy="74.3" r="4.5"/>
+<circle class="hit" cx="180.7" cy="74.3" r="11" data-tip="2018-19 · Fans|+0.46 per match|1,826 matches"/>
+<circle class="dot-c" cx="198.3" cy="86.4" r="4.5"/>
+<circle class="hit" cx="198.3" cy="86.4" r="11" data-tip="2019-20 · Fans|+0.41 per match|1,274 matches"/>
+<circle class="dot-e" cx="208.3" cy="141.9" r="4.5"/>
+<circle class="hit" cx="208.3" cy="141.9" r="11" data-tip="2019-20 · No fans|+0.19 per match|408 matches"/>
+<circle class="dot-e" cx="225.9" cy="150.8" r="4.5"/>
+<circle class="hit" cx="225.9" cy="150.8" r="11" data-tip="2020-21 · No fans|+0.16 per match|1,826 matches"/>
+<circle class="dot-t" cx="248.4" cy="104.1" r="4.5"/>
+<circle class="hit" cx="248.4" cy="104.1" r="11" data-tip="2021-22 · Mixed crowds (excluded)|+0.34 per match|1,826 matches"/>
+<circle class="dot-c" cx="271.0" cy="71.5" r="4.5"/>
+<circle class="hit" cx="271.0" cy="71.5" r="11" data-tip="2022-23 · Fans|+0.47 per match|1,826 matches"/>
+<circle class="dot-c" cx="293.6" cy="94.9" r="4.5"/>
+<circle class="hit" cx="293.6" cy="94.9" r="11" data-tip="2023-24 · Fans|+0.38 per match|1,752 matches"/>
+<circle class="dot-c" cx="316.1" cy="122.4" r="4.5"/>
+<circle class="hit" cx="316.1" cy="122.4" r="11" data-tip="2024-25 · Fans|+0.27 per match|1,752 matches"/>
+<circle class="dot-c" cx="338.7" cy="88.4" r="4.5"/>
+<circle class="hit" cx="338.7" cy="88.4" r="11" data-tip="2025-26 · Fans|+0.40 per match|1,752 matches"/>
+</svg>
+<figcaption>Home points minus away points per match. The dashed line is the trend from 2012-13 to 2018-19: home advantage was already shrinking before COVID,
+which is why every estimate here is measured against the trend rather than the old average.</figcaption></figure>
+<p>Against that trend, empty stadiums cut the home points edge by 0.29 a match, from 0.46 to 0.17 (−63%).
+Over a 38-game season, that is roughly 3 fewer points at home and 3 more away for a typical team: the totals barely move, the split between home and away does.</p>
+<p>The shooting edge explains only part of it. With fans, each extra shot on target was worth about 0.27 points, so the smaller shooting edge accounts for
+29% of the points drop. Red cards account for almost none. The other 70% came from something the box score doesn't capture:
+finishing, game management, or decisions this data can't see, like penalties and added time.</p>
+<figure><p class="fig-title">Where the points edge went</p>
+<svg class="chart" viewBox="0 0 360 34" role="img" aria-label="the drop in the points edge">
+<rect class="seg-c" x="1.0" y="4" width="101.3" height="26" rx="4"/>
+<text class="inbar" x="8.0" y="21">29%</text>
+<rect class="hit" x="0.0" y="0" width="103.3" height="34" data-tip="Smaller shooting edge|29% of the drop in the points edge"/>
+<rect class="seg-b" x="104.3" y="4" width="249.4" height="26" rx="4"/>
+<text class="inbar" x="111.3" y="21">70%</text>
+<rect class="hit" x="103.3" y="0" width="251.4" height="34" data-tip="Not explained by shots or red cards|70% of the drop in the points edge"/>
+</svg><div class="legend sb"><span><i class="sw seg-c"></i>Smaller shooting edge (29%)</span><span><i class="sw seg-b"></i>Not explained by shots or red cards (70%)</span></div>
+</figure>
+
+<h2>Did it come back?</h2>
+<p>Mostly, yes. From 2022-23 to 2025-26 the points edge averaged 0.38 a match, below the 0.49 of 2012-2020.
+Most of that is the decline that was already under way: projecting the pre-2020 trend forward and adjusting for team strength, the post-COVID seasons sit
+0.04 below it (95% interval −0.11 to +0.02), which is within the noise.
+The yellow-card edge came back fully: 0.27 a match, against 0.27 before. Put the fans back and the referee's lean comes back with them.</p>
+
+<h2>League by league</h2>
+<figure><p class="fig-title">Home edge in points</p>
+<div class="legend"><span><i style="background:var(--crowd)"></i>Fans (trend level)</span><span><i style="background:var(--empty)"></i>No fans</span></div>
+<svg class="chart" viewBox="0 0 360 214" role="img">
+<line class="grid" x1="14.0" x2="14.0" y1="4" y2="194"/><text class="tick" x="14.0" y="208" text-anchor="middle">−0.1</text>
+<line class="zero" x1="55.0" x2="55.0" y1="4" y2="194"/><text class="tick" x="55.0" y="208" text-anchor="middle">0.0</text>
+<line class="grid" x1="96.0" x2="96.0" y1="4" y2="194"/><text class="tick" x="96.0" y="208" text-anchor="middle">0.1</text>
+<line class="grid" x1="137.0" x2="137.0" y1="4" y2="194"/><text class="tick" x="137.0" y="208" text-anchor="middle">0.2</text>
+<line class="grid" x1="178.0" x2="178.0" y1="4" y2="194"/><text class="tick" x="178.0" y="208" text-anchor="middle">0.3</text>
+<line class="grid" x1="219.0" x2="219.0" y1="4" y2="194"/><text class="tick" x="219.0" y="208" text-anchor="middle">0.4</text>
+<line class="grid" x1="260.0" x2="260.0" y1="4" y2="194"/><text class="tick" x="260.0" y="208" text-anchor="middle">0.5</text>
+<line class="grid" x1="301.0" x2="301.0" y1="4" y2="194"/><text class="tick" x="301.0" y="208" text-anchor="middle">0.6</text>
+<line class="grid" x1="342.0" x2="342.0" y1="4" y2="194"/><text class="tick" x="342.0" y="208" text-anchor="middle">0.7</text>
+<text class="rlabel" x="14" y="16">Ligue 1 <tspan class="muted"></tspan></text>
+<line class="db" x1="272.9" x2="50.8" y1="30" y2="30"/>
+<circle class="dot-c ring" cx="272.9" cy="30" r="5"/><circle class="dot-e ring" cx="50.8" cy="30" r="5"/>
+<rect class="hit" x="0" y="6" width="360" height="38" data-tip="Ligue 1|With fans: 0.5 points a match|No fans: −0.0 points a match"/>
+<text class="rlabel" x="14" y="54">Premier League <tspan class="muted"></tspan></text>
+<line class="db" x1="238.6" x2="73.6" y1="68" y2="68"/>
+<circle class="dot-c ring" cx="238.6" cy="68" r="5"/><circle class="dot-e ring" cx="73.6" cy="68" r="5"/>
+<rect class="hit" x="0" y="44" width="360" height="38" data-tip="Premier League|With fans: 0.4 points a match|No fans: 0.0 points a match"/>
+<text class="rlabel" x="14" y="92">Bundesliga <tspan class="muted"></tspan></text>
+<line class="db" x1="249.0" x2="128.2" y1="106" y2="106"/>
+<circle class="dot-c ring" cx="249.0" cy="106" r="5"/><circle class="dot-e ring" cx="128.2" cy="106" r="5"/>
+<rect class="hit" x="0" y="82" width="360" height="38" data-tip="Bundesliga|With fans: 0.5 points a match|No fans: 0.2 points a match"/>
+<text class="rlabel" x="14" y="130">La Liga <tspan class="muted"></tspan></text>
+<line class="db" x1="302.8" x2="195.8" y1="144" y2="144"/>
+<circle class="dot-c ring" cx="302.8" cy="144" r="5"/><circle class="dot-e ring" cx="195.8" cy="144" r="5"/>
+<rect class="hit" x="0" y="120" width="360" height="38" data-tip="La Liga|With fans: 0.6 points a match|No fans: 0.3 points a match"/>
+<text class="rlabel" x="14" y="168">Serie A <tspan class="muted"></tspan></text>
+<line class="db" x1="151.8" x2="152.9" y1="182" y2="182"/>
+<circle class="dot-c ring" cx="151.8" cy="182" r="5"/><circle class="dot-e ring" cx="152.9" cy="182" r="5"/>
+<rect class="hit" x="0" y="158" width="360" height="38" data-tip="Serie A|With fans: 0.2 points a match|No fans: 0.2 points a match"/>
+</svg>
+</figure>
+<figure><p class="fig-title">Home edge in yellow cards</p>
+<svg class="chart" viewBox="0 0 360 214" role="img">
+<line class="grid" x1="14.0" x2="14.0" y1="4" y2="194"/><text class="tick" x="14.0" y="208" text-anchor="middle">−0.1</text>
+<line class="zero" x1="68.7" x2="68.7" y1="4" y2="194"/><text class="tick" x="68.7" y="208" text-anchor="middle">0.0</text>
+<line class="grid" x1="123.3" x2="123.3" y1="4" y2="194"/><text class="tick" x="123.3" y="208" text-anchor="middle">0.1</text>
+<line class="grid" x1="178.0" x2="178.0" y1="4" y2="194"/><text class="tick" x="178.0" y="208" text-anchor="middle">0.2</text>
+<line class="grid" x1="232.7" x2="232.7" y1="4" y2="194"/><text class="tick" x="232.7" y="208" text-anchor="middle">0.3</text>
+<line class="grid" x1="287.3" x2="287.3" y1="4" y2="194"/><text class="tick" x="287.3" y="208" text-anchor="middle">0.4</text>
+<line class="grid" x1="342.0" x2="342.0" y1="4" y2="194"/><text class="tick" x="342.0" y="208" text-anchor="middle">0.5</text>
+<text class="rlabel" x="14" y="16">Serie A <tspan class="muted"></tspan></text>
+<line class="db" x1="290.6" x2="69.2" y1="30" y2="30"/>
+<circle class="dot-c ring" cx="290.6" cy="30" r="5"/><circle class="dot-e ring" cx="69.2" cy="30" r="5"/>
+<rect class="hit" x="0" y="6" width="360" height="38" data-tip="Serie A|With fans: 0.4 cards a match|No fans: 0.0 cards a match"/>
+<text class="rlabel" x="14" y="54">Bundesliga <tspan class="muted"></tspan></text>
+<line class="db" x1="277.8" x2="106.9" y1="68" y2="68"/>
+<circle class="dot-c ring" cx="277.8" cy="68" r="5"/><circle class="dot-e ring" cx="106.9" cy="68" r="5"/>
+<rect class="hit" x="0" y="44" width="360" height="38" data-tip="Bundesliga|With fans: 0.4 cards a match|No fans: 0.1 cards a match"/>
+<text class="rlabel" x="14" y="92">Ligue 1 <tspan class="muted"></tspan></text>
+<line class="db" x1="213.8" x2="57.0" y1="106" y2="106"/>
+<circle class="dot-c ring" cx="213.8" cy="106" r="5"/><circle class="dot-e ring" cx="57.0" cy="106" r="5"/>
+<rect class="hit" x="0" y="82" width="360" height="38" data-tip="Ligue 1|With fans: 0.3 cards a match|No fans: −0.0 cards a match"/>
+<text class="rlabel" x="14" y="130">La Liga <tspan class="muted"></tspan></text>
+<line class="db" x1="187.2" x2="85.0" y1="144" y2="144"/>
+<circle class="dot-c ring" cx="187.2" cy="144" r="5"/><circle class="dot-e ring" cx="85.0" cy="144" r="5"/>
+<rect class="hit" x="0" y="120" width="360" height="38" data-tip="La Liga|With fans: 0.2 cards a match|No fans: 0.0 cards a match"/>
+<text class="rlabel" x="14" y="168">Premier League <tspan class="muted"></tspan></text>
+<line class="db" x1="104.9" x2="73.5" y1="182" y2="182"/>
+<circle class="dot-c ring" cx="104.9" cy="182" r="5"/><circle class="dot-e ring" cx="73.5" cy="182" r="5"/>
+<rect class="hit" x="0" y="158" width="360" height="38" data-tip="Premier League|With fans: 0.1 cards a match|No fans: 0.0 cards a match"/>
+</svg>
+<figcaption>About 380 to 500 empty-stadium matches per league, so league-level intervals are wide. Serie A lost its card edge but not its points edge;
+the Premier League lost points but its referees had almost no card lean to lose (0.07).</figcaption></figure>
+
+<h2>Premier League referees</h2>
+<p>football-data.co.uk records the referee only for the Premier League. Of the 12 referees with at least 40 crowd games and 15 empty ones,
+10 booked away teams less, relative to home teams, once the stands were empty.</p>
+<figure><p class="fig-title">Card edge per referee</p>
+<div class="legend"><span><i style="background:var(--crowd)"></i>With fans (2012 to March 2020)</span><span><i style="background:var(--empty)"></i>No fans</span></div>
+<svg class="chart" viewBox="0 0 360 480" role="img">
+<line class="grid" x1="14.0" x2="14.0" y1="4" y2="460"/><text class="tick" x="14.0" y="474" text-anchor="middle">−0.8</text>
+<line class="grid" x1="60.9" x2="60.9" y1="4" y2="460"/><text class="tick" x="60.9" y="474" text-anchor="middle">−0.6</text>
+<line class="grid" x1="107.7" x2="107.7" y1="4" y2="460"/><text class="tick" x="107.7" y="474" text-anchor="middle">−0.4</text>
+<line class="grid" x1="154.6" x2="154.6" y1="4" y2="460"/><text class="tick" x="154.6" y="474" text-anchor="middle">−0.2</text>
+<line class="zero" x1="201.4" x2="201.4" y1="4" y2="460"/><text class="tick" x="201.4" y="474" text-anchor="middle">0.0</text>
+<line class="grid" x1="248.3" x2="248.3" y1="4" y2="460"/><text class="tick" x="248.3" y="474" text-anchor="middle">0.2</text>
+<line class="grid" x1="295.1" x2="295.1" y1="4" y2="460"/><text class="tick" x="295.1" y="474" text-anchor="middle">0.4</text>
+<line class="grid" x1="342.0" x2="342.0" y1="4" y2="460"/><text class="tick" x="342.0" y="474" text-anchor="middle">0.6</text>
+<text class="rlabel" x="14" y="16">K Friend <tspan class="muted">30 empty</tspan></text>
+<line class="db" x1="223.2" x2="68.7" y1="30" y2="30"/>
+<circle class="dot-c ring" cx="223.2" cy="30" r="5"/><circle class="dot-e ring" cx="68.7" cy="30" r="5"/>
+<rect class="hit" x="0" y="6" width="360" height="38" data-tip="K Friend|With fans: 0.1 cards a match|No fans: −0.6 cards a match"/>
+<text class="rlabel" x="14" y="54">P Tierney <tspan class="muted">26 empty</tspan></text>
+<line class="db" x1="293.2" x2="147.4" y1="68" y2="68"/>
+<circle class="dot-c ring" cx="293.2" cy="68" r="5"/><circle class="dot-e ring" cx="147.4" cy="68" r="5"/>
+<rect class="hit" x="0" y="44" width="360" height="38" data-tip="P Tierney|With fans: 0.4 cards a match|No fans: −0.2 cards a match"/>
+<text class="rlabel" x="14" y="92">C Pawson <tspan class="muted">31 empty</tspan></text>
+<line class="db" x1="273.8" x2="171.2" y1="106" y2="106"/>
+<circle class="dot-c ring" cx="273.8" cy="106" r="5"/><circle class="dot-e ring" cx="171.2" cy="106" r="5"/>
+<rect class="hit" x="0" y="82" width="360" height="38" data-tip="C Pawson|With fans: 0.3 cards a match|No fans: −0.1 cards a match"/>
+<text class="rlabel" x="14" y="130">M Oliver <tspan class="muted">37 empty</tspan></text>
+<line class="db" x1="251.7" x2="150.8" y1="144" y2="144"/>
+<circle class="dot-c ring" cx="251.7" cy="144" r="5"/><circle class="dot-e ring" cx="150.8" cy="144" r="5"/>
+<rect class="hit" x="0" y="120" width="360" height="38" data-tip="M Oliver|With fans: 0.2 cards a match|No fans: −0.2 cards a match"/>
+<text class="rlabel" x="14" y="168">M Atkinson <tspan class="muted">33 empty</tspan></text>
+<line class="db" x1="280.2" x2="201.4" y1="182" y2="182"/>
+<circle class="dot-c ring" cx="280.2" cy="182" r="5"/><circle class="dot-e ring" cx="201.4" cy="182" r="5"/>
+<rect class="hit" x="0" y="158" width="360" height="38" data-tip="M Atkinson|With fans: 0.3 cards a match|No fans: 0.0 cards a match"/>
+<text class="rlabel" x="14" y="206">J Moss <tspan class="muted">29 empty</tspan></text>
+<line class="db" x1="274.2" x2="201.4" y1="220" y2="220"/>
+<circle class="dot-c ring" cx="274.2" cy="220" r="5"/><circle class="dot-e ring" cx="201.4" cy="220" r="5"/>
+<rect class="hit" x="0" y="196" width="360" height="38" data-tip="J Moss|With fans: 0.3 cards a match|No fans: 0.0 cards a match"/>
+<text class="rlabel" x="14" y="244">M Dean <tspan class="muted">30 empty</tspan></text>
+<line class="db" x1="231.0" x2="162.4" y1="258" y2="258"/>
+<circle class="dot-c ring" cx="231.0" cy="258" r="5"/><circle class="dot-e ring" cx="162.4" cy="258" r="5"/>
+<rect class="hit" x="0" y="234" width="360" height="38" data-tip="M Dean|With fans: 0.1 cards a match|No fans: −0.2 cards a match"/>
+<text class="rlabel" x="14" y="282">A Marriner <tspan class="muted">32 empty</tspan></text>
+<line class="db" x1="255.1" x2="186.8" y1="296" y2="296"/>
+<circle class="dot-c ring" cx="255.1" cy="296" r="5"/><circle class="dot-e ring" cx="186.8" cy="296" r="5"/>
+<rect class="hit" x="0" y="272" width="360" height="38" data-tip="A Marriner|With fans: 0.2 cards a match|No fans: −0.1 cards a match"/>
+<text class="rlabel" x="14" y="320">G Scott <tspan class="muted">17 empty</tspan></text>
+<line class="db" x1="301.8" x2="256.6" y1="334" y2="334"/>
+<circle class="dot-c ring" cx="301.8" cy="334" r="5"/><circle class="dot-e ring" cx="256.6" cy="334" r="5"/>
+<rect class="hit" x="0" y="310" width="360" height="38" data-tip="G Scott|With fans: 0.4 cards a match|No fans: 0.2 cards a match"/>
+<text class="rlabel" x="14" y="358">A Taylor <tspan class="muted">37 empty</tspan></text>
+<line class="db" x1="203.6" x2="176.1" y1="372" y2="372"/>
+<circle class="dot-c ring" cx="203.6" cy="372" r="5"/><circle class="dot-e ring" cx="176.1" cy="372" r="5"/>
+<rect class="hit" x="0" y="348" width="360" height="38" data-tip="A Taylor|With fans: 0.0 cards a match|No fans: −0.1 cards a match"/>
+<text class="rlabel" x="14" y="396">S Attwell <tspan class="muted">29 empty</tspan></text>
+<line class="db" x1="205.0" x2="241.8" y1="410" y2="410"/>
+<circle class="dot-c ring" cx="205.0" cy="410" r="5"/><circle class="dot-e ring" cx="241.8" cy="410" r="5"/>
+<rect class="hit" x="0" y="386" width="360" height="38" data-tip="S Attwell|With fans: 0.0 cards a match|No fans: 0.2 cards a match"/>
+<text class="rlabel" x="14" y="434">C Kavanagh <tspan class="muted">28 empty</tspan></text>
+<line class="db" x1="213.1" x2="251.6" y1="448" y2="448"/>
+<circle class="dot-c ring" cx="213.1" cy="448" r="5"/><circle class="dot-e ring" cx="251.6" cy="448" r="5"/>
+<rect class="hit" x="0" y="424" width="360" height="38" data-tip="C Kavanagh|With fans: 0.1 cards a match|No fans: 0.2 cards a match"/>
+</svg>
+<figcaption>Away yellows minus home yellows per match. 15 to 37 empty-stadium games each: read the pattern across referees, not any one referee's dot.</figcaption></figure>
+
+<h2>Checks</h2>
+<table><thead><tr><th>Specification</th><th class="num">Points edge</th><th class="num">Card edge</th></tr></thead><tbody><tr><td>Main estimate (trend + Elo + league)</td><td class='num'>−0.29<br><span class='ci'>−0.42 to −0.16</span></td><td class='num'>−0.25<br><span class='ci'>−0.34 to −0.15</span></td></tr><tr><td>No trend term</td><td class='num'>−0.33<br><span class='ci'>−0.43 to −0.22</span></td><td class='num'>−0.26<br><span class='ci'>−0.33 to −0.18</span></td></tr><tr><td>Team-season clustered errors</td><td class='num'>−0.29<br><span class='ci'>−0.42 to −0.16</span></td><td class='num'>−0.25<br><span class='ci'>−0.35 to −0.14</span></td></tr><tr><td>Drop windows with capped crowds</td><td class='num'>−0.32<br><span class='ci'>−0.45 to −0.18</span></td><td class='num'>−0.28<br><span class='ci'>−0.38 to −0.18</span></td></tr><tr><td>Same season only (2019-20, before vs after restart)</td><td class='num'>−0.15<br><span class='ci'>−0.43 to +0.12</span></td><td class='num'>−0.47<br><span class='ci'>−0.67 to −0.28</span></td></tr><tr><td>Placebo: fake empty period in 2017-18</td><td class='num'>−0.03<br><span class='ci'>−0.16 to +0.09</span></td><td class='num'>−0.03<br><span class='ci'>−0.12 to +0.07</span></td></tr></tbody></table>
+<p>The card result holds in every version, including a comparison inside the 2019-20 season alone (same teams, same squads, before and after the restart).
+The points result is steady across specifications but not significant inside 2019-20 alone, where the post-restart sample is small (about 400 matches).
+The placebo, which pretends crowds vanished in the same calendar window three years earlier, finds nothing, as it should.</p>
+
+<h2>Objections, answered before you ask</h2>
+<div class="qa">
+<h3>"Lots of things changed in 2020, not just the crowds."</h3>
+<p>True: five substitutes, congested fixtures, a summer restart. None of them should make a referee book away players less than home players, which is the cleanest result here.
+For points, the 2019-20 within-season comparison holds squads and the season fixed, and the trend control stops the long-run decline being counted as a crowd effect.</p>
+<h3>"VAR arrived around the same time."</h3>
+<p>VAR was in place in every league before the empty period (Serie A and the Bundesliga from 2017-18, La Liga and Ligue 1 from 2018-19, the Premier League from 2019-20),
+so it is in the "with fans" baseline for the comparisons that matter, and it does not review ordinary yellow cards.</p>
+<h3>"Some empty games had a few thousand fans."</h3>
+<p>276 matches fell in windows with small capped crowds. Dropping them makes both results slightly larger, which is what you'd expect if crowds are the cause.</p>
+<h3>"Fouls and cards are the referee's call, not the players' behaviour."</h3>
+<p>Partly both. That is why the card edge is split into fouls called and cards per foul: the cards-per-foul part is the referee's discretion, and it carries 61% of the change.</p>
+<h3>"What about penalties?"</h3>
+<p>Not in this dataset. They are the obvious next layer and probably part of the unexplained points drop.</p>
+</div>
+
+<h2>Data and method</h2>
+<p><b>Data:</b> 25,241 league matches, Premier League, La Liga, Serie A, Bundesliga and Ligue 1, 2012-13 to 2025-26 (football-data.co.uk via the datasets/football-datasets mirror):
+results, shots, shots on target, fouls, yellow and red cards, and referee names for the Premier League. 2021-22 and the 2020 suspension window are excluded (1,869 matches) because crowds returned unevenly.</p>
+<p><b>Model:</b> each outcome is a home-minus-away gap for one match, regressed on an empty-stadium indicator, league fixed effects, the pre-match Elo gap (computed without any home term) and a linear season trend.
+Heteroskedasticity-consistent (HC1) standard errors; team-season clustering as a check. The main estimates rebuild from the public data with one command (replicate.py on GitHub).</p>
+<footer>Built by Colin Spelman · <a style="color:var(--crowd)" href="https://github.com/colinspel/colinspel/tree/main/ghost-games">code and data on GitHub</a> · csatletico14@icloud.com<br>Design inspired by Napoli's Halloween kits.</footer>
+</main><div id="tip" role="status"></div>
+<script>
+const tip=document.getElementById('tip');
+function show(e,el){tip.innerHTML=el.dataset.tip.split('|').map((s,i)=>i?s:'<b>'+s+'</b>').join('<br>');tip.style.display='block';
+ const w=tip.offsetWidth;tip.style.left=Math.min(innerWidth-w-8,Math.max(8,e.clientX-w/2))+'px';tip.style.top=Math.max(8,e.clientY-tip.offsetHeight-14)+'px';}
+document.querySelectorAll('[data-tip]').forEach(el=>{el.addEventListener('pointermove',e=>show(e,el));el.addEventListener('pointerdown',e=>show(e,el));
+ el.addEventListener('pointerleave',()=>tip.style.display='none');});
+addEventListener('scroll',()=>tip.style.display='none',{passive:true});
+const card=document.querySelector('.card');
+function setMode(m){card.dataset.mode=m;document.querySelectorAll('.toggle button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+ card.querySelectorAll('.v').forEach(v=>v.textContent=m==='empty'?v.dataset.e:v.dataset.c);
+ document.getElementById('cap').textContent=m==='empty'?'Average match, behind closed doors (2,234 matches)':'Average match with fans, 2017-18 to March 2020';}
+document.querySelectorAll('.toggle button').forEach(b=>b.onclick=()=>setMode(b.dataset.m));
+// flip once on first view so the change is seen
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!card.dataset.seen){card.dataset.seen=1;setTimeout(()=>setMode('empty'),900);}}),{threshold:.6});
+io.observe(card);
+</script></body></html>
