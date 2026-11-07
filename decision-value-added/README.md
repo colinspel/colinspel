@@ -14,10 +14,16 @@ Every passing stat grades the outcome: completion %, progressive passes, expecte
 
 Freeze frames are snapshots, so the model matches players between consecutive frames to estimate runs. About 1 in 5 passes is played into a teammate's run, and 807K "pass into run" options were valued.
 
+## Is it a real skill?
+
+- **Split-half reliability 0.64.** Split each player's matches in half: his passing DVA in one half predicts the other. Pure noise would score 0.
+- **Rank agreement 0.97** when players are re-rated using only options inside the camera view, so teammates and defenders the freeze frame can't see aren't driving the ratings.
+- Every value and choice model is scored on matches it never trained on.
+
 ## Key findings
 
 - **Choosing and executing are different skills.** Players who pick ambitious targets lower their completion %, which makes completion % a poor proxy for good decisions.
-- **What didn't work (yet):** pass vs. carry vs. shoot isn't reliable as a skill measure (reliability 0.26), and only 20 players changed teams in the public data, too few to test whether DVA survives a transfer.
+- **What didn't work (yet):** the passing rating holds up (0.64 above), but the separate choice between passing, carrying and shooting doesn't yet behave like a stable skill (reliability 0.26), so no ratings are published for it, and only 20 players changed teams in the public data, too few to test whether DVA survives a transfer.
 
 **Data:** StatsBomb Open Data (360 freeze frames)
 

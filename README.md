@@ -13,7 +13,7 @@ I turn sports data into tools that coaches, scouts and fans can actually use, an
 
 | Project | What it does |
 |---|---|
-| [Model Scoreboard](https://github.com/colinspel/colinspel/tree/main/model-scoreboard) | My Premier League (Dixon-Coles), NFL and MLB prediction models, scored live against real results and a naive home-win-rate baseline (RPS for soccer, Brier for the others), with the betting market's backtest shown alongside. 33 picks graded through Oct 21; 10 early EPL picks were made from pre-match data after kickoff and are flagged on the page · [open it](https://colinspel.github.io/model-scoreboard/) |
+| [Model Scoreboard](https://github.com/colinspel/colinspel/tree/main/model-scoreboard) | My Premier League (Dixon-Coles) and NFL prediction models against the betting market, on every pick logged before kickoff since Oct 29. Both sit inside noise of the market so far (90% intervals cross zero) · [open it](https://colinspel.github.io/model-scoreboard/) |
 | [Decision Value Added](https://github.com/colinspel/colinspel/tree/main/decision-value-added) | Grades 322,169 on-ball *decisions* (pass, carry or shoot), not outcomes, from StatsBomb 360 freeze frames: the value of the option a player chose minus what a typical player picks from the same menu |
 
 ---
