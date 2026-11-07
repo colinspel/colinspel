@@ -14,7 +14,7 @@ A live scoreboard pitting three of my prediction models against each other:
 
 ## How it's scored
 
-- Every pick is logged before kickoff.
+- Picks are logged before kickoff, except 10 EPL picks from 10 to 12 Oct. Those were generated on 11 Oct using only data from before the 10 Oct kickoffs and are marked BACKDATED on the page.
 - **Hit rate:** the model's most likely outcome happened (draws count for soccer).
 - **Skill:** how much better the model's probabilities were than a naive home-win-rate guess, using the Brier score (3-way RPS for soccer, as in the backtests).
 - Each bar has a marker at the model's backtested skill; filling past it means the model is beating its own track record. Betting-market backtests are shown for comparison.
